@@ -1,0 +1,449 @@
+{
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n## 3.6.1.2 Step 1 of 3: Application Type\n\nThe Create Application Step 1 of 3: Application Type page allows you to enter product information for the application. Figure 67 and Figure 68 detail the Create Application Step 1 of 3: Application Type page.\n\n▶ Note: All fields in Step 1 are required.\n\nFollow these steps to create an application:\n\n1. Select the **Create an eApplication** link from the menu box on any page. The Create Application Step 1 of 3: Application Type page displays. See Figure 67 and Figure 68.\n\n![img-0.jpeg](img-0.jpeg)\nFigure 67: Create Application Step 1 of 3: Application Type (Top)\n\nOffice of the Chief Information Officer\nPage 52\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-0.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 765,
+          "bottomRightX": 1504,
+          "bottomRightY": 1694,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 1,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\n![img-1.jpeg](img-1.jpeg)\nFigure 68: Create Application Step 1 of 3: Application Type (Bottom)\n\n2. Select the Type of Product: Wine, Domestic SAKE Application, Distilled Spirit, or Malt Beverage.\n3. Select the Source of Product: Domestic or Imported.\n\n▶ Note: This indicates if the finished alcohol beverage was produced in the US or internationally.\n4. Select the Type of Application- Certificate of Label Approval or Certificate of Exemption from Label Approval.\n▶ Note: Certificate of Label Approval is the default.\n▶ Note: If you select Certificate of Exemption from Label Approval, select the state the product will be sold in from the drop-down list. If you select Certificate of Label Approval with Source of Product as Imported, the state drop-down list will be disabled.\n5. If this is a resubmission of a previously rejected application, select the TTB ID from the drop-down list or enter the TTB ID in the field provided.\n▶ Note: “No” is the default.\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-1.jpeg",
+          "topLeftX": 197,
+          "topLeftY": 244,
+          "bottomRightX": 1504,
+          "bottomRightY": 1194,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 2,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n- Note: If you select “Yes,” you must select or enter a TTB ID.\n- Note: The drop-down list contains rejected e-applications.\n- Note: The text field allows you to enter the TTB ID of an electronic or paper application that was rejected within the past two years.\n\n6. Select the Next button to proceed to the next step in the create process. See Section 3.6.1.3 Step 2 of 3: COLA Information.\n7. Select the Cancel application button to cancel the create application process and return to the Home: My eApplications page. See Figure 65.\n\n- Note: Select the icon for field-level help.\n\nOffice of the Chief Information Officer\nPage 54\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 3,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n## 3.6.1.3 Step 2 of 3: COLA Information\n\nThe Create Application Step 2 of 3: COLA Information page allows you to enter COLA information for the application. Figure 69 – Figure 72 detail the Create Application Step 2 of 3: COLA Information page.\n\n![img-2.jpeg](img-2.jpeg)\nFigure 69: Create Application Step 2 of 3: COLA Information (Top)\n\n![img-3.jpeg](img-3.jpeg)\nFigure 70: Create Application Step 2 of 3: COLA Information (DSP – Top)\n\nOffice of the Chief Information Officer\nPage 55\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-2.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 468,
+          "bottomRightX": 1511,
+          "bottomRightY": 1425,
+          "imageBase64": null,
+          "imageAnnotation": null
+        },
+        {
+          "id": "img-3.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 1482,
+          "bottomRightX": 1511,
+          "bottomRightY": 1786,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 4,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n![img-4.jpeg](img-4.jpeg)\nFigure 71: Create Application Step 2 of 3: COLA Information (Middle)\n\nOffice of the Chief Information Officer\nPage 56\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-4.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 244,
+          "bottomRightX": 1511,
+          "bottomRightY": 1194,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 5,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\n![img-5.jpeg](img-5.jpeg)\nFigure 72: Create Application Step 2 of 3: COLA Information (Bottom)\n\nAllow these steps to continue creating an application:\n\n1. From the Create Application Step 1 of 3: Application Type page, select the Next button. The Create Application Step 2 of 3: COLA Information page displays. See Figure 69 – Figure 72.\n2. If the Type of Product selected in the previous step is Distilled Spirit, the application is for Distinctive Liquor Bottle Approval and additional fields will display at the top of the page. See Figure 70. Select the \"Yes\" radio button and enter the Total Bottle Capacity before closure.\n3. Enter the Serial Number of your application.\n4. If you have more than one valid permit for this type of application, select the appropriate Plant Registry/Basic Permit/Brewer's No. from the drop-down list and select the Add Permit button.\n\n▶ Note: Repeat this step to assign additional permits (except wineries).\n▶ Note: To remove a permit from the list, select the Remove link.\n▶ Note: If you have only one valid permit for this application type, it will be selected for you.\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-5.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 244,
+          "bottomRightX": 1511,
+          "bottomRightY": 1194,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 6,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau COLAS Online 3.11.3 Online Industry Member User Manual\n\n5. Enter a DBA/Trade Name if one is used on the label.\n\n▶ Note: You must get approval from the TTB NRC before using the Trade Name on the label.\n\n▶ Note: The DBA/Trade Name must match the label. This information must be added to the application each time it is used in the label. The DBA is added when the bottler's or importer's company name is different from the operating name. The operating name is listed on the permit and the DBA must be registered with the NRC before use.\n\n6. Enter the Brand Name.\n\n7. Enter the Fanciful Name, if applicable.\n\n▶ Note: Do not enter a Product Class/Type or Wine Appellation in the Brand Name or Fanciful Name field. You are not required to tell TTB the class/type designation that appears on your label. Putting this information in the Brand Name or Fanciful Name field (or any other field) will result in your application being returned to you for correction.\n\n8. If you have an approved TTB Formula ID, select the appropriate TTB Formula ID from the drop-down list of approved TTB Formula IDs associated with the Plant Registry/Basic Permit/Brewer's No. you selected above.\n\n▶ Note: To remove a TTB Formula ID from the list, select the Remove link.\n\n▶ Note: TTB Formula IDs only appear for electronically available Formulas. The TTB Formula ID field will display a list of approved formulas; the class/type displayed will be the approved class/type, not the submitted class/type.\n\n▶ Note: You may no longer add a Lab No./Pre-Import No. or the Lab Approval Letter Date/Pre-Import Date when creating a COLA eApplication. These fields will still display for previously created COLA eApplications and on read-only pages. The information may now be entered in the restructured formula fields.\n\n9. Select the Net Contents from the drop-down list and select the Add Net Contents button.\n\n▶ Note: To remove a Net Content from the list, select the Remove link.\n\n▶ Note: Repeat this step to add more than one Net Contents value, if this label will be used on multiple size containers.\n\n10. Enter the Alcohol Content.\n\n▶ Note: You can enter Alcohol Content text or a numeric value. If you enter a numeric value, it must be between 0.00 – 100.00.\n\n11. Enter the Wine Vintage date if it is shown on the label.\n\n▶ Note: Wine Vintage only appears for Wine applications. If applicable, you must enter a Wine Vintage numeric value within the range of 1700 and the current year.\n\n12. Enter the Grape Varietal(s) if it is shown on the label.\n\nOffice of the Chief Information Officer\nPage 58\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 7,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\n$\\triangleright$ Note: Grape Varietal(s) only appears for Wine applications.\n\n13. Enter the Wine Appellation if it is shown on the label.\n\n$\\triangleright$ Note: Wine Appellation only appears for Wine applications.\n\n$\\triangleright$ Note: You must enter a Wine Appellation if you have entered a Wine Vintage date or the system will not allow you to proceed to the next step.\n\n14. If applicable, enter the notes to the Specialist who will be processing the COLA eApplication.\n\n$\\triangleright$ Note: You may enter up to 2000 characters in the Notes to Specialist field.\n\n$\\triangleright$ Note: When your application is in \"Needs Correction\" status, the 2000 characters limit applies to the combined total of all previous and current notes to specialist. For example, if you previously added a note of 1000 characters, you can only submit a current note of 1000 characters.\n\n15. Select the Previous button to return to Step 1.\n\n16. Select the Next button to proceed to the next step in the create process. See Section 3.6.1.4 Step 3 of 3: Upload Labels.\n\n17. Select the Cancel application button to cancel the create application process and return to the Home: My eApplications page. See Figure 65.\n\n$\\triangleright$ Note: Select the icon for field-level help.\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 8,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n## 3.6.1.4 Step 3 of 3: Upload Labels\n\nThe Create Application Step 3 of 3: Upload Labels page allows you to upload labels to the application. Figure 73 and Figure 74 detail the Create Application Step 3 of 3: Upload Labels page.\n\n![img-6.jpeg](img-6.jpeg)\nFigure 73: Create Application Step 3 of 3: Upload Labels (Top)\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-6.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 468,
+          "bottomRightX": 1511,
+          "bottomRightY": 1427,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 9,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\n![img-7.jpeg](img-7.jpeg)\nFigure 74: Create Application Step 3 of 3: Upload Labels (Bottom)\n\nFollow these steps to continue creating an application:\n\n1. From the Create Application Step 2 of 3: COLA Information page, select the Next button. The Create Application Step 3 of 3: Upload Labels page displays. See Figure 73 and Figure 74.\n2. Enter a translation of any foreign text or any special wording or designs that appear on the materials affixed to the container (e.g., label, bottle, cork, etc.) in the field provided if applicable.\n3. Select the add/remove Images button to upload label images. See Section 3.6.2.1 Upload Label Images.\n4. Select the add/remove Attachments button to upload attachments. See Section 3.6.2.2 Upload Other Attachments.\n5. Select the Previous button to return to the Create Application Step 2 of 3: COLA Information page. See Section 3.6.1.3 Step 2 of 3: COLA Information.\n6. Select the Next button to proceed to the next step in the create process. See Section 3.6.3 Verify Application.\n7. Select the Cancel application button to cancel the create application process and return to the Home: My eApplications page. See Figure 65.\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-7.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 244,
+          "bottomRightX": 1504,
+          "bottomRightY": 1194,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 10,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n## 3.6.2 Upload Attachments\n\nThis section discusses all of the basic information needed to upload attachments. This section includes the following information:\n\n- Upload Label Images – See Section 3.6.2.1 Upload Label Images\n- Upload Other Attachments – See Section 3.6.2.2 Upload Other Attachments\n\n## 3.6.2.1 Upload Label Images\n\nThe Upload Label Images page allows you to upload label images to an application. You may attach up to ten files. Figure 75 and Figure 76 detail the Upload Label Images page.\n\n![img-8.jpeg](img-8.jpeg)\nFigure 75: Upload Label Images (Top)\n\nOffice of the Chief Information Officer\nPage 62\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-8.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 732,
+          "bottomRightX": 1504,
+          "bottomRightY": 1687,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 11,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\n![img-9.jpeg](img-9.jpeg)\nFigure 76: Upload Label Images (Bottom)\n\nFollow these steps to upload a label image to the application:\n\n1. From the Create Application Step 3 of 3: Upload Labels page, select the **add/remove Images** button. The Upload Label Images page displays. See Figure 75 and Figure 76.\n2. Select the **Browse** button to select an attachment to upload.\n\n**Note:** Each image file must:\n\n- Have a file type of **JPG** or **TIFF** (file extensions: **.jpg/.jpeg/.jpe** or **.tif/.tiff**)\n- Not exceed **750KB** in size\n- Have a compression/quality ratio set at **Medium** (7 out of 10 or 70 out of 100)\n- Utilize colors in the **RGB** color mode, **not** colors in the **CMYK** color mode\n- Have **no** surrounding white space or printer's proof detail; this must be cropped out\n\n**Note:** See **How to Prepare Images for Upload** for more information.\n\n**Note:** TIFF files should **not** be saved with JPG compression.\n\n3. Select the attachment type from the drop-down list; i.e., tell us which label this is (brand, neck, back, etc.).\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-9.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 244,
+          "bottomRightX": 1504,
+          "bottomRightY": 1194,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 12,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n$\\triangleright$ Note: Please include only one label per image.\n\n4. Enter the label image height and width.\n\n$\\triangleright$ Note: Enter the dimensions of the image, not the dimensions of the label. The label image dimensions (width and height) must be numeric characters between 0-9 in NN.NN format (where N is a number).\n\n5. Select the Attach file button.\n\n$\\triangleright$ Note: After uploading a file to COLAs Online, select the link to ensure that the file uploaded correctly and the image is clear and readable. Occasionally, uploaded label image files may become corrupted or distorted. If this occurs, remove the file, re-save the file with a different compression/quality ratio, and then re-attempt the upload.\n\n6. To attach additional files, return to Step 2.\n\n$\\triangleright$ Note: You can attach up to 10 files per application, each up to 750KB in size.\n\n$\\triangleright$ Note: To remove an attachment, select the Remove link.\n\n7. Select the Done button to close the page.\n\nOffice of the Chief Information Officer\nPage 64\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 13,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n## 3.6.2.2 Upload Other Attachments\n\nThe Upload Other Attachments page allows you to upload other attachments to an application. Other applications include Formulas, SOPs, Lab Analyses, Pre-import letters, cover letters, etc. Figure 77 details the Upload Other Attachments page.\n\n![img-10.jpeg](img-10.jpeg)\nFigure 77: Upload Other Attachments\n\nFollow these steps to upload any other attachments to the application:\n\n1. From the Create Application Step 3 of 3: Upload Labels page, select the add/remove Attachments button. The Upload Other Attachments page displays. See Figure 77.\n2. Select the Browse button to select an attachment to upload.\n\n▶ Note: Acceptable attachment types include DOC, TEXT, PDF, JPG, and TIFF (file extensions: .doc, .txt, .pdf, .jpg/.jpeg/.jpe, and .tif/.tiff).\n▶ Note: You can attach up to 10 files per application, each up to 750KB in size.\n3. Select the attachment type from the drop-down list.\n4. Select the Attach file button.\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-10.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 486,
+          "bottomRightX": 1504,
+          "bottomRightY": 1438,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 14,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\n5. To attach additional files, return to Step 2.\n► Note: To remove an attachment, select the Remove link.\n6. Select the Done button to close the page.\n\nOffice of the Chief Information Officer\nPage 66\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 15,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n## 3.6.3 Verify Application\n\nThe Verify Application page allows you to view and edit all information entered before sending the application to TTB for processing. Figure 78, Figure 79, and Figure 80 detail the Verify Application page.\n\n![img-11.jpeg](img-11.jpeg)\nFigure 78: Verify Application (Top)\n\nOffice of the Chief Information Officer\nPage 67\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-11.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 486,
+          "bottomRightX": 1511,
+          "bottomRightY": 1438,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 16,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\nFigure 79: Verify Application (Middle)\n\n[tbl-0.html](tbl-0.html)\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [],
+      "tables": [
+        {
+          "id": "tbl-0.html",
+          "content": "<table><tr><td>Contact Information\nJANE SMITH\nPhone Number: (202) 453-2000\nFax Number:\nJANE.SMITH@TTB.GOV\nPlant Registry/Basic Permit/Brewers No (Principal Place of Business):\nBR-ME-5555\nPOM BREWING COMPANY\n1111 RIVER RD\nBETHEL, ME 04217\nDBA/Trade Name:\nPOM BREWING\nPlant Registry/Basic Permit/Brewers No (Other):\nBrand Name: POM BREW\nFanciful Name: N/A\nNet Contents: 1 LITER\nAlcohol Content: 1\nWine Appellation: N/A\nWine Vintage: N/A\nGrape Varietal(s): N/A\nTTB Formula ID:\n(None assigned)\nSulfite Analysis Submission ID:\n(None assigned)\nLab No. &amp; Date/Pre-Import No. &amp; Date: N/A</td><td></td></tr><tr><td>Special Wording:\nN/A</td><td></td></tr></table>",
+          "format": "html"
+        }
+      ],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 17,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\n![img-12.jpeg](img-12.jpeg)\nFigure 80: Verify Application (Bottom)\n\nFollow these steps to verify the information entered before submitting:\n\n1. Select the edit step 1 button to edit information before submitting or saving.\n\n▶ Note: You may be restricted from editing information in the Step 1: Application Type page for a submitted application in \"Needs Correction\" status. The edit step 1 button will not be available in the Verify Application page when you select the Make Corrections link to make corrections to the submitted application.\n\n▶ Note: If the Commodity is changed in Step 1: Application Type, you must re-enter information in Step 2: COLA Information pertaining to the changed commodity.\n\n2. Select the edit step 2 button to edit information before submitting or saving.\n\n▶ Note: There is a 2000 character limit for the Notes to Specialist and Previous Notes fields. For example, if you previously added a note of 1000 characters, you can only submit a current note of 1000 characters.\n\n▶ Note: You may be restricted from editing information in the Step 2: COLA Information page for a submitted application in \"Needs Correction\" status. If you are restricted from editing this\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-12.jpeg",
+          "topLeftX": 197,
+          "topLeftY": 244,
+          "bottomRightX": 1504,
+          "bottomRightY": 1174,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 18,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\ninformation, the edit step 2 button will not be available in the Verify Application page when you select the Make Corrections link to make corrections to the submitted application.\n\n3. Select the edit step 3 button to edit information before submitting or saving.\n\n▶Note: You may be restricted from editing information in the Step 3: Upload Labels page for a submitted application in \"Needs Correction\" status. If you are restricted from editing this information, the edit step 3 button will not be available in the Verify Application page when you select the Make Corrections link to make corrections to the submitted application.\n\n4. To view an image attachment, select the image link.\n\n5. To view an attachment, select the attachment link.\n\n6. To verify the image attachment with the actual dimensions specified, select the Verify Uploaded Images link.\n\n▶Note: You will not be allowed to submit the application if you do not select the Verify Uploaded Images link.\n\n7. Select the \"I agree\" checkbox if you concur with the penalty of perjury statement.\n\n▶Note: You will not be allowed to submit the application if you do not select the \"I agree\" checkbox.\n\n8. Select the Submit application button to send the application to TTB for processing. See Section 3.6.4 Application Submitted.\n\n▶Note: Only an External User can submit an application. The External Preparer/Reviewer User can only save an application (see next step) which can be submitted by an External User at a later time. See Section 3.7.1 Search for eApplications.\n\n9. Select the Don't submit yet; save for 30 days button to save the application information for up to 30 days.\n\n▶Note: After 30 days, the saved application will be deleted.\n\n10. Select the Cancel application button to cancel the create application process and return to the Home: My eApplications page. See Figure 65.\n\n▶Note: If an application is in \"Saved not Submitted\" status, select the Cancel Changes button to cancel the change application process and return to the Home: My eApplications page.\n\n▶Note: If an application is in \"Needs Correction\" status, select the Cancel Corrections button to cancel the correct application process and return to the Home: My eApplications page.\n\nOffice of the Chief Information Officer\nPage 70\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 19,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAs Online 3.11.3 Online Industry Member User Manual\n\n## 3.6.4 Application Submitted\n\nThe Application Submitted page provides the confirmation of the create application process and displays information about the application that was submitted. Figure 81 details the Application Submitted page.\n\n![img-13.jpeg](img-13.jpeg)\nFigure 81: Application Submitted\n\nFollow these steps to view the application submitted confirmation page:\n\n1. From the Verify Application page, select the **Submit application** button. The Application Submitted page displays. See Figure 81.\n\n▶ Note: Only an External User can submit an application. The External Preparer/Reviewer User can only save an application which can be submitted later by an External User. See Section 3.7.1 Search for eApplications.\n\n▶ Note: The confirmation page includes the TTB ID assigned to your application as well as the primary Permit or Registry No. and the Serial Number you assigned to the application.\n\n2. Select the **create an eApplication** button to start the create an application process again.\n\nOffice of the Chief Information Officer\n\nDated: June 11, 2015\n\nFOR OFFICIAL USE ONLY",
+      "images": [
+        {
+          "id": "img-13.jpeg",
+          "topLeftX": 193,
+          "topLeftY": 468,
+          "bottomRightX": 1504,
+          "bottomRightY": 1425,
+          "imageBase64": null,
+          "imageAnnotation": null
+        }
+      ],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 20,
+      "markdown": "Alcohol and Tobacco Tax and Trade Bureau CULAS Online 3.11.3 Online Industry Member User Manual\n\n3. Select the **Back to My eApplications** button to return to the Home: My eApplications page. See Figure 65.\n\nOffice of the Chief Information Officer\nPage 72\nDated: June 11, 2015\nFOR OFFICIAL USE ONLY",
+      "images": [],
+      "tables": [],
+      "hyperlinks": [],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    }
+  ],
+  "model": "mistral-ocr-latest",
+  "documentAnnotation": null,
+  "usageInfo": {
+    "pagesProcessed": 21,
+    "docSizeBytes": 2004088
+  }
+}
