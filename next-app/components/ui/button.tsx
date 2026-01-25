@@ -5,30 +5,32 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-[3px] aria-invalid:ring-[3px] [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none",
+  "rounded-lg focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-[3px] aria-invalid:ring-[3px] [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:bg-treasury-base-light disabled:text-treasury-base-dark [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
-        outline: "border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground shadow-xs",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-        ghost: "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
-        destructive: "bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
-        link: "text-primary underline-offset-4 hover:underline",
+        primary: "bg-treasury-primary text-treasury-paper hover:bg-treasury-primary-dark active:bg-treasury-primary-darkest",
+        secondary: "bg-treasury-secondary text-treasury-paper hover:bg-treasury-secondary-dark active:bg-treasury-secondary-darkest",
+        "primary-light": "bg-treasury-primary-light text-treasury-paper hover:bg-treasury-primary active:bg-treasury-primary-dark",
+        warning: "bg-treasury-warning text-treasury-paper hover:bg-treasury-warning-dark active:bg-treasury-ink",
+        base: "bg-treasury-base-dark text-treasury-paper hover:bg-treasury-base-darkest active:bg-treasury-ink",
+        paper: "bg-treasury-paper text-treasury-ink hover:bg-treasury-base-light active:bg-treasury-base disabled:bg-treasury-base-darkest disabled:text-treasury-ink",
+        "primary-outline": "bg-transparent text-treasury-primary border-treasury-primary hover:bg-treasury-primary hover:text-treasury-paper hover:border-treasury-primary active:bg-treasury-primary-dark active:text-treasury-paper active:border-treasury-primary-dark disabled:bg-treasury-base-lightest disabled:text-treasury-base-light disabled:border-treasury-base-light",
+        "paper-outline": "bg-transparent text-treasury-paper border-treasury-paper hover:bg-treasury-paper hover:text-treasury-ink hover:border-treasury-paper active:bg-transparent active:text-treasury-base active:border-treasury-base disabled:bg-transparent disabled:text-treasury-base disabled:border-treasury-base",
+        "ghost": "bg-transparent text-treasury-ink hover:bg-treasury-base-light active:bg-treasury-base disabled:bg-treasury-base-darkest disabled:text-treasury-ink",
       },
       size: {
-        default: "h-9 gap-1.5 px-2.5 in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xs: "h-6 gap-1 rounded-[min(var(--radius-md),8px)] px-2 text-xs in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-8 gap-1 rounded-[min(var(--radius-md),10px)] px-2.5 in-data-[slot=button-group]:rounded-md has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5",
-        lg: "h-10 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
-        icon: "size-9",
-        "icon-xs": "size-6 rounded-[min(var(--radius-md),8px)] in-data-[slot=button-group]:rounded-md [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-8 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-md",
-        "icon-lg": "size-10",
+        default: "h-10 gap-1.5 px-6",
+        sm: "h-8 gap-1 px-4 text-sm",
+        lg: "h-12 gap-2 px-8 text-base",
+        icon: "size-10",
+        "icon-xs": "size-6",
+        "icon-sm": "size-8",
+        "icon-lg": "size-12",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "primary",
       size: "default",
     },
   }
@@ -36,7 +38,7 @@ const buttonVariants = cva(
 
 function Button({
   className,
-  variant = "default",
+  variant = "primary",
   size = "default",
   asChild = false,
   ...props

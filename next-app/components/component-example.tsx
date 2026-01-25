@@ -7,11 +7,16 @@ import {
   ExampleWrapper,
 } from "@/components/example"
 import {
+  Alert,
+  AlertTitle,
+  AlertDescription,
+} from "@/components/ui/alert"
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
+  AlertDialogDescription as AlertDialogDesc,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogMedia,
@@ -66,13 +71,102 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { PlusIcon, BluetoothIcon, MoreVerticalIcon, FileIcon, FolderIcon, FolderOpenIcon, FileCodeIcon, MoreHorizontalIcon, FolderSearchIcon, SaveIcon, DownloadIcon, EyeIcon, LayoutIcon, PaletteIcon, SunIcon, MoonIcon, MonitorIcon, UserIcon, CreditCardIcon, SettingsIcon, KeyboardIcon, LanguagesIcon, BellIcon, MailIcon, ShieldIcon, HelpCircleIcon, FileTextIcon, LogOutIcon } from "lucide-react"
+import { toast } from "sonner"
 
 export function ComponentExample() {
   return (
     <ExampleWrapper>
+      <AlertShowcase />
+      <ButtonShowcase />
       <CardExample />
       <FormExample />
     </ExampleWrapper>
+  )
+}
+
+function AlertShowcase() {
+  return (
+    <Example title="USWDS Alerts (Large)">
+      <div className="w-full space-y-4">
+        <Alert variant="info">
+          <AlertTitle>Info status</AlertTitle>
+          <AlertDescription>This is a succinct, helpful message.</AlertDescription>
+        </Alert>
+        <Alert variant="warning">
+          <AlertTitle>Warning status</AlertTitle>
+          <AlertDescription>This is a succinct, helpful message.</AlertDescription>
+        </Alert>
+        <Alert variant="error">
+          <AlertTitle>Error status</AlertTitle>
+          <AlertDescription>This is a succinct, helpful message.</AlertDescription>
+        </Alert>
+        <Alert variant="success">
+          <AlertTitle>Success status</AlertTitle>
+          <AlertDescription>This is a succinct, helpful message.</AlertDescription>
+        </Alert>
+      </div>
+    </Example>
+  )
+}
+
+function ButtonShowcase() {
+  return (
+    <Example title="TDDS Button Variants">
+      <div className="w-full space-y-6">
+        {/* Standard Buttons */}
+        <div className="flex flex-wrap items-center gap-4">
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="primary-light">Primary Light</Button>
+          <Button variant="warning">Warning</Button>
+          <Button variant="base">Base</Button>
+        </div>
+
+        {/* Paper & Outline (on dark background) */}
+        <div className="flex flex-wrap items-center gap-4 bg-treasury-ink p-4 rounded-lg -mx-4">
+          <Button variant="paper">Paper</Button>
+          <Button variant="paper-outline">Paper Outline</Button>
+        </div>
+
+        {/* Primary Outline (on light background) */}
+        <div className="flex items-center gap-4">
+          <Button variant="primary-outline">Primary Outline</Button>
+        </div>
+
+        {/* Large Button */}
+        <div className="flex items-center gap-4">
+          <Button variant="primary" size="lg">Primary Large</Button>
+        </div>
+
+        {/* Toast Notifications (Thin Alerts) */}
+        <div className="flex flex-wrap items-center gap-4 pt-4 border-t">
+          <Button
+            variant="primary"
+            onClick={() => toast.success("Success text goes here")}
+          >
+            Success Toast
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => toast.info("Info status text goes here")}
+          >
+            Info Toast
+          </Button>
+          <Button
+            variant="warning"
+            onClick={() => toast.warning("Warning text goes here")}
+          >
+            Warning Toast
+          </Button>
+          <Button
+            variant="base"
+            onClick={() => toast.error("Error text goes here")}
+          >
+            Error Toast
+          </Button>
+        </div>
+      </div>
+    </Example>
   )
 }
 
@@ -110,10 +204,10 @@ function CardExample() {
                   />
                 </AlertDialogMedia>
                 <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
-                <AlertDialogDescription>
+                <AlertDialogDesc>
                   Do you want to allow the USB accessory to connect to this
                   device?
-                </AlertDialogDescription>
+                </AlertDialogDesc>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
@@ -482,7 +576,7 @@ function FormExample() {
               </Field>
               <Field orientation="horizontal">
                 <Button type="submit">Submit</Button>
-                <Button variant="outline" type="button">
+                <Button variant="paper" type="button">
                   Cancel
                 </Button>
               </Field>
