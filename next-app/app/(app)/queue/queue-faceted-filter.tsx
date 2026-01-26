@@ -22,26 +22,27 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 
-interface QueueFacetedFilterProps {
+interface QueueFacetedFilterProps<TValue extends string> {
   title: string;
   options: {
     label: string;
-    value: string;
+    value: TValue;
     icon?: React.ComponentType<{ className?: string }>;
+    count?: number;
   }[];
-  selectedValues: string[];
-  onSelectionChange: (values: string[]) => void;
+  selectedValues: TValue[];
+  onSelectionChange: (values: TValue[]) => void;
 }
 
-export function QueueFacetedFilter({
+export function QueueFacetedFilter<TValue extends string>({
   title,
   options,
   selectedValues,
   onSelectionChange,
-}: QueueFacetedFilterProps) {
+}: QueueFacetedFilterProps<TValue>) {
   const selectedSet = new Set(selectedValues);
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (value: TValue) => {
     const newSet = new Set(selectedSet);
     if (newSet.has(value)) {
       newSet.delete(value);
@@ -63,7 +64,7 @@ export function QueueFacetedFilter({
           {title}
           {selectedSet.size > 0 && (
             <>
-              <Separator orientation="vertical" className="mx-2 h-4" />
+              <Separator orientation="vertical" className="mx-2 self-stretch" />
               <Badge
                 variant="secondary"
                 className="rounded-sm px-1 font-normal lg:hidden"
@@ -96,7 +97,7 @@ export function QueueFacetedFilter({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className="w-fit p-0" align="start">
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
@@ -108,6 +109,7 @@ export function QueueFacetedFilter({
                   <CommandItem
                     key={option.value}
                     onSelect={() => handleSelect(option.value)}
+                    className="[&>svg:last-child]:hidden"
                   >
                     <div
                       className={cn(
@@ -117,12 +119,17 @@ export function QueueFacetedFilter({
                           : "border-input [&_svg]:invisible"
                       )}
                     >
-                      <CheckIcon className="size-3.5" />
+                      <CheckIcon className="size-3.5 !text-white" />
                     </div>
                     {option.icon && (
                       <option.icon className="text-muted-foreground size-4" />
                     )}
-                    <span>{option.label}</span>
+                    <span className="flex-1">{option.label}</span>
+                    {option.count !== undefined && option.count > 0 && (
+                      <span className="font-mono text-xs text-muted-foreground tabular-nums">
+                        {option.count}
+                      </span>
+                    )}
                   </CommandItem>
                 );
               })}

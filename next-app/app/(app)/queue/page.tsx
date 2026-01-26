@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Link from "next/link";
 import { AppHeader } from "@/components/layout/app-header";
 import { Button } from "@/components/ui/button";
@@ -6,23 +5,11 @@ import { getAgent } from "@/lib/dal";
 import {
   getApplicationsForQueue,
   getNextApplicationToReview,
+  getQueueFacetCounts,
   type QueueFilters,
 } from "@/lib/queries/applications";
-import { QueueDataTable } from "./queue-data-table";
-import { QueueFiltersToolbar } from "./queue-filters-toolbar";
-
-// Parse URL search params into QueueFilters
-function parseSearchParams(params: {
-  status?: string;
-  classType?: string;
-  search?: string;
-}): QueueFilters {
-  return {
-    status: params.status?.split(",").filter(Boolean),
-    classType: params.classType?.split(",").filter(Boolean),
-    search: params.search || undefined,
-  };
-}
+import { QueueContent } from "./queue-content";
+import { loadQueueParams } from "./search-params";
 
 export default async function QueuePage({
   searchParams,
@@ -33,12 +20,19 @@ export default async function QueuePage({
   const agent = await getAgent();
 
   // Parse filters from URL search params (async in Next.js 16.1)
-  const params = await searchParams;
-  const filters = parseSearchParams(params);
+  const { status, classType, search } = await loadQueueParams(searchParams);
+  const filters: QueueFilters = {
+    status: status.length > 0 ? status : undefined,
+    classType: classType.length > 0 ? classType : undefined,
+    search: search ? search : undefined,
+  };
 
   // Fetch applications with priority sorting and filters
-  const applications = await getApplicationsForQueue(filters);
-  const nextApplication = await getNextApplicationToReview();
+  const [applications, nextApplication, facetCounts] = await Promise.all([
+    getApplicationsForQueue(filters),
+    getNextApplicationToReview(),
+    getQueueFacetCounts(filters),
+  ]);
 
   // Check if any filters are active
   const hasActiveFilters = !!(
@@ -66,33 +60,12 @@ export default async function QueuePage({
           )}
         </div>
 
-        {/* Filters toolbar wrapped in Suspense for useSearchParams */}
-        <div className="mb-4">
-          <Suspense fallback={<div className="h-8" />}>
-            <QueueFiltersToolbar />
-          </Suspense>
-        </div>
-
-        {/* Data table with empty state */}
-        {applications.length > 0 ? (
-          <QueueDataTable data={applications} />
-        ) : (
-          <div className="flex flex-col items-center justify-center border border-dashed p-8 text-center">
-            <p className="text-muted-foreground">
-              {hasActiveFilters
-                ? "No applications match your filters."
-                : "No applications in the queue."}
-            </p>
-            {hasActiveFilters && (
-              <Link
-                href="/queue"
-                className="mt-2 text-sm text-primary hover:underline"
-              >
-                Clear all filters
-              </Link>
-            )}
-          </div>
-        )}
+        {/* Filters and data table with shared loading context */}
+        <QueueContent
+          applications={applications}
+          hasActiveFilters={hasActiveFilters}
+          facetCounts={facetCounts}
+        />
       </main>
     </>
   );

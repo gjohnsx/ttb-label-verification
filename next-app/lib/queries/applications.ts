@@ -136,3 +136,50 @@ export async function getApplicationById(id: string) {
     where: { id },
   });
 }
+
+/**
+ * Get facet counts for filters.
+ * Each facet's counts are filtered by the OTHER facets, not itself.
+ * This gives "what would I get if I select this" behavior.
+ */
+export async function getQueueFacetCounts(filters: QueueFilters = {}): Promise<{
+  statusCounts: Record<string, number>;
+  classTypeCounts: Record<string, number>;
+}> {
+  // For status counts: apply classType and search filters (but not status)
+  const statusWhere = buildWhereClause({
+    classType: filters.classType,
+    search: filters.search,
+  });
+
+  // For classType counts: apply status and search filters (but not classType)
+  const classTypeWhere = buildWhereClause({
+    status: filters.status,
+    search: filters.search,
+  });
+
+  const [statusApps, classTypeApps] = await Promise.all([
+    prisma.application.findMany({
+      where: statusWhere,
+      select: { status: true },
+    }),
+    prisma.application.findMany({
+      where: classTypeWhere,
+      select: { classType: true },
+    }),
+  ]);
+
+  const statusCounts: Record<string, number> = {};
+  for (const app of statusApps) {
+    statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
+  }
+
+  const classTypeCounts: Record<string, number> = {};
+  for (const app of classTypeApps) {
+    if (app.classType) {
+      classTypeCounts[app.classType] = (classTypeCounts[app.classType] || 0) + 1;
+    }
+  }
+
+  return { statusCounts, classTypeCounts };
+}
