@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Menu, Search, BellIcon, LogOut, User, Settings, HelpCircle, ListTodo, History, Home } from "lucide-react"
+import { Menu, Search, BellIcon, LogOut, User, Settings, HelpCircle, ListTodo, History } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -30,6 +30,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
+import { logout } from "@/lib/auth-actions"
 
 const NAV_ITEMS = [
   { title: "Queue", url: "/queue" },
@@ -40,11 +41,17 @@ const FOOTER_ITEMS = [
   { title: "Help", url: "/help" },
 ]
 
-export function AppHeader() {
+type AppHeaderProps = {
+  agentName?: string
+  agentRole?: string
+}
+
+export function AppHeader({ agentName, agentRole }: AppHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [commandOpen, setCommandOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
+  const logoutFormRef = useRef<HTMLFormElement | null>(null)
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -61,6 +68,10 @@ export function AppHeader() {
   const runCommand = (command: () => void) => {
     setCommandOpen(false)
     command()
+  }
+
+  const submitLogout = () => {
+    logoutFormRef.current?.requestSubmit()
   }
 
   return (
@@ -123,27 +134,44 @@ export function AppHeader() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
+              {agentName ? (
+                <>
+                  <DropdownMenuLabel className="space-y-0.5">
+                    <div className="text-sm font-medium text-foreground">
+                      {agentName}
+                    </div>
+                    {agentRole ? (
+                      <div className="text-xs text-muted-foreground">
+                        {agentRole}
+                      </div>
+                    ) : null}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                </>
+              ) : null}
               <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <User />
-                  Profile
+                <DropdownMenuItem asChild>
+                  <Link href="/settings">
+                    <Settings />
+                    Settings
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <HelpCircle />
-                  Help
+                <DropdownMenuItem asChild>
+                  <Link href="/help">
+                    <HelpCircle />
+                    Help
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/">
-                  <LogOut />
-                  Log out
-                </Link>
-              </DropdownMenuItem>
+              <form action={logout}>
+                <DropdownMenuItem asChild className="w-full">
+                  <button type="submit">
+                    <LogOut />
+                    Log out
+                  </button>
+                </DropdownMenuItem>
+              </form>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -190,15 +218,17 @@ export function AppHeader() {
                   </Link>
                 </SheetClose>
               ))}
-              <SheetClose asChild>
-                <Link
-                  href="/"
-                  className="flex items-center gap-3 px-4 py-4 text-treasury-ink transition-colors hover:text-treasury-primary"
-                >
-                  <LogOut className="h-5 w-5" />
-                  Log out
-                </Link>
-              </SheetClose>
+              <form action={logout}>
+                <SheetClose asChild>
+                  <button
+                    type="submit"
+                    className="flex items-center gap-3 px-4 py-4 text-treasury-ink transition-colors hover:text-treasury-primary"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    Log out
+                  </button>
+                </SheetClose>
+              </form>
             </div>
           </nav>
         </SheetContent>
@@ -232,7 +262,7 @@ export function AppHeader() {
                 <HelpCircle />
                 <span className="flex-1">Help</span>
               </CommandItem>
-              <CommandItem onSelect={() => runCommand(() => router.push("/"))}>
+              <CommandItem onSelect={() => runCommand(submitLogout)}>
                 <LogOut />
                 <span className="flex-1">Log out</span>
               </CommandItem>
@@ -240,6 +270,10 @@ export function AppHeader() {
           </CommandList>
         </Command>
       </CommandDialog>
+
+      <form ref={logoutFormRef} action={logout} className="hidden">
+        <button type="submit">Log out</button>
+      </form>
     </header>
   )
 }
