@@ -70,17 +70,96 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { PlusIcon, BluetoothIcon, MoreVerticalIcon, FileIcon, FolderIcon, FolderOpenIcon, FileCodeIcon, MoreHorizontalIcon, FolderSearchIcon, SaveIcon, DownloadIcon, EyeIcon, LayoutIcon, PaletteIcon, SunIcon, MoonIcon, MonitorIcon, UserIcon, CreditCardIcon, SettingsIcon, KeyboardIcon, LanguagesIcon, BellIcon, MailIcon, ShieldIcon, HelpCircleIcon, FileTextIcon, LogOutIcon } from "lucide-react"
+import { PlusIcon, BluetoothIcon, MoreVerticalIcon, FileIcon, FolderIcon, FolderOpenIcon, FileCodeIcon, MoreHorizontalIcon, FolderSearchIcon, SaveIcon, DownloadIcon, EyeIcon, LayoutIcon, PaletteIcon, SunIcon, MoonIcon, MonitorIcon, UserIcon, CreditCardIcon, SettingsIcon, KeyboardIcon, LanguagesIcon, BellIcon, MailIcon, ShieldIcon, HelpCircleIcon, FileTextIcon, LogOutIcon, CalendarIcon, MessageSquareIcon, ClockIcon, CompassIcon, ArchiveIcon, SettingsIcon as GearIcon } from "lucide-react"
+import { MiniCard } from "@/components/ui/mini-card"
 import { toast } from "sonner"
 
 export function ComponentExample() {
   return (
     <ExampleWrapper>
+      <MiniCardShowcase />
       <AlertShowcase />
       <ButtonShowcase />
       <CardExample />
       <FormExample />
     </ExampleWrapper>
+  )
+}
+
+function MiniCardShowcase() {
+  return (
+    <Example title="TDDS Mini Cards">
+      <div className="w-full">
+        <p className="text-sm text-muted-foreground mb-4">variations</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <MiniCard
+              variant="primary"
+              icon={<CalendarIcon />}
+              title="Title Here"
+            />
+            <p className="text-sm text-muted-foreground">primary</p>
+          </div>
+          <div className="space-y-2">
+            <MiniCard
+              variant="primary-dark"
+              icon={<MessageSquareIcon />}
+              title="Title Here"
+            />
+            <p className="text-sm text-muted-foreground">primary-dark</p>
+          </div>
+          <div className="space-y-2">
+            <MiniCard
+              variant="secondary"
+              icon={<ClockIcon />}
+              title="Title Here"
+            />
+            <p className="text-sm text-muted-foreground">secondary</p>
+          </div>
+          <div className="space-y-2">
+            <MiniCard
+              variant="secondary-dark"
+              icon={<CompassIcon />}
+              title="Title Here"
+            />
+            <p className="text-sm text-muted-foreground">secondary-dark</p>
+          </div>
+          <div className="space-y-2">
+            <MiniCard
+              variant="base-dark"
+              icon={<ArchiveIcon />}
+              title="Title Here"
+            />
+            <p className="text-sm text-muted-foreground">base-dark</p>
+          </div>
+          <div className="space-y-2">
+            <MiniCard
+              variant="base-darkest"
+              icon={<GearIcon />}
+              title="Title Here"
+            />
+            <p className="text-sm text-muted-foreground">base-darkest</p>
+          </div>
+        </div>
+
+        {/* Clickable example */}
+        <p className="text-sm text-muted-foreground mt-8 mb-4">clickable (with hover effect)</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <MiniCard
+            variant="primary"
+            icon={<CalendarIcon />}
+            title="View Calendar"
+            href="#calendar"
+          />
+          <MiniCard
+            variant="secondary"
+            icon={<MessageSquareIcon />}
+            title="Messages"
+            href="#messages"
+          />
+        </div>
+      </div>
+    </Example>
   )
 }
 
