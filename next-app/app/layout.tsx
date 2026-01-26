@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Public_Sans } from "next/font/google";
+import { Public_Sans, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
-const publicSans = Public_Sans({subsets:['latin'],variable:'--font-sans'});
+const publicSans = Public_Sans({ subsets: ['latin'], variable: '--font-sans' });
+const sourceCodePro = Source_Code_Pro({ subsets: ['latin'], variable: '--font-mono' });
 
 export const metadata: Metadata = {
   title: "TTB Label Verification",
@@ -16,11 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={publicSans.variable}>
+    <html lang="en" className={`${publicSans.variable} ${sourceCodePro.variable}`}>
       <body
         className={`${publicSans.variable} antialiased`}
       >
-        {children}
+        <NuqsAdapter>
+          {children}
+        </NuqsAdapter>
         <Toaster position="bottom-right" />
       </body>
     </html>
