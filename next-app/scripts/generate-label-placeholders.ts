@@ -9,10 +9,12 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { applications, type ApplicationData } from "../prisma/seed-data";
 
-const LABELS_DIR = path.join(import.meta.dir, "../public/labels");
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const LABELS_DIR = path.join(SCRIPT_DIR, "../public/labels");
 const OUTPUT_EXTENSION = "jpg";
 const OUTPUT_QUALITY = 80;
 
