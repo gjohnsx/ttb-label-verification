@@ -26,11 +26,11 @@ import {
 } from "@/components/ui/command"
 
 const NAV_LINKS = [
+  { label: "COMPONENTS", href: "/demo", external: false },
   { label: "CV", href: "https://www.gregjohns.dev", external: true },
-  { label: "TWITTER", href: "https://x.com/gjohnsx", external: true },
   { label: "GITHUB", href: "https://github.com/gjohnsx", external: true },
   { label: "LINKEDIN", href: "https://linkedin.com/in/greg-johns", external: true },
-  { label: "DEMO", href: "/demo", external: false },
+  { label: "X", href: "https://x.com/gjohnsx", external: true },
 ]
 
 export function PublicHeader() {
@@ -126,7 +126,7 @@ export function PublicHeader() {
                 onSelect={() => runCommand(() => router.push("/demo"))}
               >
                 <LayoutGrid />
-                <span className="flex-1">Component Demo</span>
+                <span className="flex-1">Components</span>
               </CommandItem>
             </CommandGroup>
 
@@ -148,7 +148,7 @@ export function PublicHeader() {
                 }
               >
                 <Twitter />
-                <span className="flex-1">Twitter / X</span>
+                <span className="flex-1">X</span>
                 <ExternalLink className="h-3 w-3 text-muted-foreground" />
               </CommandItem>
               <CommandItem
