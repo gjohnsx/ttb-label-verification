@@ -1,20 +1,24 @@
 import { AppHeader } from '@/components/layout/app-header'
 import { getAgent } from '@/lib/dal'
 
-export default async function QueuePage() {
-  // This will redirect to / if not authenticated
+type ReviewPageProps = {
+  params: Promise<{ id: string }>
+}
+
+export default async function ReviewPage({ params }: ReviewPageProps) {
   const agent = await getAgent()
+  const { id } = await params
 
   return (
     <>
       <AppHeader agentName={agent.name} agentRole={agent.role} />
       <main className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold mb-4">Application Queue</h1>
+        <h1 className="text-2xl font-bold mb-4">Label Review</h1>
         <p className="text-muted-foreground">
-          Logged in as: {agent.name} ({agent.role})
+          Reviewing application: {id}
         </p>
         <p className="text-muted-foreground mt-4">
-          TODO: Build queue table here
+          TODO: Add label comparison view.
         </p>
       </main>
     </>
