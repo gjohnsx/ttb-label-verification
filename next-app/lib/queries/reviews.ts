@@ -32,6 +32,7 @@ export type ApplicationForReview = {
     ocrResults: {
       extractedFields: string | null;
       confidenceScores: string | null;
+      rawMarkdown: string | null;
     }[];
   }[];
 };
@@ -94,6 +95,7 @@ export async function getApplicationForReview(
       ocrResults: img.ocrResults.map((ocr) => ({
         extractedFields: ocr.extractedFields,
         confidenceScores: ocr.confidenceScores,
+        rawMarkdown: ocr.rawMarkdown,
       })),
     })),
   };
