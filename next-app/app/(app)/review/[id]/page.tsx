@@ -1,21 +1,8 @@
+import { Suspense } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
 import { AppHeader } from "@/components/layout/app-header";
-import { getAgent } from "@/lib/dal";
-import {
-  getApplicationForReview,
-  toApplicationData,
-  extractOcrFields,
-  hasOcrResults,
-  getOcrProcessedAt,
-} from "@/lib/queries/reviews";
-import { compareApplication } from "@/lib/comparison/compare";
-import { ReviewSummary } from "@/components/review/review-summary";
-import { ComparisonTable } from "@/components/review/comparison-table";
-import { ImageGallery, type LabelImage } from "@/components/review/image-gallery";
 import { ReviewActionBar } from "@/components/review/review-action-bar";
-import { OcrStatus } from "@/components/review/ocr-status";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,52 +11,19 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { ReviewContentAsync } from "./review-content-async";
+import { ReviewContentSkeleton } from "./review-content-skeleton";
 
 type ReviewPageProps = {
   params: Promise<{ id: string }>;
 };
 
 export default async function ReviewPage({ params }: ReviewPageProps) {
-  const agent = await getAgent();
   const { id } = await params;
-
-  // Fetch application data
-  const application = await getApplicationForReview(id);
-
-  if (!application) {
-    notFound();
-  }
-
-  // Check if OCR results exist
-  const ocrAvailable = hasOcrResults(application);
-  const ocrFields = extractOcrFields(application);
-  const ocrProcessedAt = ocrAvailable ? await getOcrProcessedAt(id) : null;
-
-  // Convert application to comparison format
-  const applicationData = toApplicationData(application);
-
-  const comparison = compareApplication(applicationData, ocrFields ?? {});
-
-  const displayId = application.colaId || `APP-${id.slice(0, 8).toUpperCase()}`;
-
-  // Check if application is currently processing OCR
-  const isProcessing = application.status === "PROCESSING";
-  const ocrPendingLabel = !ocrAvailable
-    ? isProcessing
-      ? "Processing OCR..."
-      : "Awaiting OCR"
-    : undefined;
-
-  // Convert label images to the format expected by the carousel
-  const labelImages: LabelImage[] = application.labelImages.map((img) => ({
-    id: img.id,
-    blobUrl: img.blobUrl,
-    imageType: img.imageType,
-  }));
 
   return (
     <>
-      <AppHeader agentName={agent.name} agentRole={agent.role} />
+      <AppHeader />
 
       {/* Breadcrumb Navigation - Full width */}
       <Breadcrumb>
@@ -87,7 +41,7 @@ export default async function ReviewPage({ params }: ReviewPageProps) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Review: {displayId}</BreadcrumbPage>
+              <BreadcrumbPage>Review</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </div>
@@ -104,53 +58,16 @@ export default async function ReviewPage({ params }: ReviewPageProps) {
           </p>
         </div>
 
-        {/* Split Layout: Images (40%) | Comparison (60%) */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[40%_1fr]">
-          {/* Left Panel: Image Gallery */}
-          <div className="lg:sticky lg:top-6 lg:self-start">
-            <h2 className="mb-3 text-lg font-semibold text-treasury-base-darkest">
-              Label Images
-            </h2>
-            <ImageGallery images={labelImages} />
-          </div>
-
-          {/* Right Panel: Summary + Comparison Table */}
-          <div className="space-y-6">
-            {/* OCR Status */}
-            <OcrStatus
-              applicationId={id}
-              hasOcrResults={ocrAvailable}
-              processedAt={ocrProcessedAt}
-              isProcessing={isProcessing}
-            />
-
-            <div>
-              <ReviewSummary
-                comparison={comparison}
-                applicationId={id}
-                colaId={application.colaId}
-              />
-            </div>
-
-            {/* Comparison Table */}
-            <div>
-              <h2 className="mb-3 text-lg font-semibold text-treasury-base-darkest">
-                Field Comparison
-              </h2>
-              <ComparisonTable
-                fields={comparison.fields}
-                ocrConfidenceScores={ocrFields?.confidenceScores}
-                ocrPendingLabel={ocrPendingLabel}
-              />
-            </div>
-          </div>
-        </div>
+        {/* Content with Suspense boundary */}
+        <Suspense fallback={<ReviewContentSkeleton />}>
+          <ReviewContentAsync id={id} />
+        </Suspense>
 
         {/* Bottom padding to account for sticky action bar */}
         <div className="h-24" />
       </main>
 
-      {/* Sticky Action Bar */}
+      {/* Sticky Action Bar - renders immediately with just ID */}
       <ReviewActionBar applicationId={id} />
     </>
   );
