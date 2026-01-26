@@ -25,12 +25,13 @@ function Tabs({
 }
 
 const tabsListVariants = cva(
-  "rounded-lg p-[3px] group-data-horizontal/tabs:h-9 data-[variant=line]:rounded-none group/tabs-list text-muted-foreground inline-flex w-fit items-center justify-center group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col",
+  "rounded-lg p-[3px] group-data-horizontal/tabs:h-9 data-[variant=line]:rounded-none data-[variant=uswds]:rounded-none group/tabs-list text-muted-foreground inline-flex w-fit items-center justify-center group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col",
   {
     variants: {
       variant: {
         default: "bg-muted",
         line: "gap-1 bg-transparent",
+        uswds: "w-full justify-start h-auto items-end relative gap-0 bg-transparent p-0 before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-treasury-primary",
       },
     },
     defaultVariants: {
@@ -67,6 +68,12 @@ function TabsTrigger({
         "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
         "data-active:bg-background dark:data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 data-active:text-foreground",
         "after:bg-foreground after:absolute after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+        // USWDS variant - base styles
+        "group-data-[variant=uswds]/tabs-list:h-auto group-data-[variant=uswds]/tabs-list:rounded-none group-data-[variant=uswds]/tabs-list:border-0 group-data-[variant=uswds]/tabs-list:border-t-4 group-data-[variant=uswds]/tabs-list:border-l group-data-[variant=uswds]/tabs-list:border-treasury-base-light group-data-[variant=uswds]/tabs-list:first:border-l-0 group-data-[variant=uswds]/tabs-list:bg-transparent group-data-[variant=uswds]/tabs-list:px-6 group-data-[variant=uswds]/tabs-list:py-3 group-data-[variant=uswds]/tabs-list:text-treasury-base-dark group-data-[variant=uswds]/tabs-list:font-normal group-data-[variant=uswds]/tabs-list:shadow-none",
+        // USWDS variant - active state (z-10 to sit above the bottom line, blue top bar)
+        "group-data-[variant=uswds]/tabs-list:data-[state=active]:z-10 group-data-[variant=uswds]/tabs-list:data-[state=active]:border-t-treasury-primary group-data-[variant=uswds]/tabs-list:data-[state=active]:bg-background group-data-[variant=uswds]/tabs-list:data-[state=active]:font-bold group-data-[variant=uswds]/tabs-list:data-[state=active]:text-treasury-ink group-data-[variant=uswds]/tabs-list:data-[state=active]:shadow-none group-data-[variant=uswds]/tabs-list:first:data-[state=active]:border-l group-data-[variant=uswds]/tabs-list:last:data-[state=active]:border-r",
+        // USWDS variant - reset ::after (not used for this variant)
+        "group-data-[variant=uswds]/tabs-list:after:hidden",
         className
       )}
       {...props}

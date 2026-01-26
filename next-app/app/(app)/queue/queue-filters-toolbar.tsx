@@ -79,7 +79,7 @@ export function QueueFiltersToolbar({ facetCounts }: QueueFiltersToolbarProps) {
             placeholder="Search by brand or COLA ID..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            className="h-8 w-[200px] pl-8 lg:w-[300px]"
+            className="h-10 w-[200px] pl-8 lg:w-[300px]"
           />
         </div>
 

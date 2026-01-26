@@ -70,6 +70,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { PlusIcon, BluetoothIcon, MoreVerticalIcon, FileIcon, FolderIcon, FolderOpenIcon, FileCodeIcon, MoreHorizontalIcon, FolderSearchIcon, SaveIcon, DownloadIcon, EyeIcon, LayoutIcon, PaletteIcon, SunIcon, MoonIcon, MonitorIcon, UserIcon, CreditCardIcon, SettingsIcon, KeyboardIcon, LanguagesIcon, BellIcon, MailIcon, ShieldIcon, HelpCircleIcon, FileTextIcon, LogOutIcon, CalendarIcon, MessageSquareIcon, ClockIcon, CompassIcon, ArchiveIcon, SettingsIcon as GearIcon } from "lucide-react"
 import { MiniCard } from "@/components/ui/mini-card"
 import { toast } from "sonner"
@@ -77,12 +78,85 @@ import { toast } from "sonner"
 export function ComponentExample() {
   return (
     <ExampleWrapper>
+      <TabsShowcase />
       <MiniCardShowcase />
       <AlertShowcase />
       <ButtonShowcase />
       <CardExample />
       <FormExample />
     </ExampleWrapper>
+  )
+}
+
+function TabsShowcase() {
+  return (
+    <Example title="USWDS Tabs" containerClassName="md:col-span-2">
+      <div className="w-full space-y-12">
+        <div>
+          <p className="text-sm text-muted-foreground mb-4">USWDS variant (matches design spec)</p>
+          <Tabs defaultValue="tab1" className="w-full">
+            <TabsList variant="uswds" className="w-full">
+              <TabsTrigger value="tab1">Tab header</TabsTrigger>
+              <TabsTrigger value="tab2">Tab header</TabsTrigger>
+              <TabsTrigger value="tab3">Tab header</TabsTrigger>
+              <TabsTrigger value="tab4">Tab header</TabsTrigger>
+            </TabsList>
+            <TabsContent value="tab1" className="p-4">
+              Content for tab 1
+            </TabsContent>
+            <TabsContent value="tab2" className="p-4">
+              Content for tab 2
+            </TabsContent>
+            <TabsContent value="tab3" className="p-4">
+              Content for tab 3
+            </TabsContent>
+            <TabsContent value="tab4" className="p-4">
+              Content for tab 4
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        <div>
+          <p className="text-sm text-muted-foreground mb-4">Default shadcn variant</p>
+          <Tabs defaultValue="default1">
+            <TabsList variant="default">
+              <TabsTrigger value="default1">Account</TabsTrigger>
+              <TabsTrigger value="default2">Password</TabsTrigger>
+              <TabsTrigger value="default3">Settings</TabsTrigger>
+            </TabsList>
+            <TabsContent value="default1" className="p-4">
+              Account settings content
+            </TabsContent>
+            <TabsContent value="default2" className="p-4">
+              Password settings content
+            </TabsContent>
+            <TabsContent value="default3" className="p-4">
+              General settings content
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        <div>
+          <p className="text-sm text-muted-foreground mb-4">Line variant</p>
+          <Tabs defaultValue="line1">
+            <TabsList variant="line">
+              <TabsTrigger value="line1">Overview</TabsTrigger>
+              <TabsTrigger value="line2">Analytics</TabsTrigger>
+              <TabsTrigger value="line3">Reports</TabsTrigger>
+            </TabsList>
+            <TabsContent value="line1" className="p-4">
+              Overview content
+            </TabsContent>
+            <TabsContent value="line2" className="p-4">
+              Analytics content
+            </TabsContent>
+            <TabsContent value="line3" className="p-4">
+              Reports content
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </Example>
   )
 }
 
