@@ -1,5 +1,6 @@
 import { selectPersona } from '@/lib/auth-actions'
 import { MOCK_AGENTS } from '@/lib/agents'
+import { PersonaCard } from '@/components/persona-card'
 
 export default function LoginPage() {
   return (
@@ -22,13 +23,7 @@ export default function LoginPage() {
             {MOCK_AGENTS.map((agent) => (
               <form action={selectPersona} key={agent.id}>
                 <input type="hidden" name="agentId" value={agent.id} />
-                <button
-                  type="submit"
-                  className="w-full p-6 bg-white border border-slate-200 rounded-lg hover:border-blue-500 hover:shadow-md transition-all text-left"
-                >
-                  <div className="font-semibold text-slate-900">{agent.name}</div>
-                  <div className="text-sm text-slate-500">{agent.role}</div>
-                </button>
+                <PersonaCard name={agent.name} role={agent.role} />
               </form>
             ))}
           </div>
