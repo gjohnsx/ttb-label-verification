@@ -76,7 +76,7 @@ export function AppHeader({ agentName, agentRole }: AppHeaderProps) {
 
   return (
     <header className="bg-treasury-primary-dark">
-      <div className="flex items-center justify-between px-4 py-2">
+      <div className="container mx-auto flex items-center justify-between px-4 py-2">
         {/* Left side */}
         <div className="flex items-center gap-3">
           <Button

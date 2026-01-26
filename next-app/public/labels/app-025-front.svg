@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="600" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+  
+    <defs>
+      <pattern id="noise-app-025-front" patternUnits="userSpaceOnUse" width="100" height="100">
+        <rect width="100" height="100" fill="#f3f4f6"/>
+        <circle cx="66.23598089784835" cy="65.72575369377651" r="3.906514278392941" fill="#9ca3af" opacity="0.10415689923756206"/>
+        <circle cx="18.004415446001488" cy="55.48445748010277" r="2.598068770387426" fill="#9ca3af" opacity="0.23826789087526018"/>
+        <circle cx="86.20351706875071" cy="80.24780024937068" r="1.8108419174410728" fill="#9ca3af" opacity="0.2698820029376984"/>
+        <circle cx="89.2060422149699" cy="61.281787244800455" r="1.0253323837037107" fill="#9ca3af" opacity="0.31543099262475793"/>
+        <circle cx="41.52747242257091" cy="90.13197697466161" r="2.137856338990097" fill="#9ca3af" opacity="0.20627133357948652"/>
+        <circle cx="52.30780534328034" cy="38.63235402992887" r="3.275602630987176" fill="#9ca3af" opacity="0.2515905546357952"/>
+        <circle cx="95.06905898823486" cy="52.59691423831605" r="1.1841105741058882" fill="#9ca3af" opacity="0.21745764946136809"/>
+        <circle cx="29.71280997705089" cy="53.52588450427391" r="1.6100787908275636" fill="#9ca3af" opacity="0.15024505591657164"/>
+        <circle cx="28.639702114414767" cy="4.235189100791525" r="3.9728455815794366" fill="#9ca3af" opacity="0.3142887684021318"/>
+        <circle cx="73.065160981977" cy="13.696315082758282" r="1.6314491079766542" fill="#9ca3af" opacity="0.2746301000887331"/>
+        <circle cx="35.67930439897536" cy="10.669074440781678" r="3.660270203395181" fill="#9ca3af" opacity="0.20300414632777752"/>
+        <circle cx="65.84261788104887" cy="58.68297113647725" r="3.9950653628372823" fill="#9ca3af" opacity="0.27358337608546235"/>
+        <circle cx="42.004668713336166" cy="68.71807950021245" r="1.1821887957519515" fill="#9ca3af" opacity="0.39321699212370553"/>
+        <circle cx="57.967619683780214" cy="48.85039419700473" r="2.868724511166916" fill="#9ca3af" opacity="0.1946551095798285"/>
+        <circle cx="90.79656510346416" cy="33.37309868614315" r="3.108269950799898" fill="#9ca3af" opacity="0.31172922805066966"/>
+        <circle cx="69.89297520597428" cy="31.880108633238834" r="3.766467235130672" fill="#9ca3af" opacity="0.19883900571376134"/>
+        <circle cx="72.20050099146957" cy="61.39253907179477" r="1.9870652357660143" fill="#9ca3af" opacity="0.3177112021726312"/>
+        <circle cx="25.93549115556154" cy="51.82700748838194" r="1.7387354286716974" fill="#9ca3af" opacity="0.29076582548596164"/>
+        <circle cx="19.31362956268736" cy="97.71832719287119" r="1.6308205107515454" fill="#9ca3af" opacity="0.24365631492101236"/>
+        <circle cx="80.94016911756808" cy="9.86554235639816" r="2.8359027954650444" fill="#9ca3af" opacity="0.236154971520218"/>
+        <circle cx="88.52422284419478" cy="6.283599448024968" r="3.7059104728037746" fill="#9ca3af" opacity="0.3731425091477568"/>
+        <circle cx="18.504454226868162" cy="86.27476816011168" r="2.5929626660763194" fill="#9ca3af" opacity="0.2871113932594829"/>
+        <circle cx="29.847303972452575" cy="94.57888760897544" r="3.8479682096861465" fill="#9ca3af" opacity="0.36593247260256656"/>
+        <circle cx="93.36378569313298" cy="39.40126193650865" r="3.8700206864677855" fill="#9ca3af" opacity="0.15847042675511733"/>
+        <circle cx="96.02612484564852" cy="18.117820208035205" r="3.2547897489574846" fill="#9ca3af" opacity="0.11944766024590299"/>
+        <circle cx="8.57906066938926" cy="74.10651114047063" r="2.8349772237731927" fill="#9ca3af" opacity="0.3236532673207575"/>
+        <circle cx="13.892483798003042" cy="46.687733139755686" r="3.279309959967753" fill="#9ca3af" opacity="0.1014805330346813"/>
+        <circle cx="66.7286444950246" cy="14.283329947063283" r="3.791825667721685" fill="#9ca3af" opacity="0.259497532627356"/>
+        <circle cx="2.0092056602917463" cy="55.30167821211823" r="2.9587397047907773" fill="#9ca3af" opacity="0.11618853165839492"/>
+        <circle cx="87.31080840542909" cy="40.671857925678125" r="1.7895142875233807" fill="#9ca3af" opacity="0.27535351797293184"/>
+        <circle cx="36.37225259270029" cy="82.88115971912495" r="3.1486580051703434" fill="#9ca3af" opacity="0.19061711479159665"/>
+        <circle cx="25.8868899336422" cy="37.959497339672346" r="1.1481241655484316" fill="#9ca3af" opacity="0.25574704093107437"/>
+        <circle cx="21.413466268385363" cy="53.62149753851341" r="1.1798445072007304" fill="#9ca3af" opacity="0.3448522927602512"/>
+        <circle cx="6.418070931662845" cy="52.732804714550205" r="2.020636232850179" fill="#9ca3af" opacity="0.15924509364320905"/>
+        <circle cx="10.227197395606769" cy="74.57377418332402" r="1.4437609330231411" fill="#9ca3af" opacity="0.11779222173075378"/>
+        <circle cx="88.11971896337295" cy="28.652115533238444" r="2.4079458055751752" fill="#9ca3af" opacity="0.29416159086288063"/>
+        <circle cx="68.26584875978945" cy="83.86076529340293" r="2.2408886201146774" fill="#9ca3af" opacity="0.2235852063942407"/>
+        <circle cx="79.05304184933632" cy="51.665951653234146" r="1.8761206933467962" fill="#9ca3af" opacity="0.10146322768368464"/>
+        <circle cx="2.52780083178048" cy="31.201664016301013" r="3.454838727903803" fill="#9ca3af" opacity="0.24975713062749155"/>
+        <circle cx="51.43940658876426" cy="33.323748836635644" r="1.1212805016768037" fill="#9ca3af" opacity="0.28879182311455465"/>
+        <circle cx="26.119004637864485" cy="32.6826654574594" r="1.7794811706321252" fill="#9ca3af" opacity="0.3309760270943732"/>
+        <circle cx="40.14406061504672" cy="81.22019079484294" r="2.6193815959069005" fill="#9ca3af" opacity="0.23956070656362177"/>
+        <circle cx="2.66028623871174" cy="58.543609270403394" r="3.3050261768041884" fill="#9ca3af" opacity="0.23547173034859478"/>
+        <circle cx="2.758093930515315" cy="45.70503242224605" r="3.4686603406204712" fill="#9ca3af" opacity="0.33899467312905457"/>
+        <circle cx="18.4119965175195" cy="0.8258450219906122" r="3.6043680724802734" fill="#9ca3af" opacity="0.1452990047442639"/>
+        <circle cx="75.34877324907266" cy="90.76514309718856" r="3.4957379050724158" fill="#9ca3af" opacity="0.3437623354555249"/>
+        <circle cx="67.65630875336761" cy="36.90287204207585" r="3.17875598365363" fill="#9ca3af" opacity="0.34534778168515506"/>
+        <circle cx="89.90994163868432" cy="6.76906286432536" r="2.623947557887378" fill="#9ca3af" opacity="0.21654040711588007"/>
+        <circle cx="21.34725895145405" cy="33.133995580664546" r="1.144267593833482" fill="#9ca3af" opacity="0.16042911117728295"/>
+        <circle cx="89.84045806040112" cy="15.362905767954905" r="2.369312302823866" fill="#9ca3af" opacity="0.39889277245552546"/>
+      </pattern>
+    </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="400" height="600" fill="url(#noise-app-025-front)" stroke="#6b7280" stroke-width="8"/>
+
+  <!-- Inner border -->
+  <rect x="20" y="20" width="360" height="560" fill="none" stroke="#6b7280" stroke-width="2" stroke-dasharray="10,5"/>
+
+  <!-- Header area (Brand) -->
+  <rect x="40" y="40" width="320" height="80" fill="white" stroke="#6b7280" stroke-width="1"/>
+  <text x="200" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#6b7280">
+    BRAND NAME
+  </text>
+
+  <!-- Application ID -->
+  <text x="200" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#1f2937">
+    APP-025
+  </text>
+
+  <!-- Image type badge -->
+  <rect x="150" y="180" width="100" height="36" rx="4" fill="#6b7280"/>
+  <text x="200" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white">
+    FRONT
+  </text>
+
+  <!-- Category label -->
+  <text x="200" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6b7280">
+    Test Category: OCR Challenge
+  </text>
+
+  <!-- Mock label content area -->
+  <rect x="40" y="290" width="320" height="120" fill="white" stroke="#d1d5db" stroke-width="1"/>
+  <text x="50" y="320" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">Product Information</text>
+  <line x1="50" y1="335" x2="350" y2="335" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="50" y="360" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">ABV: XX.X%</text>
+  <text x="50" y="380" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Volume: XXX mL</text>
+  <text x="50" y="400" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Class: Wine/Beer/Spirits</text>
+
+  <!-- Government Warning area -->
+  <rect x="40" y="430" width="320" height="100" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+  <text x="200" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#92400e">
+    GOVERNMENT WARNING
+  </text>
+  <text x="50" y="475" font-family="Arial, sans-serif" font-size="9" fill="#78350f">
+    (1) According to the Surgeon General,
+  </text>
+  <text x="50" y="490" font-family="Arial, sans-serif" font-size="9" fill="#78350f">
+    women should not drink alcoholic
+  </text>
+  <text x="50" y="505" font-family="Arial, sans-serif" font-size="9" fill="#78350f">
+    beverages during pregnancy...
+  </text>
+  <text x="50" y="520" font-family="Arial, sans-serif" font-size="9" fill="#78350f">
+    (2) Consumption of alcoholic beverages...
+  </text>
+
+  <!-- Footer -->
+  <text x="200" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">
+    PLACEHOLDER IMAGE - Development Only
+  </text>
+</svg>
