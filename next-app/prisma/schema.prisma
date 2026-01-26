@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlserver"
+}
+
+// Note: SQL Server doesn't support Prisma enums.
+// Using String fields with app-level validation instead.
+// Valid ApplicationStatus: PENDING, PROCESSING, READY, NEEDS_ATTENTION, REVIEWED, ERROR
+// Valid ReviewVerdict: APPROVED, REJECTED, OVERRIDE
+// Valid ComparisonStatus: MATCH, NEEDS_REVIEW, MISMATCH
+
+model Application {
+  id                String    @id @default(dbgenerated("newsequentialid()")) @db.UniqueIdentifier
+  colaId            String?   @map("cola_id") @db.NVarChar(20)
+  brandName         String    @map("brand_name") @db.NVarChar(255)
+  classType         String?   @map("class_type") @db.NVarChar(255)
+  alcoholContent    String?   @map("alcohol_content") @db.NVarChar(50)
+  netContents       String?   @map("net_contents") @db.NVarChar(50)
+  governmentWarning String?   @map("government_warning") @db.NVarChar(Max)
+  bottlerName       String?   @map("bottler_name") @db.NVarChar(255)
+  bottlerAddress    String?   @map("bottler_address") @db.NVarChar(Max)
+  countryOfOrigin   String?   @map("country_of_origin") @db.NVarChar(100)
+  createdAt         DateTime  @map("created_at") @default(dbgenerated("sysutcdatetime()")) @db.DateTime2
+  status            String    @map("status") @db.NVarChar(20)
+
+  labelImages LabelImage[]
+  comparisons Comparison[]
+  reviews     Review[]
+  auditEvents AuditEvent[]
+
+  @@map("applications")
+}
+
+model LabelImage {
+  id            String   @id @default(dbgenerated("newsequentialid()")) @db.UniqueIdentifier
+  applicationId String   @map("application_id") @db.UniqueIdentifier
+  blobUrl       String   @map("blob_url") @db.NVarChar(500)
+  imageType     String   @map("image_type") @db.NVarChar(20)
+  uploadedAt    DateTime @map("uploaded_at") @default(dbgenerated("sysutcdatetime()")) @db.DateTime2
+
+  application Application @relation(fields: [applicationId], references: [id])
+  ocrResults  OcrResult[]
+
+  @@map("label_images")
+}
+
+model OcrResult {
+  id               String    @id @default(dbgenerated("newsequentialid()")) @db.UniqueIdentifier
+  imageId          String    @map("image_id") @db.UniqueIdentifier
+  rawMarkdown      String?   @map("raw_markdown") @db.NVarChar(Max)
+  extractedFields  String?   @map("extracted_fields") @db.NVarChar(Max)
+  confidenceScores String?   @map("confidence_scores") @db.NVarChar(Max)
+  modelVersion     String?   @map("model_version") @db.NVarChar(50)
+  processedAt      DateTime? @map("processed_at") @db.DateTime2
+  processingTimeMs Int?      @map("processing_time_ms") @db.Int
+
+  image LabelImage @relation(fields: [imageId], references: [id])
+
+  @@map("ocr_results")
+}
+
+model Comparison {
+  id            String    @id @default(dbgenerated("newsequentialid()")) @db.UniqueIdentifier
+  applicationId String    @map("application_id") @db.UniqueIdentifier
+  mergedFields  String?   @map("merged_fields") @db.NVarChar(Max)
+  fieldSources  String?   @map("field_sources") @db.NVarChar(Max)
+  matchResults  String?   @map("match_results") @db.NVarChar(Max)
+  overallStatus String?   @map("overall_status") @db.NVarChar(20)
+  mismatchCount Int?      @map("mismatch_count") @db.Int
+  computedAt    DateTime? @map("computed_at") @db.DateTime2
+
+  application Application @relation(fields: [applicationId], references: [id])
+
+  @@map("comparisons")
+}
+
+model Review {
+  id                String   @id @default(dbgenerated("newsequentialid()")) @db.UniqueIdentifier
+  applicationId     String   @map("application_id") @db.UniqueIdentifier
+  agentName         String   @map("agent_name") @db.NVarChar(100)
+  verdict           String   @map("verdict") @db.NVarChar(20)
+  reasonCode        String?  @map("reason_code") @db.NVarChar(50)
+  notes             String?  @map("notes") @db.NVarChar(Max)
+  originalAiVerdict String?  @map("original_ai_verdict") @db.NVarChar(20)
+  reviewedAt        DateTime @map("reviewed_at") @default(dbgenerated("sysutcdatetime()")) @db.DateTime2
+
+  application Application @relation(fields: [applicationId], references: [id])
+
+  @@map("reviews")
+}
+
+model AuditEvent {
+  id            String   @id @default(dbgenerated("newsequentialid()")) @db.UniqueIdentifier
+  applicationId String   @map("application_id") @db.UniqueIdentifier
+  agentName     String   @map("agent_name") @db.NVarChar(100)
+  eventType     String   @map("event_type") @db.NVarChar(50)
+  eventData     String?  @map("event_data") @db.NVarChar(Max)
+  createdAt     DateTime @map("created_at") @default(dbgenerated("sysutcdatetime()")) @db.DateTime2
+
+  application Application @relation(fields: [applicationId], references: [id])
+
+  @@map("audit_events")
+}
