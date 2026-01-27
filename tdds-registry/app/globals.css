@@ -1,0 +1,243 @@
+@import "tailwindcss";
+@import "./tw-animate.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* TDDS Treasury Custom Colors - generates utilities like bg-treasury-primary, text-treasury-secondary */
+  --color-treasury-primary-lightest: var(--treasury-primary-lightest);
+  --color-treasury-primary-light: var(--treasury-primary-light);
+  --color-treasury-primary: var(--treasury-primary);
+  --color-treasury-primary-dark: var(--treasury-primary-dark);
+  --color-treasury-primary-darkest: var(--treasury-primary-darkest);
+  /* TDDS Secondary (greens) */
+  --color-treasury-secondary-lightest: var(--treasury-secondary-lightest);
+  --color-treasury-secondary-light: var(--treasury-secondary-light);
+  --color-treasury-secondary: var(--treasury-secondary);
+  --color-treasury-secondary-dark: var(--treasury-secondary-dark);
+  --color-treasury-secondary-darkest: var(--treasury-secondary-darkest);
+  /* TDDS Accent (yellows) */
+  --color-treasury-accent-lightest: var(--treasury-accent-lightest);
+  --color-treasury-accent-light: var(--treasury-accent-light);
+  --color-treasury-accent: var(--treasury-accent);
+  --color-treasury-accent-dark: var(--treasury-accent-dark);
+  /* TDDS Warning (reds) */
+  --color-treasury-warning-lightest: var(--treasury-warning-lightest);
+  --color-treasury-warning: var(--treasury-warning);
+  --color-treasury-warning-dark: var(--treasury-warning-dark);
+  /* TDDS Base Colors - generates utilities like bg-treasury-paper, text-treasury-ink */
+  --color-treasury-paper: var(--treasury-paper);
+  --color-treasury-base-lightest: var(--treasury-base-lightest);
+  --color-treasury-base-light: var(--treasury-base-light);
+  --color-treasury-base: var(--treasury-base);
+  --color-treasury-base-dark: var(--treasury-base-dark);
+  --color-treasury-base-darkest: var(--treasury-base-darkest);
+  --color-treasury-ink: var(--treasury-ink);
+}
+
+:root {
+  /* TDDS Treasury Primary Colors (from Figma fill-primary) */
+  --treasury-primary-lightest: #E0EEFD;
+  --treasury-primary-light: #2D8FE8;
+  --treasury-primary: #0053A2;
+  --treasury-primary-dark: #083C6F;
+  --treasury-primary-darkest: #1C2936;
+
+  /* TDDS Secondary Colors - greens (from Figma fill-secondary) */
+  --treasury-secondary-lightest: #E0EDE3;
+  --treasury-secondary-light: #31B722;
+  --treasury-secondary: #2E8540;
+  --treasury-secondary-dark: #175624;
+  --treasury-secondary-darkest: #092D10;
+
+  /* TDDS Accent Colors - yellows (from Figma fill-accent) */
+  --treasury-accent-lightest: #F9F6DA;
+  --treasury-accent-light: #F5EA14;
+  --treasury-accent: #D8BE0E;
+  --treasury-accent-dark: #BEA70E;
+
+  /* TDDS Warning Colors - reds (from Figma fill-warning) */
+  --treasury-warning-lightest: #F9D9DD;
+  --treasury-warning: #D0021B;
+  --treasury-warning-dark: #930012;
+
+  /* TDDS Base Colors (from Figma fill-base) */
+  --treasury-paper: #FFFFFF;
+  --treasury-base-lightest: #F5F5F5;
+  --treasury-base-light: #DADADA;
+  --treasury-base: #AFAFAF;
+  --treasury-base-dark: #828282;
+  --treasury-base-darkest: #3D3D3D;
+  --treasury-ink: #000000;
+
+  /* shadcn semantic colors - mapped to TDDS palette */
+  --background: var(--treasury-paper);
+  --foreground: var(--treasury-base-darkest);
+  --card: var(--treasury-paper);
+  --card-foreground: var(--treasury-base-darkest);
+  --popover: var(--treasury-paper);
+  --popover-foreground: var(--treasury-base-darkest);
+  --primary: var(--treasury-primary);
+  --primary-foreground: var(--treasury-paper);
+  --secondary: var(--treasury-base-lightest);
+  --secondary-foreground: var(--treasury-base-darkest);
+  --muted: var(--treasury-base-lightest);
+  --muted-foreground: var(--treasury-base-dark);
+  --accent: var(--treasury-primary-light);
+  --accent-foreground: var(--treasury-paper);
+  --destructive: var(--treasury-warning);
+  --border: var(--treasury-base-light);
+  --input: var(--treasury-base-light);
+  --ring: var(--treasury-primary);
+  --chart-1: var(--treasury-primary-light);
+  --chart-2: var(--treasury-primary);
+  --chart-3: var(--treasury-secondary);
+  --chart-4: var(--treasury-accent-light);
+  --chart-5: var(--treasury-warning);
+  --radius: 0.625rem;
+  --sidebar: var(--treasury-base-lightest);
+  --sidebar-foreground: var(--treasury-base-darkest);
+  --sidebar-primary: var(--treasury-primary);
+  --sidebar-primary-foreground: var(--treasury-paper);
+  --sidebar-accent: var(--treasury-base-lightest);
+  --sidebar-accent-foreground: var(--treasury-base-darkest);
+  --sidebar-border: var(--treasury-base-light);
+  --sidebar-ring: var(--treasury-primary);
+}
+
+.dark {
+  /* TDDS Treasury Primary Colors - lightened for dark mode readability */
+  --treasury-primary-lightest: #1C2936;          /* Inverted: darkest becomes lightest */
+  --treasury-primary-light: #5BA3E8;             /* Lightened for dark bg */
+  --treasury-primary: #2D8FE8;                   /* Use light as primary in dark mode */
+  --treasury-primary-dark: #0053A2;
+  --treasury-primary-darkest: #E0EEFD;           /* Inverted: lightest becomes darkest */
+
+  /* TDDS Secondary Colors - greens (lightened for dark mode) */
+  --treasury-secondary-lightest: #092D10;
+  --treasury-secondary-light: #4CAF50;
+  --treasury-secondary: #4CAF50;
+  --treasury-secondary-dark: #2E8540;
+  --treasury-secondary-darkest: #E0EDE3;
+
+  /* TDDS Accent Colors - yellows (adjusted for dark mode) */
+  --treasury-accent-lightest: #3D3520;
+  --treasury-accent-light: #FFD54F;
+  --treasury-accent: #FFD54F;
+  --treasury-accent-dark: #D8BE0E;
+
+  /* TDDS Warning Colors - reds (lightened for dark mode) */
+  --treasury-warning-lightest: #3D1A1D;
+  --treasury-warning: #EF5350;
+  --treasury-warning-dark: #D0021B;
+
+  /* TDDS Base Colors - inverted for dark mode */
+  --treasury-paper: #1C2936;
+  --treasury-base-lightest: #2A2A2A;
+  --treasury-base-light: #3D3D3D;
+  --treasury-base: #828282;
+  --treasury-base-dark: #BFBFBF;
+  --treasury-base-darkest: #F5F5F5;
+  --treasury-ink: #FFFFFF;
+
+  /* shadcn semantic colors - mapped to TDDS palette for dark mode */
+  --background: var(--treasury-paper);
+  --foreground: var(--treasury-base-darkest);
+  --card: #243240;
+  --card-foreground: var(--treasury-base-darkest);
+  --popover: #243240;
+  --popover-foreground: var(--treasury-base-darkest);
+  --primary: var(--treasury-primary);
+  --primary-foreground: var(--treasury-paper);
+  --secondary: var(--treasury-base-light);
+  --secondary-foreground: var(--treasury-base-darkest);
+  --muted: var(--treasury-base-light);
+  --muted-foreground: var(--treasury-base);
+  --accent: var(--treasury-primary-dark);
+  --accent-foreground: var(--treasury-base-darkest);
+  --destructive: var(--treasury-warning);
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: var(--treasury-primary);
+  --chart-1: var(--treasury-primary-light);
+  --chart-2: var(--treasury-primary);
+  --chart-3: var(--treasury-secondary);
+  --chart-4: var(--treasury-accent-light);
+  --chart-5: var(--treasury-warning);
+  --sidebar: #243240;
+  --sidebar-foreground: var(--treasury-base-darkest);
+  --sidebar-primary: var(--treasury-primary);
+  --sidebar-primary-foreground: var(--treasury-paper);
+  --sidebar-accent: #2E3D4D;
+  --sidebar-accent-foreground: var(--treasury-base-darkest);
+  --sidebar-border: rgba(255, 255, 255, 0.12);
+  --sidebar-ring: var(--treasury-primary);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1, h2 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* Loading shimmer animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s infinite;
+}

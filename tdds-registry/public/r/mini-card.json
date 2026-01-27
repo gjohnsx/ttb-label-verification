@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mini-card",
+  "title": "Mini Card",
+  "description": "Compact card with Treasury seal watermark and color variants",
+  "dependencies": [
+    "class-variance-authority",
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/mini-card.tsx",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"@/lib/utils\"\n\nconst miniCardVariants = cva(\n  \"relative overflow-hidden flex flex-col justify-end\",\n  {\n    variants: {\n      variant: {\n        primary: \"bg-treasury-primary\",\n        \"primary-dark\": \"bg-treasury-primary-dark\",\n        secondary: \"bg-treasury-secondary\",\n        \"secondary-dark\": \"bg-treasury-secondary-dark\",\n        \"base-dark\": \"bg-treasury-base-dark\",\n        \"base-darkest\": \"bg-treasury-base-darkest\",\n      },\n      size: {\n        default: \"p-4 min-h-[120px]\",\n        sm: \"p-3 min-h-[80px]\",\n      },\n    },\n    defaultVariants: {\n      variant: \"primary\",\n      size: \"default\",\n    },\n  }\n)\n\nexport interface MiniCardProps\n  extends React.HTMLAttributes<HTMLDivElement>,\n    VariantProps<typeof miniCardVariants> {\n  icon?: React.ReactNode\n  title: string\n  href?: string\n}\n\nfunction MiniCard({\n  className,\n  variant,\n  size,\n  icon,\n  title,\n  href,\n  ...props\n}: MiniCardProps) {\n  const content = (\n    <>\n      {/* Treasury Seal Background */}\n      <div\n        className=\"absolute inset-0 opacity-20 pointer-events-none\"\n        style={{\n          backgroundImage: \"url('/images/treasury-seal.png')\",\n          backgroundPosition: \"bottom right\",\n          backgroundRepeat: \"no-repeat\",\n          backgroundSize: \"auto 120%\",\n        }}\n        aria-hidden=\"true\"\n      />\n\n      {/* Content */}\n      <div className=\"relative z-10 flex flex-col gap-2\">\n        {icon && (\n          <div className=\"text-treasury-paper [&_svg]:size-8 [&_svg]:stroke-[1.5]\">\n            {icon}\n          </div>\n        )}\n        <h3 className=\"text-treasury-paper text-lg font-semibold leading-tight\">\n          {title}\n        </h3>\n      </div>\n    </>\n  )\n\n  const cardClasses = cn(miniCardVariants({ variant, size, className }))\n\n  if (href) {\n    return (\n      <a\n        href={href}\n        className={cn(\n          cardClasses,\n          \"transition-all hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-treasury-paper focus:ring-offset-2\"\n        )}\n        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}\n      >\n        {content}\n      </a>\n    )\n  }\n\n  return (\n    <div className={cardClasses} {...props}>\n      {content}\n    </div>\n  )\n}\n\nexport { MiniCard, miniCardVariants }\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:ui"
+}

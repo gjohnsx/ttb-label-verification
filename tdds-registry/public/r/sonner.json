@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sonner",
+  "title": "Sonner",
+  "description": "Toast notification component",
+  "dependencies": [
+    "sonner",
+    "next-themes"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/sonner.tsx",
+      "content": "\"use client\"\n\nimport { useTheme } from \"next-themes\"\nimport { Toaster as Sonner, type ToasterProps } from \"sonner\"\nimport { Loader2Icon } from \"lucide-react\"\n\n// USWDS-style filled circle icons (black background, white symbol)\nconst InfoIcon = () => (\n  <svg className=\"size-6 shrink-0\" viewBox=\"0 0 20 20\" fill=\"none\">\n    <circle cx=\"10\" cy=\"10\" r=\"10\" fill=\"var(--treasury-ink)\" />\n    <text x=\"10\" y=\"14.5\" textAnchor=\"middle\" fill=\"white\" fontSize=\"12\" fontWeight=\"bold\" fontFamily=\"system-ui\">i</text>\n  </svg>\n)\n\nconst WarningIcon = () => (\n  <svg className=\"size-6 shrink-0\" viewBox=\"0 0 20 20\" fill=\"none\">\n    <circle cx=\"10\" cy=\"10\" r=\"10\" fill=\"var(--treasury-ink)\" />\n    <text x=\"10\" y=\"14.5\" textAnchor=\"middle\" fill=\"white\" fontSize=\"13\" fontWeight=\"bold\" fontFamily=\"system-ui\">!</text>\n  </svg>\n)\n\nconst ErrorIcon = () => (\n  <svg className=\"size-6 shrink-0\" viewBox=\"0 0 20 20\" fill=\"none\">\n    <circle cx=\"10\" cy=\"10\" r=\"10\" fill=\"var(--treasury-ink)\" />\n    <path d=\"M7 7L13 13M13 7L7 13\" stroke=\"white\" strokeWidth=\"2\" strokeLinecap=\"round\" />\n  </svg>\n)\n\nconst SuccessIcon = () => (\n  <svg className=\"size-6 shrink-0\" viewBox=\"0 0 20 20\" fill=\"none\">\n    <circle cx=\"10\" cy=\"10\" r=\"10\" fill=\"var(--treasury-ink)\" />\n    <path d=\"M6 10L9 13L14 7\" stroke=\"white\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n  </svg>\n)\n\nconst Toaster = ({ ...props }: ToasterProps) => {\n  const { theme = \"system\" } = useTheme()\n\n  return (\n    <Sonner\n      theme={theme as ToasterProps[\"theme\"]}\n      className=\"toaster group\"\n      icons={{\n        success: <SuccessIcon />,\n        info: <InfoIcon />,\n        warning: <WarningIcon />,\n        error: <ErrorIcon />,\n        loading: <Loader2Icon className=\"size-5 animate-spin text-treasury-primary\" />,\n      }}\n      style={\n        {\n          \"--normal-bg\": \"var(--popover)\",\n          \"--normal-text\": \"var(--popover-foreground)\",\n          \"--normal-border\": \"var(--border)\",\n        } as React.CSSProperties\n      }\n      toastOptions={{\n        unstyled: true,\n        classNames: {\n          toast: \"flex items-center gap-3 w-full min-w-[360px] px-4 py-3 text-treasury-ink border-l-8 border-treasury-base-light bg-treasury-base-lightest shadow-sm\",\n          title: \"text-base font-normal\",\n          description: \"text-base text-treasury-ink\",\n          actionButton: \"bg-treasury-primary text-white px-3 py-1.5 text-sm font-medium hover:bg-treasury-primary-dark\",\n          cancelButton: \"bg-treasury-base-light text-treasury-ink px-3 py-1.5 text-sm font-medium hover:bg-treasury-base\",\n          closeButton: \"text-treasury-base-dark hover:text-treasury-ink\",\n          success: \"!border-l-treasury-secondary !bg-treasury-secondary-lightest\",\n          error: \"!border-l-treasury-warning !bg-treasury-warning-lightest\",\n          warning: \"!border-l-treasury-accent !bg-treasury-accent-lightest\",\n          info: \"!border-l-treasury-primary-light !bg-treasury-primary-lightest\",\n        },\n      }}\n      {...props}\n    />\n  )\n}\n\nexport { Toaster }\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:ui"
+}
