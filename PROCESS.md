@@ -120,4 +120,26 @@ Used Claude Code's plan mode and Tasks primitive to systematically build out SPE
 
 ---
 
+### Day 5 - TDDS Registry (Parallel Work)
+**Date:** 2026-01-27
+
+#### Async Agent Workflow
+Before bed on Day 4, kicked off a remote Claude Code session (claude.ai/code) to build out the TDDS shadcn registry as a background task. This was a stretch goal from Day 2 research — converting Treasury's design system into a reusable component registry.
+
+Woke up to a working implementation. The remote session had created its work in a git worktree for isolation. Reviewed the output, iterated with Claude Code locally to add a few features, then merged to main.
+
+#### TDDS Registry
+- **35+ shadcn components** with Treasury/USWDS styling
+- **Registry endpoint** deployable to Vercel (`/r/{name}.json`)
+- **Dark mode** support, Tailwind v4, full TypeScript
+- Components installable via `npx shadcn@latest add @tdds/button`
+
+#### Why Build This Now?
+The main app features (F1-F3, F6) were complete. Rather than context-switch away from polishing the prototype, I delegated the registry work to an async agent overnight. This demonstrates:
+- Effective use of remote AI agents for parallel workstreams
+- Understanding of git worktrees for isolated feature development
+- Prioritization — core prototype first, reusable tooling second
+
+---
+
 <!-- New entries will be added above this line -->
