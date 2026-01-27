@@ -1,0 +1,73 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tdds-style",
+  "title": "TDDS Style",
+  "description": "Treasury Department Design System CSS variables and theme configuration",
+  "dependencies": [
+    "tailwind-merge",
+    "clsx"
+  ],
+  "files": [
+    {
+      "path": "registry/styles/tdds.css",
+      "content": "/* Treasury Department Design System (TDDS) CSS Variables */\n/* Install this style to get all TDDS color tokens */\n\n@custom-variant dark (&:is(.dark *));\n\n@theme inline {\n  /* TDDS Treasury Custom Colors - generates utilities like bg-treasury-primary, text-treasury-secondary */\n  --color-treasury-primary-lightest: var(--treasury-primary-lightest);\n  --color-treasury-primary-light: var(--treasury-primary-light);\n  --color-treasury-primary: var(--treasury-primary);\n  --color-treasury-primary-dark: var(--treasury-primary-dark);\n  --color-treasury-primary-darkest: var(--treasury-primary-darkest);\n  /* TDDS Secondary (greens) */\n  --color-treasury-secondary-lightest: var(--treasury-secondary-lightest);\n  --color-treasury-secondary-light: var(--treasury-secondary-light);\n  --color-treasury-secondary: var(--treasury-secondary);\n  --color-treasury-secondary-dark: var(--treasury-secondary-dark);\n  --color-treasury-secondary-darkest: var(--treasury-secondary-darkest);\n  /* TDDS Accent (yellows) */\n  --color-treasury-accent-lightest: var(--treasury-accent-lightest);\n  --color-treasury-accent-light: var(--treasury-accent-light);\n  --color-treasury-accent: var(--treasury-accent);\n  --color-treasury-accent-dark: var(--treasury-accent-dark);\n  /* TDDS Warning (reds) */\n  --color-treasury-warning-lightest: var(--treasury-warning-lightest);\n  --color-treasury-warning: var(--treasury-warning);\n  --color-treasury-warning-dark: var(--treasury-warning-dark);\n  /* TDDS Base Colors - generates utilities like bg-treasury-paper, text-treasury-ink */\n  --color-treasury-paper: var(--treasury-paper);\n  --color-treasury-base-lightest: var(--treasury-base-lightest);\n  --color-treasury-base-light: var(--treasury-base-light);\n  --color-treasury-base: var(--treasury-base);\n  --color-treasury-base-dark: var(--treasury-base-dark);\n  --color-treasury-base-darkest: var(--treasury-base-darkest);\n  --color-treasury-ink: var(--treasury-ink);\n}\n\n:root {\n  /* TDDS Treasury Primary Colors (blues) */\n  --treasury-primary-lightest: #E0EEFD;\n  --treasury-primary-light: #2D8FE8;\n  --treasury-primary: #0053A2;\n  --treasury-primary-dark: #083C6F;\n  --treasury-primary-darkest: #1C2936;\n\n  /* TDDS Secondary Colors (greens) */\n  --treasury-secondary-lightest: #E0EDE3;\n  --treasury-secondary-light: #31B722;\n  --treasury-secondary: #2E8540;\n  --treasury-secondary-dark: #175624;\n  --treasury-secondary-darkest: #092D10;\n\n  /* TDDS Accent Colors (yellows/gold) */\n  --treasury-accent-lightest: #F9F6DA;\n  --treasury-accent-light: #F5EA14;\n  --treasury-accent: #D8BE0E;\n  --treasury-accent-dark: #BEA70E;\n\n  /* TDDS Warning Colors (reds) */\n  --treasury-warning-lightest: #F9D9DD;\n  --treasury-warning: #D0021B;\n  --treasury-warning-dark: #930012;\n\n  /* TDDS Base Colors (grays) */\n  --treasury-paper: #FFFFFF;\n  --treasury-base-lightest: #F5F5F5;\n  --treasury-base-light: #DADADA;\n  --treasury-base: #AFAFAF;\n  --treasury-base-dark: #828282;\n  --treasury-base-darkest: #3D3D3D;\n  --treasury-ink: #000000;\n}\n\n.dark {\n  /* TDDS Treasury Primary Colors - lightened for dark mode */\n  --treasury-primary-lightest: #1C2936;\n  --treasury-primary-light: #5BA3E8;\n  --treasury-primary: #2D8FE8;\n  --treasury-primary-dark: #0053A2;\n  --treasury-primary-darkest: #E0EEFD;\n\n  /* TDDS Secondary Colors - greens for dark mode */\n  --treasury-secondary-lightest: #092D10;\n  --treasury-secondary-light: #4CAF50;\n  --treasury-secondary: #4CAF50;\n  --treasury-secondary-dark: #2E8540;\n  --treasury-secondary-darkest: #E0EDE3;\n\n  /* TDDS Accent Colors - yellows for dark mode */\n  --treasury-accent-lightest: #3D3520;\n  --treasury-accent-light: #FFD54F;\n  --treasury-accent: #FFD54F;\n  --treasury-accent-dark: #D8BE0E;\n\n  /* TDDS Warning Colors - reds for dark mode */\n  --treasury-warning-lightest: #3D1A1D;\n  --treasury-warning: #EF5350;\n  --treasury-warning-dark: #D0021B;\n\n  /* TDDS Base Colors - inverted for dark mode */\n  --treasury-paper: #1C2936;\n  --treasury-base-lightest: #2A2A2A;\n  --treasury-base-light: #3D3D3D;\n  --treasury-base: #828282;\n  --treasury-base-dark: #BFBFBF;\n  --treasury-base-darkest: #F5F5F5;\n  --treasury-ink: #FFFFFF;\n}\n",
+      "type": "registry:style",
+      "target": "app/globals.css"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "treasury-primary-lightest": "#E0EEFD",
+      "treasury-primary-light": "#2D8FE8",
+      "treasury-primary": "#0053A2",
+      "treasury-primary-dark": "#083C6F",
+      "treasury-primary-darkest": "#1C2936",
+      "treasury-secondary-lightest": "#E0EDE3",
+      "treasury-secondary-light": "#31B722",
+      "treasury-secondary": "#2E8540",
+      "treasury-secondary-dark": "#175624",
+      "treasury-secondary-darkest": "#092D10",
+      "treasury-accent-lightest": "#F9F6DA",
+      "treasury-accent-light": "#F5EA14",
+      "treasury-accent": "#D8BE0E",
+      "treasury-accent-dark": "#BEA70E",
+      "treasury-warning-lightest": "#F9D9DD",
+      "treasury-warning": "#D0021B",
+      "treasury-warning-dark": "#930012",
+      "treasury-paper": "#FFFFFF",
+      "treasury-base-lightest": "#F5F5F5",
+      "treasury-base-light": "#DADADA",
+      "treasury-base": "#AFAFAF",
+      "treasury-base-dark": "#828282",
+      "treasury-base-darkest": "#3D3D3D",
+      "treasury-ink": "#000000"
+    },
+    "dark": {
+      "treasury-primary-lightest": "#1C2936",
+      "treasury-primary-light": "#5BA3E8",
+      "treasury-primary": "#2D8FE8",
+      "treasury-primary-dark": "#0053A2",
+      "treasury-primary-darkest": "#E0EEFD",
+      "treasury-secondary-lightest": "#092D10",
+      "treasury-secondary-light": "#4CAF50",
+      "treasury-secondary": "#4CAF50",
+      "treasury-secondary-dark": "#2E8540",
+      "treasury-secondary-darkest": "#E0EDE3",
+      "treasury-accent-lightest": "#3D3520",
+      "treasury-accent-light": "#FFD54F",
+      "treasury-accent": "#FFD54F",
+      "treasury-accent-dark": "#D8BE0E",
+      "treasury-warning-lightest": "#3D1A1D",
+      "treasury-warning": "#EF5350",
+      "treasury-warning-dark": "#D0021B",
+      "treasury-paper": "#1C2936",
+      "treasury-base-lightest": "#2A2A2A",
+      "treasury-base-light": "#3D3D3D",
+      "treasury-base": "#828282",
+      "treasury-base-dark": "#BFBFBF",
+      "treasury-base-darkest": "#F5F5F5",
+      "treasury-ink": "#FFFFFF"
+    }
+  },
+  "type": "registry:style"
+}

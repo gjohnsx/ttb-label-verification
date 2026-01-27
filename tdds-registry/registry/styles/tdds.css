@@ -1,0 +1,108 @@
+/* Treasury Department Design System (TDDS) CSS Variables */
+/* Install this style to get all TDDS color tokens */
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* TDDS Treasury Custom Colors - generates utilities like bg-treasury-primary, text-treasury-secondary */
+  --color-treasury-primary-lightest: var(--treasury-primary-lightest);
+  --color-treasury-primary-light: var(--treasury-primary-light);
+  --color-treasury-primary: var(--treasury-primary);
+  --color-treasury-primary-dark: var(--treasury-primary-dark);
+  --color-treasury-primary-darkest: var(--treasury-primary-darkest);
+  /* TDDS Secondary (greens) */
+  --color-treasury-secondary-lightest: var(--treasury-secondary-lightest);
+  --color-treasury-secondary-light: var(--treasury-secondary-light);
+  --color-treasury-secondary: var(--treasury-secondary);
+  --color-treasury-secondary-dark: var(--treasury-secondary-dark);
+  --color-treasury-secondary-darkest: var(--treasury-secondary-darkest);
+  /* TDDS Accent (yellows) */
+  --color-treasury-accent-lightest: var(--treasury-accent-lightest);
+  --color-treasury-accent-light: var(--treasury-accent-light);
+  --color-treasury-accent: var(--treasury-accent);
+  --color-treasury-accent-dark: var(--treasury-accent-dark);
+  /* TDDS Warning (reds) */
+  --color-treasury-warning-lightest: var(--treasury-warning-lightest);
+  --color-treasury-warning: var(--treasury-warning);
+  --color-treasury-warning-dark: var(--treasury-warning-dark);
+  /* TDDS Base Colors - generates utilities like bg-treasury-paper, text-treasury-ink */
+  --color-treasury-paper: var(--treasury-paper);
+  --color-treasury-base-lightest: var(--treasury-base-lightest);
+  --color-treasury-base-light: var(--treasury-base-light);
+  --color-treasury-base: var(--treasury-base);
+  --color-treasury-base-dark: var(--treasury-base-dark);
+  --color-treasury-base-darkest: var(--treasury-base-darkest);
+  --color-treasury-ink: var(--treasury-ink);
+}
+
+:root {
+  /* TDDS Treasury Primary Colors (blues) */
+  --treasury-primary-lightest: #E0EEFD;
+  --treasury-primary-light: #2D8FE8;
+  --treasury-primary: #0053A2;
+  --treasury-primary-dark: #083C6F;
+  --treasury-primary-darkest: #1C2936;
+
+  /* TDDS Secondary Colors (greens) */
+  --treasury-secondary-lightest: #E0EDE3;
+  --treasury-secondary-light: #31B722;
+  --treasury-secondary: #2E8540;
+  --treasury-secondary-dark: #175624;
+  --treasury-secondary-darkest: #092D10;
+
+  /* TDDS Accent Colors (yellows/gold) */
+  --treasury-accent-lightest: #F9F6DA;
+  --treasury-accent-light: #F5EA14;
+  --treasury-accent: #D8BE0E;
+  --treasury-accent-dark: #BEA70E;
+
+  /* TDDS Warning Colors (reds) */
+  --treasury-warning-lightest: #F9D9DD;
+  --treasury-warning: #D0021B;
+  --treasury-warning-dark: #930012;
+
+  /* TDDS Base Colors (grays) */
+  --treasury-paper: #FFFFFF;
+  --treasury-base-lightest: #F5F5F5;
+  --treasury-base-light: #DADADA;
+  --treasury-base: #AFAFAF;
+  --treasury-base-dark: #828282;
+  --treasury-base-darkest: #3D3D3D;
+  --treasury-ink: #000000;
+}
+
+.dark {
+  /* TDDS Treasury Primary Colors - lightened for dark mode */
+  --treasury-primary-lightest: #1C2936;
+  --treasury-primary-light: #5BA3E8;
+  --treasury-primary: #2D8FE8;
+  --treasury-primary-dark: #0053A2;
+  --treasury-primary-darkest: #E0EEFD;
+
+  /* TDDS Secondary Colors - greens for dark mode */
+  --treasury-secondary-lightest: #092D10;
+  --treasury-secondary-light: #4CAF50;
+  --treasury-secondary: #4CAF50;
+  --treasury-secondary-dark: #2E8540;
+  --treasury-secondary-darkest: #E0EDE3;
+
+  /* TDDS Accent Colors - yellows for dark mode */
+  --treasury-accent-lightest: #3D3520;
+  --treasury-accent-light: #FFD54F;
+  --treasury-accent: #FFD54F;
+  --treasury-accent-dark: #D8BE0E;
+
+  /* TDDS Warning Colors - reds for dark mode */
+  --treasury-warning-lightest: #3D1A1D;
+  --treasury-warning: #EF5350;
+  --treasury-warning-dark: #D0021B;
+
+  /* TDDS Base Colors - inverted for dark mode */
+  --treasury-paper: #1C2936;
+  --treasury-base-lightest: #2A2A2A;
+  --treasury-base-light: #3D3D3D;
+  --treasury-base: #828282;
+  --treasury-base-dark: #BFBFBF;
+  --treasury-base-darkest: #F5F5F5;
+  --treasury-ink: #FFFFFF;
+}

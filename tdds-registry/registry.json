@@ -1,0 +1,699 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "tdds",
+  "homepage": "https://tdds-registry.vercel.app",
+  "items": [
+    {
+      "name": "tdds-style",
+      "type": "registry:style",
+      "title": "TDDS Style",
+      "description": "Treasury Department Design System CSS variables and theme configuration",
+      "dependencies": ["tailwind-merge", "clsx"],
+      "files": [
+        {
+          "path": "registry/styles/tdds.css",
+          "type": "registry:style",
+          "target": "app/globals.css"
+        }
+      ],
+      "cssVars": {
+        "light": {
+          "treasury-primary-lightest": "#E0EEFD",
+          "treasury-primary-light": "#2D8FE8",
+          "treasury-primary": "#0053A2",
+          "treasury-primary-dark": "#083C6F",
+          "treasury-primary-darkest": "#1C2936",
+          "treasury-secondary-lightest": "#E0EDE3",
+          "treasury-secondary-light": "#31B722",
+          "treasury-secondary": "#2E8540",
+          "treasury-secondary-dark": "#175624",
+          "treasury-secondary-darkest": "#092D10",
+          "treasury-accent-lightest": "#F9F6DA",
+          "treasury-accent-light": "#F5EA14",
+          "treasury-accent": "#D8BE0E",
+          "treasury-accent-dark": "#BEA70E",
+          "treasury-warning-lightest": "#F9D9DD",
+          "treasury-warning": "#D0021B",
+          "treasury-warning-dark": "#930012",
+          "treasury-paper": "#FFFFFF",
+          "treasury-base-lightest": "#F5F5F5",
+          "treasury-base-light": "#DADADA",
+          "treasury-base": "#AFAFAF",
+          "treasury-base-dark": "#828282",
+          "treasury-base-darkest": "#3D3D3D",
+          "treasury-ink": "#000000"
+        },
+        "dark": {
+          "treasury-primary-lightest": "#1C2936",
+          "treasury-primary-light": "#5BA3E8",
+          "treasury-primary": "#2D8FE8",
+          "treasury-primary-dark": "#0053A2",
+          "treasury-primary-darkest": "#E0EEFD",
+          "treasury-secondary-lightest": "#092D10",
+          "treasury-secondary-light": "#4CAF50",
+          "treasury-secondary": "#4CAF50",
+          "treasury-secondary-dark": "#2E8540",
+          "treasury-secondary-darkest": "#E0EDE3",
+          "treasury-accent-lightest": "#3D3520",
+          "treasury-accent-light": "#FFD54F",
+          "treasury-accent": "#FFD54F",
+          "treasury-accent-dark": "#D8BE0E",
+          "treasury-warning-lightest": "#3D1A1D",
+          "treasury-warning": "#EF5350",
+          "treasury-warning-dark": "#D0021B",
+          "treasury-paper": "#1C2936",
+          "treasury-base-lightest": "#2A2A2A",
+          "treasury-base-light": "#3D3D3D",
+          "treasury-base": "#828282",
+          "treasury-base-dark": "#BFBFBF",
+          "treasury-base-darkest": "#F5F5F5",
+          "treasury-ink": "#FFFFFF"
+        }
+      }
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "Utility functions for className merging",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [
+        {
+          "path": "registry/lib/utils.ts",
+          "type": "registry:lib",
+          "target": "lib/utils.ts"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "TDDS-styled button with Treasury color variants (primary, secondary, warning, outline)",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "TDDS-styled alert with info, warning, error, and success variants",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/alert.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Treasury-themed status badges",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/badge.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Card component with Treasury border styling",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "TDDS-styled form input",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/input.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tabs component with TDDS variant featuring top border accents",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/tabs.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "gov-banner",
+      "type": "registry:ui",
+      "title": "Government Banner",
+      "description": "Official U.S. government website banner component",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["popover"],
+      "files": [
+        {
+          "path": "registry/ui/gov-banner.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "mini-card",
+      "type": "registry:ui",
+      "title": "Mini Card",
+      "description": "Compact card with Treasury seal watermark and color variants",
+      "dependencies": ["class-variance-authority", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/mini-card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Composed form field system with label, description, and error support",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils", "label", "separator"],
+      "files": [
+        {
+          "path": "registry/ui/field.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Grouped button layout with horizontal and vertical orientations",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils", "separator"],
+      "files": [
+        {
+          "path": "registry/ui/button-group.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "TDDS-styled navigation breadcrumb",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/breadcrumb.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Collapsible accordion sections",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/accordion.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Confirmation dialog with Treasury styling",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        {
+          "path": "registry/ui/alert-dialog.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "User avatar component",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/avatar.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Treasury-styled checkbox",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Searchable select dropdown",
+      "dependencies": ["cmdk", "lucide-react", "radix-ui"],
+      "registryDependencies": ["utils", "button", "input-group"],
+      "files": [
+        {
+          "path": "registry/ui/combobox.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command palette component",
+      "dependencies": ["cmdk", "lucide-react"],
+      "registryDependencies": ["utils", "dialog", "input-group"],
+      "files": [
+        {
+          "path": "registry/ui/command.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Modal dialog component",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        {
+          "path": "registry/ui/dialog.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Context menu dropdown",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/dropdown-menu.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Hover-triggered card component",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/hover-card.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Input with addons (prefix, suffix, buttons)",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils", "button", "input", "textarea"],
+      "files": [
+        {
+          "path": "registry/ui/input-group.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Keyboard shortcut display component",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/kbd.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Form label component",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/label.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Page navigation component",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        {
+          "path": "registry/ui/pagination.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Floating popover content",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/popover.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Progress indicator bar",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/progress.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Treasury-styled radio button group",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/radio-group.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Styled select dropdown",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visual divider component",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/separator.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Slide-out panel component",
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        {
+          "path": "registry/ui/sheet.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Application sidebar with collapsible sections",
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+      "registryDependencies": ["utils", "button", "input", "separator", "sheet", "skeleton", "tooltip", "use-mobile"],
+      "files": [
+        {
+          "path": "registry/ui/sidebar.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Loading placeholder component",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/skeleton.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "Toast notification component",
+      "dependencies": ["sonner", "next-themes"],
+      "files": [
+        {
+          "path": "registry/ui/sonner.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Data table component",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/table.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multi-line text input",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/textarea.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Info tooltip component",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/tooltip.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "title": "Use Mobile",
+      "description": "Hook for detecting mobile viewport",
+      "files": [
+        {
+          "path": "registry/hooks/use-mobile.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-mobile.ts"
+        }
+      ]
+    },
+    {
+      "name": "data-table-advanced",
+      "type": "registry:block",
+      "title": "Advanced Data Table",
+      "description": "Full-featured data table with search, faceted filters, sorting, pagination, and row selection",
+      "dependencies": ["@tanstack/react-table"],
+      "registryDependencies": [
+        "table",
+        "button",
+        "input",
+        "badge",
+        "checkbox",
+        "command",
+        "popover",
+        "dropdown-menu",
+        "select",
+        "separator"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/data-table-advanced/page.tsx",
+          "type": "registry:page",
+          "target": "app/data-table-demo/page.tsx"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/components/data-table.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/components/data-table-column-header.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/components/data-table-faceted-filter.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/components/data-table-pagination.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/components/data-table-toolbar.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/components/data-table-view-options.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/components/data-table-selection-toolbar.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/hooks/use-debounce.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "registry/blocks/data-table-advanced/lib/demo-data.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "public-header",
+      "type": "registry:block",
+      "title": "Public Header",
+      "description": "Public-facing header with government banner, navigation bar, and command palette search (Cmd+K)",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["gov-banner", "command", "popover"],
+      "files": [
+        {
+          "path": "registry/blocks/public-header/page.tsx",
+          "type": "registry:page",
+          "target": "app/public-header-demo/page.tsx"
+        },
+        {
+          "path": "registry/blocks/public-header/components/public-header.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "app-header",
+      "type": "registry:block",
+      "title": "App Header",
+      "description": "Authenticated application header with mobile menu, user dropdown, notifications, and command palette search",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button", "sheet", "dropdown-menu", "command", "mini-card"],
+      "files": [
+        {
+          "path": "registry/blocks/app-header/page.tsx",
+          "type": "registry:page",
+          "target": "app/app-header-demo/page.tsx"
+        },
+        {
+          "path": "registry/blocks/app-header/components/app-header.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}
