@@ -72,8 +72,8 @@ function ValueCell({
 }) {
   if (!value) {
     return (
-      <span className="text-treasury-base italic whitespace-nowrap">
-        {emptyLabel ?? "Not provided"}
+      <span className="text-treasury-base-lighter select-none" title={emptyLabel ?? "Not provided"}>
+        &mdash;
       </span>
     );
   }
@@ -191,7 +191,7 @@ function ComparisonRow({
       <TableCell>
         <div className="flex items-center gap-2">
           <FieldStatusBadge status={field.status} />
-          <ConfidenceChip confidence={field.confidence} />
+          {field.status !== "MISSING" && <ConfidenceChip confidence={field.confidence} />}
           {ocrConfidence !== undefined && (
             <OcrConfidenceIndicator
               confidence={ocrConfidence}

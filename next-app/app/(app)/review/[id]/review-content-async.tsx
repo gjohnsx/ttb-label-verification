@@ -60,9 +60,6 @@ export async function ReviewContentAsync({ id }: ReviewContentAsyncProps) {
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[40%_1fr]">
       {/* Left Panel: Image Gallery */}
       <div className="lg:sticky lg:top-6 lg:self-start">
-        <h2 className="mb-3 text-lg font-semibold text-treasury-base-darkest">
-          Label Images
-        </h2>
         <ImageGallery images={labelImages} />
       </div>
 

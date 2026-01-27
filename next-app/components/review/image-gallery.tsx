@@ -143,40 +143,44 @@ function ImageThumbnail({ image, onClick, isActive }: ImageThumbnailProps) {
     <button
       onClick={onClick}
       className={cn(
-        "relative w-full overflow-hidden border bg-treasury-base-lightest transition-all hover:border-treasury-primary focus:outline-none focus:ring-2 focus:ring-treasury-primary focus:ring-offset-2",
+        "group relative w-full overflow-hidden border bg-white text-left shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-treasury-primary focus:ring-offset-2 cursor-pointer",
         isActive
-          ? "border-treasury-primary border-2"
-          : "border-treasury-base-darkest"
+          ? "border-treasury-primary ring-1 ring-treasury-primary"
+          : "border-gray-200 hover:border-treasury-primary/50"
       )}
     >
-      {/* Type badge */}
-      <div className="absolute left-2 top-2 z-10">
-        <Badge
-          variant="secondary"
-          className="bg-white/90 text-[10px] font-semibold uppercase px-1.5 py-0.5"
-        >
-          {image.imageType}
-        </Badge>
-      </div>
-
-      {/* Image */}
-      <div className="aspect-[4/3] flex items-center justify-center p-2">
+      {/* Image Area - Top 2/3 roughly */}
+      <div className="relative aspect-4/3 w-full bg-gray-100">
         {isLoading && (
-          <LoaderIcon className="h-6 w-6 animate-spin text-treasury-base" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <LoaderIcon className="h-6 w-6 animate-spin text-gray-400" />
+          </div>
         )}
+        
         {error || hasImageError ? (
-          <ImageOffIcon className="h-8 w-8 text-treasury-base" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <ImageOffIcon className="h-8 w-8 text-gray-300" />
+          </div>
         ) : url ? (
           <Image
             src={url}
             alt={getImageTypeLabel(image.imageType)}
-            width={200}
-            height={150}
-            className="h-full w-full object-contain"
+            fill
+            className="object-contain p-4"
             onError={() => setHasImageError(true)}
             unoptimized={url.endsWith(".svg")}
           />
         ) : null}
+      </div>
+
+      {/* Content Area - Bottom */}
+      <div className="border-t border-gray-100 bg-white px-4 py-3">
+        <h3 className="font-medium text-treasury-base-darkest">
+          {getImageTypeLabel(image.imageType)}
+        </h3>
+        <p className="text-xs text-gray-500">
+          Click to expand
+        </p>
       </div>
     </button>
   );
@@ -425,7 +429,7 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
   return (
     <div className={className}>
       {/* Stacked thumbnails */}
-      <div className="space-y-3">
+      <div className="flex flex-col gap-6">
         {sortedImages.map((image, index) => (
           <ImageThumbnail
             key={image.id}
@@ -436,8 +440,8 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
       </div>
 
       {/* Image count */}
-      <p className="mt-3 text-center text-xs text-treasury-base">
-        {sortedImages.length} image{sortedImages.length !== 1 ? "s" : ""} — Click to enlarge
+      <p className="mt-4 text-center text-xs text-gray-400">
+        Showing {sortedImages.length} image{sortedImages.length !== 1 ? "s" : ""}
       </p>
 
       {/* Lightbox */}

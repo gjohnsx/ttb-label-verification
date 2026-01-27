@@ -34,21 +34,21 @@ export function ReviewTabs({
         <TabsTrigger value="full-ocr">Full OCR</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="comparison" className="mt-6 space-y-6">
-        <ReviewSummary
-          comparison={comparison}
-          applicationId={applicationId}
-          colaId={colaId}
-        />
+      <TabsContent value="comparison" className="mt-6">
+        <div className="border bg-card shadow-sm">
+          <div className="border-b bg-gray-50 p-6">
+            <ReviewSummary
+              comparison={comparison}
+              applicationId={applicationId}
+              colaId={colaId}
+            />
+          </div>
 
-        <div>
-          <h2 className="mb-3 text-lg font-semibold text-treasury-base-darkest">
-            Field Comparison
-          </h2>
           <ComparisonTable
             fields={comparison.fields}
             ocrConfidenceScores={ocrConfidenceScores}
             ocrPendingLabel={ocrPendingLabel}
+            className="rounded-none border-0 shadow-none"
           />
         </div>
       </TabsContent>
