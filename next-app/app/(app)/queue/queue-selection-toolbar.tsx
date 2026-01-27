@@ -20,10 +20,6 @@ export function QueueSelectionToolbar({ table }: QueueSelectionToolbarProps) {
   const selectedRows = table.getFilteredSelectedRowModel().rows;
   const selectedCount = selectedRows.length;
 
-  if (selectedCount === 0) {
-    return null;
-  }
-
   const handleProcessSelected = () => {
     const applications = selectedRows.map((row) => ({
       id: row.original.id,
@@ -43,27 +39,29 @@ export function QueueSelectionToolbar({ table }: QueueSelectionToolbarProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between rounded-md border border-treasury-primary-light bg-treasury-primary-lightest px-4 py-3">
-        <span className="text-sm font-medium text-treasury-ink">
-          {selectedCount} application{selectedCount !== 1 ? "s" : ""} selected
-        </span>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="base"
-            onClick={handleClearSelection}
-          >
-            <X className="mr-1.5 size-4" />
-            Clear Selection
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleProcessSelected}
-          >
-            <Play className="mr-1.5 size-4" />
-            Process Selected
-          </Button>
+      {selectedCount > 0 && (
+        <div className="flex items-center justify-between rounded-md border border-treasury-primary-light bg-treasury-primary-lightest px-4 py-3">
+          <span className="text-sm font-medium text-treasury-ink">
+            {selectedCount} application{selectedCount !== 1 ? "s" : ""} selected
+          </span>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="base"
+              onClick={handleClearSelection}
+            >
+              <X className="mr-1.5 size-4" />
+              Clear Selection
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleProcessSelected}
+            >
+              <Play className="mr-1.5 size-4" />
+              Process Selected
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       <BatchProgressModal
         applications={selectedApplications}
