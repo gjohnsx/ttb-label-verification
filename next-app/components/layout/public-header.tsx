@@ -62,7 +62,7 @@ export function PublicHeader() {
       <div className="bg-treasury-primary-darkest">
         <div className="container mx-auto px-4 py-4 flex items-center gap-4">
           <img
-            src="/treasury-logo-white.svg"
+            src="/logo/app-seal/treasury.png"
             alt="Treasury"
             className="h-12 w-12 -ml-1"
           />

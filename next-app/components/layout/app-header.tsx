@@ -91,7 +91,7 @@ export function AppHeader({ agentName, agentRole }: AppHeaderProps) {
 
           <Link href="/queue" className="flex items-center gap-3">
             <img
-              src="/treasury-logo-color.svg"
+              src="/logo/app-seal/treasury.png"
               alt="Treasury"
               className="h-8 w-8"
             />
