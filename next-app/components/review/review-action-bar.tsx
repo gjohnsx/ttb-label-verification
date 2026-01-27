@@ -1,22 +1,30 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { VerdictButtons } from "./verdict-buttons";
 import {
   submitReview,
+  getNextUnreviewedApplicationId,
   type UIVerdict,
 } from "@/lib/actions/reviews";
 
 interface ReviewActionBarProps {
   applicationId: string;
+  disabled?: boolean;
 }
 
-export function ReviewActionBar({ applicationId }: ReviewActionBarProps) {
-  const router = useRouter();
+interface ReviewResult {
+  verdict: UIVerdict;
+  nextApplicationId: string | null;
+}
+
+export function ReviewActionBar({ applicationId, disabled = false }: ReviewActionBarProps) {
   const [isPending, startTransition] = React.useTransition();
+  const [reviewResult, setReviewResult] = React.useState<ReviewResult | null>(
+    null
+  );
 
   const handleSubmitReview = async (
     verdict: UIVerdict,
@@ -24,13 +32,16 @@ export function ReviewActionBar({ applicationId }: ReviewActionBarProps) {
     notes?: string
   ) => {
     startTransition(async () => {
-      const toastId = toast.loading(
+      const loadingMessage =
         verdict === "APPROVED"
           ? "Approving application..."
           : verdict === "REJECTED"
             ? "Rejecting application..."
-            : "Requesting better image..."
-      );
+            : "Requesting better image...";
+
+      const toastId = toast(loadingMessage, {
+        duration: Infinity,
+      });
 
       try {
         const result = await submitReview(
@@ -41,17 +52,23 @@ export function ReviewActionBar({ applicationId }: ReviewActionBarProps) {
         );
 
         if (result.success) {
+          // Get next application ID for "Review Next" button
+          const nextId = await getNextUnreviewedApplicationId(applicationId);
+
           toast.success(
             verdict === "APPROVED"
-              ? "Application approved successfully"
+              ? "Application approved"
               : verdict === "REJECTED"
                 ? "Application rejected"
                 : "Better image requested",
-            { id: toastId }
+            { id: toastId, duration: 3000 }
           );
 
-          // Navigate to queue after successful submission
-          router.push("/queue");
+          // Stay on page and show "Review Next" button
+          setReviewResult({
+            verdict,
+            nextApplicationId: nextId,
+          });
         } else {
           toast.error(result.error || "Failed to submit review", {
             id: toastId,
@@ -60,7 +77,9 @@ export function ReviewActionBar({ applicationId }: ReviewActionBarProps) {
       } catch (error) {
         console.error("Error submitting review:", error);
         toast.error(
-          error instanceof Error ? error.message : "An unexpected error occurred",
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
           { id: toastId }
         );
       }
@@ -87,7 +106,8 @@ export function ReviewActionBar({ applicationId }: ReviewActionBarProps) {
           onApprove={handleApprove}
           onReject={handleReject}
           onRequestImage={handleRequestImage}
-          disabled={isPending}
+          disabled={disabled || isPending}
+          reviewResult={reviewResult}
         />
       </div>
     </div>

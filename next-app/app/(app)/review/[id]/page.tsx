@@ -58,17 +58,22 @@ export default async function ReviewPage({ params }: ReviewPageProps) {
           </p>
         </div>
 
-        {/* Content with Suspense boundary */}
-        <Suspense fallback={<ReviewContentSkeleton />}>
+        {/* Content + actions with Suspense boundary */}
+        <Suspense
+          fallback={
+            <>
+              <ReviewContentSkeleton />
+              <ReviewActionBar applicationId={id} disabled />
+            </>
+          }
+        >
           <ReviewContentAsync id={id} />
+          <ReviewActionBar applicationId={id} />
         </Suspense>
 
         {/* Bottom padding to account for sticky action bar */}
         <div className="h-24" />
       </main>
-
-      {/* Sticky Action Bar - renders immediately with just ID */}
-      <ReviewActionBar applicationId={id} />
     </>
   );
 }
