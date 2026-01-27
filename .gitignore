@@ -1,3 +1,9 @@
 .env.local
 research/design/tdds/
 *.pdf
+
+# macOS
+.DS_Store
+
+# Claude Code local config
+.claude/
