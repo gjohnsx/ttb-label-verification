@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
+import { Badge, type badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   CheckCircle,
@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   XCircle,
 } from "lucide-react";
+import type { VariantProps } from "class-variance-authority";
 
 // Batch processing status for individual items
 export type BatchItemStatus =
@@ -19,13 +20,15 @@ export type BatchItemStatus =
   | "NEEDS_ATTENTION"
   | "ERROR";
 
-// Status colors matching the queue status colors from columns.tsx
-const statusColors: Record<BatchItemStatus, string> = {
-  QUEUED: "bg-treasury-base-light text-treasury-base-darkest",
-  PROCESSING: "bg-treasury-primary-light text-white",
-  READY: "bg-treasury-secondary-light text-white",
-  NEEDS_ATTENTION: "bg-treasury-accent text-treasury-base-darkest",
-  ERROR: "bg-treasury-warning text-white",
+type BadgeVariant = VariantProps<typeof badgeVariants>["variant"];
+
+// Map status to treasury badge variants
+const statusVariants: Record<BatchItemStatus, BadgeVariant> = {
+  QUEUED: "treasury-base",
+  PROCESSING: "treasury-primary",
+  READY: "treasury-secondary",
+  NEEDS_ATTENTION: "treasury-accent",
+  ERROR: "treasury-warning",
 };
 
 // Human-readable status labels
@@ -83,7 +86,7 @@ export function BatchItemRow({ item }: BatchItemRowProps) {
             <Link href={`/review/${item.id}`}>Review</Link>
           </Button>
         ) : (
-          <Badge className={statusColors[item.status]} variant="default">
+          <Badge variant={statusVariants[item.status]}>
             {statusLabels[item.status]}
           </Badge>
         )}
