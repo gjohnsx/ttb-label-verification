@@ -8,7 +8,7 @@
 
 *Conducted Tuesday, 3:15 PM --- Sarah was running late from her daughter\'s school play rehearsal*
 
-\"Thanks for meeting with me. Sorry about the delay---my daughter\'s playing the lead in her school\'s production of *Annie*next week and rehearsals have been crazy. Anyway, let me tell you about what we\'re dealing with here.
+\"Thanks for meeting with me. Sorry about the delay---my daughter\'s playing the lead in her school\'s production of *Annie* next week and rehearsals have been crazy. Anyway, let me tell you about what we\'re dealing with here.
 
 So the TTB reviews about 150,000 label applications a year. Our team of 47 agents handles all of them. Back in the 80s---before my time---they actually had over 100 agents, but budget cuts, you know how it goes. We\'ve been doing things basically the same way since the COLA system went online in 2003. That was a big upgrade from paper forms, believe it or not.
 

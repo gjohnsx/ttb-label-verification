@@ -133,7 +133,7 @@ export const columns: ColumnDef<ApplicationForQueue>[] = [
       const application = row.original;
 
       return (
-        <Button variant="primary-light" size="sm" className="w-full" asChild>
+        <Button variant="primary-light" className="w-full" asChild>
           <Link href={`/review/${application.id}`}>Review</Link>
         </Button>
       );
