@@ -7,3 +7,6 @@ research/design/tdds/
 
 # Claude Code local config
 .claude/
+
+# Large research datasets
+research/dataset/*.csv
