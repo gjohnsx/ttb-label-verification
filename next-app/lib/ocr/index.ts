@@ -39,3 +39,12 @@ export {
 
 // Prompts (exported for customization if needed)
 export { LABEL_EXTRACTION_PROMPT, QUICK_EXTRACTION_PROMPT } from "./prompts";
+
+// Gemini bounding box detection
+export {
+  detectBoundingBoxes,
+  convertToPixelCoordinates,
+  isGeminiConfigured,
+  type BoundingBox,
+  type BoundingBoxResult,
+} from "./gemini";

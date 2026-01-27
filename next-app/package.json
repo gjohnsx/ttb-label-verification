@@ -21,6 +21,7 @@
   "dependencies": {
     "@azure/storage-blob": "^12.30.0",
     "@base-ui/react": "^1.1.0",
+    "@google/genai": "^1.38.0",
     "@mistralai/mistralai": "^1.13.0",
     "@prisma/adapter-mssql": "^7.3.0",
     "@prisma/client": "^7.3.0",
