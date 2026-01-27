@@ -30,6 +30,7 @@ interface ReasonModalProps {
   requireReason?: boolean;
   defaultReasonCode?: string;
   submitLabel?: string;
+  submitVariant?: "primary" | "warning" | "secondary";
 }
 
 export function ReasonModal({
@@ -42,6 +43,7 @@ export function ReasonModal({
   requireReason = true,
   defaultReasonCode,
   submitLabel = "Submit",
+  submitVariant = "primary",
 }: ReasonModalProps) {
   const [reasonCode, setReasonCode] = React.useState<string>(
     defaultReasonCode ?? ""
@@ -130,10 +132,10 @@ export function ReasonModal({
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="primary-outline" onClick={handleCancel}>
+            <Button type="button" variant="base" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant={submitVariant}>
               {submitLabel}
             </Button>
           </DialogFooter>

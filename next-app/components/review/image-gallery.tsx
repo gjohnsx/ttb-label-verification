@@ -281,7 +281,7 @@ function Lightbox({
 
         {/* Dialog content */}
         <div
-          className="fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-8rem)] max-w-5xl h-[90vh] flex flex-col bg-white border border-treasury-base-darkest overflow-hidden"
+          className="fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-8rem)] max-w-5xl h-[90vh] flex flex-col bg-white border border-treasury-base-light shadow-lg overflow-hidden"
         >
           <VisuallyHidden.Root>
             <DialogTitle>
