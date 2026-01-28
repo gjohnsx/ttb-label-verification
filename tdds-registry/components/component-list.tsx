@@ -710,7 +710,21 @@ export function ComponentList({ items }: { items: RegistryItem[] }) {
   const [packageManager, setPackageManager] = useState<PackageManager>("pnpm")
   const [selectedItem, setSelectedItem] = useState<RegistryItem | null>(null)
 
-  const uiComponents = items.filter((item) => item.type === "registry:ui")
+  // Components to exclude from the demo page
+  const excludedComponents = [
+    "mini-card",
+    "field",
+    "avatar",
+    "combobox",
+    "command",
+    "sheet",
+    "sidebar",
+    "input-group",
+  ]
+
+  const uiComponents = items.filter(
+    (item) => item.type === "registry:ui" && !excludedComponents.includes(item.name)
+  )
 
   return (
     <div>
