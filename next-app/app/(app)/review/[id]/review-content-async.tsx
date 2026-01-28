@@ -81,6 +81,7 @@ export async function ReviewContentAsync({ id }: ReviewContentAsyncProps) {
           ocrConfidenceScores={ocrFields?.confidenceScores}
           ocrPendingLabel={ocrPendingLabel}
           ocrResults={ocrResults}
+          governmentWarningOcr={ocrFields?.governmentWarning}
         />
       </div>
     </div>

@@ -118,7 +118,7 @@ export function UploadForm() {
 
   const handleProcessingComplete = ({ skippedCount, applicationIds }: { skippedCount: number; applicationIds: string[] }) => {
     setIsModalOpen(false);
-    const params = new URLSearchParams({ runId, total: String(totalRows) });
+    const params = new URLSearchParams({ runId: runId!, total: String(totalRows) });
     if (skippedCount > 0) params.set("skipped", String(skippedCount));
     if (applicationIds.length > 0) params.set("ids", applicationIds.join(","));
     router.push(`/upload/summary?${params}`);

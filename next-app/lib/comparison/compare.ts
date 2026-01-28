@@ -36,6 +36,19 @@ const FUZZY_MATCH_FIELDS: FieldType[] = ['brandName'];
 const EXACT_MATCH_FIELDS: FieldType[] = ['governmentWarning'];
 
 /**
+ * Label-only fields that don't exist on the COLA application form.
+ * These are validated for presence/correctness on the label itself,
+ * not compared against an Application record value.
+ */
+const LABEL_ONLY_FIELDS: FieldType[] = ['governmentWarning'];
+
+/**
+ * Required government warning text per TTB regulations
+ */
+const REQUIRED_GOVERNMENT_WARNING =
+  'GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.';
+
+/**
  * All field types in comparison order
  */
 const ALL_FIELDS: FieldType[] = [
@@ -65,8 +78,18 @@ function determineMatchStatus(
     return { status: 'MISSING' };
   }
 
-  // If application value is missing but OCR has a value, it's a special case
-  // We'll treat this as the value exists in OCR but not in application
+  // Label-only fields: validate presence/correctness on label, not against Application
+  if (normalizedAppValue === null && LABEL_ONLY_FIELDS.includes(fieldType)) {
+    if (fieldType === 'governmentWarning') {
+      // Check if OCR text matches the required government warning
+      const matches = normalizedOcrValue.trim().toUpperCase() ===
+        REQUIRED_GOVERNMENT_WARNING.toUpperCase();
+      return { status: matches ? 'MATCH' : 'MISMATCH' };
+    }
+    return { status: 'MATCH' };
+  }
+
+  // If application value is missing but OCR has a value
   if (normalizedAppValue === null) {
     return { status: 'MISSING' };
   }
