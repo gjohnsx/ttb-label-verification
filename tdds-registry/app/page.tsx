@@ -73,11 +73,13 @@ export default function Home() {
               with the Treasury color palette.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button variant="paper" size="lg">
-                Get Started
+              <Button variant="paper" size="lg" asChild>
+                <a href="#quick-start">Get Started</a>
               </Button>
-              <Button variant="paper-outline" size="lg">
-                View on GitHub
+              <Button variant="paper-outline" size="lg" asChild>
+                <a href="https://github.com/gjohnsx/ttb-label-verification/tree/main/tdds-registry" target="_blank" rel="noopener noreferrer">
+                  View on GitHub
+                </a>
               </Button>
             </div>
           </div>
@@ -85,7 +87,7 @@ export default function Home() {
       </section>
 
       {/* Quick Start */}
-      <section className="py-16 container mx-auto px-4">
+      <section id="quick-start" className="py-16 container mx-auto px-4 scroll-mt-4">
         <h2 className="text-3xl font-bold mb-8">Quick Start</h2>
 
         <div className="grid md:grid-cols-2 gap-8">
