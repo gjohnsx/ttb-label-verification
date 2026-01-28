@@ -98,7 +98,7 @@ export default function Home() {
             </p>
             <CodeBlock>{`{
   "registries": {
-    "@tdds": "https://tdds-registry.vercel.app/r/{name}.json"
+    "@tdds": "https://tdds-registry.gregjohns.dev/r/{name}.json"
   }
 }`}</CodeBlock>
           </div>

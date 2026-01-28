@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "tdds",
-  "homepage": "https://tdds-registry.vercel.app",
+  "homepage": "https://tdds-registry.gregjohns.dev",
   "items": [
     {
       "name": "tdds-style",

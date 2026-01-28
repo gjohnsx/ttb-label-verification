@@ -19,7 +19,7 @@ Add the TDDS registry to your `components.json`:
 ```json
 {
   "registries": {
-    "@tdds": "https://tdds-registry.vercel.app/r/{name}.json"
+    "@tdds": "https://tdds-registry.gregjohns.dev/r/{name}.json"
   }
 }
 ```
