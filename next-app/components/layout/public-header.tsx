@@ -26,8 +26,8 @@ import {
 } from "@/components/ui/command"
 
 const NAV_LINKS = [
-  { label: "COMPONENTS", href: "/demo", external: false },
-  { label: "CV", href: "https://www.gregjohns.dev", external: true },
+  { label: "COMPONENTS", href: "https://tdds-registry.gregjohns.dev/", external: true },
+  { label: "CV", href: "https://cv.gregjohns.dev", external: true },
   { label: "GITHUB", href: "https://github.com/gjohnsx", external: true },
   { label: "LINKEDIN", href: "https://linkedin.com/in/greg-johns", external: true },
   { label: "X", href: "https://x.com/gjohnsx", external: true },
@@ -123,10 +123,15 @@ export function PublicHeader() {
                 <span className="flex-1">Home</span>
               </CommandItem>
               <CommandItem
-                onSelect={() => runCommand(() => router.push("/demo"))}
+                onSelect={() =>
+                  runCommand(() =>
+                    window.open("https://tdds-registry.gregjohns.dev/", "_blank")
+                  )
+                }
               >
                 <LayoutGrid />
                 <span className="flex-1">Components</span>
+                <ExternalLink className="h-3 w-3 text-muted-foreground" />
               </CommandItem>
             </CommandGroup>
 
@@ -135,7 +140,7 @@ export function PublicHeader() {
             <CommandGroup heading="About Gregory Johns">
               <CommandItem
                 onSelect={() =>
-                  runCommand(() => window.open("https://www.gregjohns.dev", "_blank"))
+                  runCommand(() => window.open("https://cv.gregjohns.dev", "_blank"))
                 }
               >
                 <FileText />
