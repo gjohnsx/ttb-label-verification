@@ -196,6 +196,20 @@
       ]
     },
     {
+      "name": "data-box",
+      "type": "registry:ui",
+      "title": "Data Box",
+      "description": "Compact data display box with label and large value, ideal for KPIs and metrics",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/data-box.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "field",
       "type": "registry:ui",
       "title": "Field",
