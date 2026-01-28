@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Copy, Check, Maximize2, Mail, Search, Bell, User, Home, ChevronRight, Info } from "lucide-react"
+import { Copy, Check, Maximize2, Mail, Bell, User, Home, Info } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/registry/ui/card"
 import {
   Dialog,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
+  DialogTrigger,
 } from "@/registry/ui/dialog"
 import {
   Accordion,
@@ -27,7 +27,6 @@ import { Label } from "@/registry/ui/label"
 import { Progress } from "@/registry/ui/progress"
 import { Separator } from "@/registry/ui/separator"
 import { Skeleton } from "@/registry/ui/skeleton"
-import { Avatar, AvatarFallback, AvatarImage, AvatarGroup } from "@/registry/ui/avatar"
 import { RadioGroup, RadioGroupItem } from "@/registry/ui/radio-group"
 import {
   Select,
@@ -98,7 +97,8 @@ import {
   PaginationPrevious,
 } from "@/registry/ui/pagination"
 import { ButtonGroup, ButtonGroupText } from "@/registry/ui/button-group"
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from "@/registry/ui/input-group"
+import { GovBanner } from "@/registry/ui/gov-banner"
+import { toast } from "sonner"
 
 type PackageManager = "pnpm" | "npm" | "yarn" | "bun"
 
@@ -204,42 +204,13 @@ function ComponentPreview({ name }: { name: string }) {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel asChild>
+                <Button variant="base">Cancel</Button>
+              </AlertDialogCancel>
               <AlertDialogAction>Continue</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-      )
-
-    case "avatar":
-      return (
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4">
-            <Avatar size="sm">
-              <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Avatar size="lg">
-              <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </div>
-          <AvatarGroup>
-            <Avatar>
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>AS</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>MK</AvatarFallback>
-            </Avatar>
-          </AvatarGroup>
-        </div>
       )
 
     case "badge":
@@ -341,12 +312,22 @@ function ComponentPreview({ name }: { name: string }) {
     case "dialog":
       return (
         <Dialog>
-          <Button variant="primary" onClick={() => {}}>
-            Open Dialog
-          </Button>
-          <p className="text-sm text-muted-foreground mt-2">
-            Click the button above to see a dialog. This preview shows the dialog component structure.
-          </p>
+          <DialogTrigger asChild>
+            <Button variant="primary">Open Dialog</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Dialog Title</DialogTitle>
+              <DialogDescription>
+                This is a dialog component. It can be used to display content that requires user attention or interaction.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="text-sm text-muted-foreground">
+                Dialog content goes here. You can add forms, information, or any other content.
+              </p>
+            </div>
+          </DialogContent>
         </Dialog>
       )
 
@@ -380,15 +361,15 @@ function ComponentPreview({ name }: { name: string }) {
             <Button variant="ghost" className="underline">@treasury</Button>
           </HoverCardTrigger>
           <HoverCardContent className="w-80">
-            <div className="flex gap-4">
-              <Avatar>
-                <AvatarFallback>TD</AvatarFallback>
-              </Avatar>
-              <div className="space-y-1">
-                <h4 className="text-sm font-semibold">Treasury Department</h4>
-                <p className="text-sm text-muted-foreground">
-                  Official U.S. Treasury Department design system components.
-                </p>
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold">Treasury Department</h4>
+              <p className="text-sm text-muted-foreground">
+                Official U.S. Treasury Department design system components built on shadcn/ui.
+              </p>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <span>36 components</span>
+                <span>•</span>
+                <span>USWDS compliant</span>
               </div>
             </div>
           </HoverCardContent>
@@ -401,29 +382,6 @@ function ComponentPreview({ name }: { name: string }) {
           <Input placeholder="Enter your name" />
           <Input type="email" placeholder="Enter your email" />
           <Input disabled placeholder="Disabled input" />
-        </div>
-      )
-
-    case "input-group":
-      return (
-        <div className="space-y-4">
-          <InputGroup>
-            <InputGroupAddon>
-              <Search className="h-4 w-4" />
-            </InputGroupAddon>
-            <InputGroupInput placeholder="Search..." />
-          </InputGroup>
-          <InputGroup>
-            <InputGroupAddon>$</InputGroupAddon>
-            <InputGroupInput placeholder="0.00" />
-            <InputGroupAddon>USD</InputGroupAddon>
-          </InputGroup>
-          <InputGroup>
-            <InputGroupInput placeholder="Enter email" />
-            <InputGroupButton>
-              <Button size="default">Subscribe</Button>
-            </InputGroupButton>
-          </InputGroup>
         </div>
       )
 
@@ -592,7 +550,7 @@ function ComponentPreview({ name }: { name: string }) {
       return (
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <Skeleton className="h-12 w-12 rounded-full" />
+            <Skeleton className="h-12 w-12" />
             <div className="space-y-2">
               <Skeleton className="h-4 w-[200px]" />
               <Skeleton className="h-4 w-[150px]" />
@@ -696,23 +654,46 @@ function ComponentPreview({ name }: { name: string }) {
         </div>
       )
 
-    // Components that don't have simple previews
-    case "command":
-    case "combobox":
-    case "field":
     case "gov-banner":
-    case "mini-card":
-    case "sheet":
-    case "sidebar":
+      return (
+        <div className="border border-treasury-base-light overflow-hidden">
+          <GovBanner />
+        </div>
+      )
+
     case "sonner":
       return (
-        <div className="flex flex-col items-center justify-center h-32 text-muted-foreground border-2 border-dashed p-4">
-          <p className="text-sm text-center">
-            This component requires more context to preview.
-          </p>
-          <p className="text-xs text-center mt-1">
-            See the main page showcase or demo pages for examples.
-          </p>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            variant="primary"
+            onClick={() => toast("Default notification", { description: "This is a default toast message." })}
+          >
+            Default
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => toast.success("Success!", { description: "Operation completed successfully." })}
+          >
+            Success
+          </Button>
+          <Button
+            variant="warning"
+            onClick={() => toast.warning("Warning", { description: "Please review before proceeding." })}
+          >
+            Warning
+          </Button>
+          <Button
+            variant="base"
+            onClick={() => toast.error("Error", { description: "Something went wrong." })}
+          >
+            Error
+          </Button>
+          <Button
+            variant="primary-outline"
+            onClick={() => toast.info("Information", { description: "Here's some helpful info." })}
+          >
+            Info
+          </Button>
         </div>
       )
 
