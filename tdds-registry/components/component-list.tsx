@@ -422,10 +422,8 @@ function ComponentPreview({ name }: { name: string }) {
     case "pagination":
       return (
         <Pagination>
+          <PaginationPrevious href="#" />
           <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
             <PaginationItem>
               <PaginationLink href="#">1</PaginationLink>
             </PaginationItem>
@@ -436,12 +434,28 @@ function ComponentPreview({ name }: { name: string }) {
               <PaginationLink href="#">3</PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationEllipsis />
+              <PaginationLink href="#">4</PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext href="#" />
+              <PaginationLink href="#">5</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">6</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">7</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">8</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">9</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
             </PaginationItem>
           </PaginationContent>
+          <PaginationNext href="#" />
         </Pagination>
       )
 
