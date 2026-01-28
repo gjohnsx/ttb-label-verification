@@ -2,7 +2,8 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react"
+import { ArrowLeftIcon, ArrowRightIcon, MoreHorizontalIcon } from "lucide-react"
+import { Separator } from "@/components/ui/separator"
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -10,12 +11,14 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
       role="navigation"
       aria-label="pagination"
       data-slot="pagination"
-      className={cn(
-        "mx-auto flex w-full justify-center",
-        className
-      )}
+      className={cn("w-full", className)}
       {...props}
-    />
+    >
+      <Separator className="mb-4" />
+      <div className="flex w-full items-center justify-between">
+        {props.children}
+      </div>
+    </nav>
   )
 }
 
@@ -26,7 +29,7 @@ function PaginationContent({
   return (
     <ul
       data-slot="pagination-content"
-      className={cn("gap-1 flex items-center", className)}
+      className={cn("gap-2 flex items-center justify-center flex-1", className)}
       {...props}
     />
   )
@@ -48,19 +51,19 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   return (
-    <Button
-      asChild
-      variant={isActive ? "primary-outline" : "ghost"}
-      size={size}
-      className={cn(className)}
-    >
-      <a
-        aria-current={isActive ? "page" : undefined}
-        data-slot="pagination-link"
-        data-active={isActive}
-        {...props}
-      />
-    </Button>
+    <a
+      aria-current={isActive ? "page" : undefined}
+      data-slot="pagination-link"
+      data-active={isActive}
+      className={cn(
+        "inline-flex items-center justify-center h-9 min-w-9 px-2 text-sm font-medium transition-colors",
+        isActive
+          ? "text-treasury-primary font-bold"
+          : "text-treasury-base-dark hover:text-treasury-primary",
+        className
+      )}
+      {...props}
+    />
   )
 }
 
@@ -69,17 +72,17 @@ function PaginationPrevious({
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
   return (
-    <PaginationLink
+    <a
       aria-label="Go to previous page"
-      size="default"
-      className={cn("pl-2!", className)}
+      data-slot="pagination-previous"
+      className={cn(
+        "inline-flex items-center justify-center h-9 w-9 text-treasury-base-dark hover:text-treasury-primary transition-colors",
+        className
+      )}
       {...props}
     >
-      <ChevronLeftIcon data-icon="inline-start" />
-      <span className="hidden sm:block">
-        Previous
-      </span>
-    </PaginationLink>
+      <ArrowLeftIcon className="h-5 w-5" />
+    </a>
   )
 }
 
@@ -88,15 +91,17 @@ function PaginationNext({
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
   return (
-    <PaginationLink
+    <a
       aria-label="Go to next page"
-      size="default"
-      className={cn("pr-2!", className)}
+      data-slot="pagination-next"
+      className={cn(
+        "inline-flex items-center justify-center h-9 w-9 text-treasury-base-dark hover:text-treasury-primary transition-colors",
+        className
+      )}
       {...props}
     >
-      <span className="hidden sm:block">Next</span>
-      <ChevronRightIcon data-icon="inline-end" />
-    </PaginationLink>
+      <ArrowRightIcon className="h-5 w-5" />
+    </a>
   )
 }
 
@@ -109,13 +114,12 @@ function PaginationEllipsis({
       aria-hidden
       data-slot="pagination-ellipsis"
       className={cn(
-        "size-9 items-center justify-center [&_svg:not([class*='size-'])]:size-4 flex items-center justify-center",
+        "h-9 min-w-9 px-2 inline-flex items-center justify-center text-sm text-treasury-base-dark",
         className
       )}
       {...props}
     >
-      <MoreHorizontalIcon
-      />
+      ...
       <span className="sr-only">More pages</span>
     </span>
   )

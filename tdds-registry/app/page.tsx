@@ -73,11 +73,13 @@ export default function Home() {
               with the Treasury color palette.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button variant="paper" size="lg">
-                Get Started
+              <Button variant="paper" size="lg" asChild>
+                <a href="#quick-start">Get Started</a>
               </Button>
-              <Button variant="paper-outline" size="lg">
-                View on GitHub
+              <Button variant="paper-outline" size="lg" asChild>
+                <a href="https://github.com/gjohnsx/ttb-label-verification/tree/main/tdds-registry" target="_blank" rel="noopener noreferrer">
+                  View on GitHub
+                </a>
               </Button>
             </div>
           </div>
@@ -85,14 +87,14 @@ export default function Home() {
       </section>
 
       {/* Quick Start */}
-      <section className="py-16 container mx-auto px-4">
+      <section id="quick-start" className="py-16 container mx-auto px-4 scroll-mt-4">
         <h2 className="text-3xl font-bold mb-8">Quick Start</h2>
 
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-xl font-semibold mb-4">1. Configure Registry</h3>
             <p className="text-treasury-base-dark mb-4">
-              Add the TDDS registry to your <code className="bg-treasury-base-lightest px-1.5 py-0.5 rounded text-sm font-mono">components.json</code>:
+              Add the TDDS registry to your <code className="bg-treasury-base-lightest px-1.5 py-0.5 text-sm font-mono">components.json</code>:
             </p>
             <CodeBlock>{`{
   "registries": {
@@ -116,7 +118,7 @@ npx shadcn@latest add @tdds/gov-banner`}</CodeBlock>
           <AlertTitle>Install the style first</AlertTitle>
           <AlertDescription>
             For the best experience, install the TDDS style to get all color tokens:
-            <code className="block mt-2 bg-treasury-paper px-2 py-1 rounded text-sm font-mono">
+            <code className="block mt-2 bg-treasury-paper px-2 py-1 text-sm font-mono">
               npx shadcn@latest add @tdds/tdds-style
             </code>
           </AlertDescription>
@@ -152,8 +154,13 @@ npx shadcn@latest add @tdds/gov-banner`}</CodeBlock>
                   <Button variant="primary-outline">Primary Outline</Button>
                   <Button variant="ghost">Ghost</Button>
                 </div>
+                <div className="flex flex-wrap gap-4 bg-treasury-ink p-4">
+                  <Button variant="paper">Paper</Button>
+                  <Button variant="paper-outline">Paper Outline</Button>
+                  <Button variant="paper" disabled>Paper</Button>
+                  <Button variant="paper-outline" disabled>Paper Outline</Button>
+                </div>
                 <div className="flex flex-wrap gap-4">
-                  <Button variant="primary" size="sm">Small</Button>
                   <Button variant="primary" size="default">Default</Button>
                   <Button variant="primary" size="lg">Large</Button>
                 </div>
@@ -330,7 +337,7 @@ npx shadcn@latest add @tdds/gov-banner`}</CodeBlock>
           <Link href="/data-table-demo" className="group">
             <Card className="overflow-hidden transition-all hover:shadow-lg hover:border-treasury-primary">
               <div className="h-40 bg-treasury-base-lightest relative overflow-hidden p-4">
-                <div className="bg-treasury-paper rounded border border-treasury-base-light h-full overflow-hidden">
+                <div className="bg-treasury-paper border border-treasury-base-light h-full overflow-hidden">
                   <div className="flex items-center justify-between px-2 py-1.5 border-b border-treasury-base-light">
                     <div className="h-4 w-24 bg-treasury-base-light rounded" />
                     <div className="flex gap-1">
