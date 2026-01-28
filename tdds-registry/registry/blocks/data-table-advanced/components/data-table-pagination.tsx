@@ -1,14 +1,8 @@
 "use client"
 
 import { type Table } from "@tanstack/react-table"
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronsLeftIcon,
-  ChevronsRightIcon,
-} from "lucide-react"
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react"
 
-import { Button } from "@/registry/ui/button"
 import {
   Select,
   SelectContent,
@@ -16,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/registry/ui/select"
+import { Separator } from "@/registry/ui/separator"
+import { cn } from "@/lib/utils"
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
@@ -26,15 +22,106 @@ export function DataTablePagination<TData>({
   table,
   pageSizeOptions = [10, 20, 25, 30, 40, 50],
 }: DataTablePaginationProps<TData>) {
+  const pageCount = table.getPageCount()
+  const currentPage = table.getState().pagination.pageIndex + 1
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages: (number | "ellipsis")[] = []
+    const maxVisiblePages = 9
+
+    if (pageCount <= maxVisiblePages) {
+      // Show all pages if there are few enough
+      for (let i = 1; i <= pageCount; i++) {
+        pages.push(i)
+      }
+    } else {
+      // Always show first few pages, then ellipsis, then last page
+      for (let i = 1; i <= Math.min(maxVisiblePages - 1, pageCount - 1); i++) {
+        pages.push(i)
+      }
+      if (pageCount > maxVisiblePages) {
+        pages.push("ellipsis")
+      }
+    }
+
+    return pages
+  }
+
+  const pageNumbers = getPageNumbers()
+
   return (
-    <div className="flex items-center justify-between px-2">
-      <div className="text-muted-foreground flex-1 text-sm">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+    <div className="w-full">
+      <Separator className="mb-4" />
+      <div className="flex items-center justify-between">
+        {/* Previous button */}
+        <button
+          className={cn(
+            "inline-flex items-center justify-center h-9 w-9 transition-colors",
+            table.getCanPreviousPage()
+              ? "text-treasury-base-dark hover:text-treasury-primary"
+              : "text-treasury-base-light cursor-not-allowed"
+          )}
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+          aria-label="Go to previous page"
+        >
+          <ArrowLeftIcon className="h-5 w-5" />
+        </button>
+
+        {/* Page numbers */}
+        <div className="flex items-center gap-2">
+          {pageNumbers.map((page, index) =>
+            page === "ellipsis" ? (
+              <span
+                key={`ellipsis-${index}`}
+                className="h-9 min-w-9 px-2 inline-flex items-center justify-center text-sm text-treasury-base-dark"
+              >
+                ...
+              </span>
+            ) : (
+              <button
+                key={page}
+                onClick={() => table.setPageIndex(page - 1)}
+                className={cn(
+                  "inline-flex items-center justify-center h-9 min-w-9 px-2 text-sm font-medium transition-colors",
+                  currentPage === page
+                    ? "text-treasury-primary font-bold"
+                    : "text-treasury-base-dark hover:text-treasury-primary"
+                )}
+                aria-label={`Go to page ${page}`}
+                aria-current={currentPage === page ? "page" : undefined}
+              >
+                {page}
+              </button>
+            )
+          )}
+        </div>
+
+        {/* Next button */}
+        <button
+          className={cn(
+            "inline-flex items-center justify-center h-9 w-9 transition-colors",
+            table.getCanNextPage()
+              ? "text-treasury-base-dark hover:text-treasury-primary"
+              : "text-treasury-base-light cursor-not-allowed"
+          )}
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+          aria-label="Go to next page"
+        >
+          <ArrowRightIcon className="h-5 w-5" />
+        </button>
       </div>
-      <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+
+      {/* Row info and page size selector */}
+      <div className="flex items-center justify-between mt-4 text-sm text-treasury-base-dark">
+        <div>
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className="flex items-center gap-2">
+          <span>Rows per page</span>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
@@ -52,50 +139,6 @@ export function DataTablePagination<TData>({
               ))}
             </SelectContent>
           </Select>
-        </div>
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="primary-outline"
-            size="icon-sm"
-            className="hidden lg:flex"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to first page</span>
-            <ChevronsLeftIcon className="size-4" />
-          </Button>
-          <Button
-            variant="primary-outline"
-            size="icon-sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to previous page</span>
-            <ChevronLeftIcon className="size-4" />
-          </Button>
-          <Button
-            variant="primary-outline"
-            size="icon-sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to next page</span>
-            <ChevronRightIcon className="size-4" />
-          </Button>
-          <Button
-            variant="primary-outline"
-            size="icon-sm"
-            className="hidden lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to last page</span>
-            <ChevronsRightIcon className="size-4" />
-          </Button>
         </div>
       </div>
     </div>
