@@ -17,6 +17,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/registry/ui/accordion"
+import { DataBox } from "@/registry/ui/data-box"
 import { Button } from "@/registry/ui/button"
 import { Badge } from "@/registry/ui/badge"
 import { Alert, AlertTitle, AlertDescription } from "@/registry/ui/alert"
@@ -710,6 +711,36 @@ function ComponentPreview({ name }: { name: string }) {
           </Button>
         </div>
       )
+      
+    case "data-box":
+      return (
+        <div className="space-y-6">
+          <div>
+            <p className="text-sm text-treasury-base-dark mb-3">Default</p>
+            <div className="flex flex-wrap gap-4">
+              <DataBox label="1 Month" value="0.10" />
+              <DataBox label="6 Month" value="1.25" />
+              <DataBox label="1 Year" value="3.50" />
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-treasury-base-dark mb-3">Small</p>
+            <div className="flex flex-wrap gap-4">
+              <DataBox label="1 Month" value="0.10" size="sm" />
+              <DataBox label="6 Month" value="1.25" size="sm" />
+              <DataBox label="1 Year" value="3.50" size="sm" />
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-treasury-base-dark mb-3">Extra Small</p>
+            <div className="flex flex-wrap gap-4">
+              <DataBox label="1 Month" value="0.10" size="xs" />
+              <DataBox label="6 Month" value="1.25" size="xs" />
+              <DataBox label="1 Year" value="3.50" size="xs" />
+            </div>
+          </div>
+        </div>
+      )
 
     default:
       return (
@@ -736,10 +767,10 @@ export function ComponentList({ items }: { items: RegistryItem[] }) {
     "input-group",
   ]
 
-  const uiComponents = items.filter(
-    (item) => item.type === "registry:ui" && !excludedComponents.includes(item.name)
-  )
-
+  const uiComponents = items
+    .filter((item) => item.type === "registry:ui" && !excludedComponents.includes(item.name))
+    .sort((a, b) => a.name.localeCompare(b.name))
+    
   return (
     <div>
       {/* Package Manager Selector */}
