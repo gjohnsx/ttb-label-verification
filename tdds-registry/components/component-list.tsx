@@ -16,6 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/registry/ui/accordion"
+import { DataBox } from "@/registry/ui/data-box"
 
 type PackageManager = "pnpm" | "npm" | "yarn" | "bun"
 
@@ -68,7 +69,9 @@ export function ComponentList({ items }: { items: RegistryItem[] }) {
   const [packageManager, setPackageManager] = useState<PackageManager>("pnpm")
   const [selectedItem, setSelectedItem] = useState<RegistryItem | null>(null)
 
-  const uiComponents = items.filter((item) => item.type === "registry:ui")
+  const uiComponents = items
+    .filter((item) => item.type === "registry:ui")
+    .sort((a, b) => a.name.localeCompare(b.name))
 
   return (
     <div>
@@ -153,7 +156,35 @@ export function ComponentList({ items }: { items: RegistryItem[] }) {
                 </AccordionItem>
               </Accordion>
             )}
-            {selectedItem?.name !== "accordion" && (
+            {selectedItem?.name === "data-box" && (
+              <div className="space-y-6">
+                <div>
+                  <p className="text-sm text-treasury-base-dark mb-3">Default</p>
+                  <div className="flex flex-wrap gap-4">
+                    <DataBox label="1 Month" value="0.10" />
+                    <DataBox label="6 Month" value="1.25" />
+                    <DataBox label="1 Year" value="3.50" />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-treasury-base-dark mb-3">Small</p>
+                  <div className="flex flex-wrap gap-4">
+                    <DataBox label="1 Month" value="0.10" size="sm" />
+                    <DataBox label="6 Month" value="1.25" size="sm" />
+                    <DataBox label="1 Year" value="3.50" size="sm" />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-treasury-base-dark mb-3">Extra Small</p>
+                  <div className="flex flex-wrap gap-4">
+                    <DataBox label="1 Month" value="0.10" size="xs" />
+                    <DataBox label="6 Month" value="1.25" size="xs" />
+                    <DataBox label="1 Year" value="3.50" size="xs" />
+                  </div>
+                </div>
+              </div>
+            )}
+            {selectedItem?.name !== "accordion" && selectedItem?.name !== "data-box" && (
               <div className="flex items-center justify-center h-32 text-muted-foreground border-2 border-dashed rounded-md">
                 Preview not available for {selectedItem?.name} yet.
               </div>
