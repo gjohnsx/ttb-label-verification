@@ -35,6 +35,7 @@ export type QueueFilters = {
   status?: string[];
   classType?: string[];
   search?: string;
+  ids?: string[];
 };
 
 /**
@@ -55,6 +56,13 @@ function buildWhereClause(filters: QueueFilters): ApplicationWhereInput {
   if (filters.classType && filters.classType.length > 0) {
     conditions.push({
       classType: { in: filters.classType },
+    });
+  }
+
+  // Filter by specific application IDs
+  if (filters.ids && filters.ids.length > 0) {
+    conditions.push({
+      id: { in: filters.ids },
     });
   }
 

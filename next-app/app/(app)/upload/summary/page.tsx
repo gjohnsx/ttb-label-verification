@@ -2,13 +2,15 @@ import Link from "next/link";
 import { AppHeader } from "@/components/layout/app-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, AlertTriangle, XCircle, ArrowRight, Upload } from "lucide-react";
+import { CheckCircle2, AlertTriangle, XCircle, SkipForward, ArrowRight, Upload } from "lucide-react";
 import prisma from "@/lib/prisma";
 
 type SummaryPageProps = {
   searchParams: Promise<{
     runId?: string;
     total?: string;
+    skipped?: string;
+    ids?: string;
   }>;
 };
 
@@ -41,6 +43,8 @@ async function getUploadSummary(runId: string | undefined, total: number) {
 export default async function UploadSummaryPage({ searchParams }: SummaryPageProps) {
   const params = await searchParams;
   const totalRows = params.total ? parseInt(params.total, 10) : 0;
+  const skippedCount = params.skipped ? parseInt(params.skipped, 10) : 0;
+  const applicationIds = params.ids ? params.ids.split(",") : [];
   const summary = await getUploadSummary(params.runId, totalRows);
 
   return (
@@ -61,7 +65,7 @@ export default async function UploadSummaryPage({ searchParams }: SummaryPagePro
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className={`grid gap-4 mb-8 ${skippedCount > 0 ? "grid-cols-4" : "grid-cols-3"}`}>
             <Card>
               <CardHeader className="pb-2">
                 <CardDescription className="flex items-center gap-2">
@@ -103,6 +107,21 @@ export default async function UploadSummaryPage({ searchParams }: SummaryPagePro
                 </p>
               </CardContent>
             </Card>
+            {skippedCount > 0 && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardDescription className="flex items-center gap-2">
+                    <SkipForward className="h-4 w-4 text-muted-foreground" />
+                    Skipped
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-bold text-muted-foreground">
+                    {skippedCount}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* Action Buttons */}
@@ -114,7 +133,7 @@ export default async function UploadSummaryPage({ searchParams }: SummaryPagePro
               </Link>
             </Button>
             <Button asChild className="flex-1">
-              <Link href="/queue">
+              <Link href={applicationIds.length > 0 ? `/queue?ids=${applicationIds.join(",")}` : "/queue"}>
                 Go to Queue
                 <ArrowRight className="h-4 w-4" />
               </Link>

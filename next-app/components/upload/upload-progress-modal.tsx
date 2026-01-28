@@ -19,8 +19,10 @@ import {
   XCircle,
   Loader2,
   Clock,
+  SkipForward,
 } from "lucide-react";
 import type { ProgressUpdate } from "@/lib/csv/types";
+import { DataBox } from "@/components/data-box";
 
 type ApplicationProgress = ProgressUpdate & {
   receivedAt: Date;
@@ -31,7 +33,8 @@ type UploadProgressModalProps = {
   onOpenChange: (open: boolean) => void;
   runId: string;
   totalRows: number;
-  onComplete: () => void;
+  onComplete: (stats: { skippedCount: number; applicationIds: string[] }) => void;
+  onProcessingDone?: () => void;
 };
 
 export function UploadProgressModal({
@@ -40,6 +43,7 @@ export function UploadProgressModal({
   runId,
   totalRows,
   onComplete,
+  onProcessingDone,
 }: UploadProgressModalProps) {
   const [applications, setApplications] = useState<Map<string, ApplicationProgress>>(
     new Map()
@@ -64,9 +68,12 @@ export function UploadProgressModal({
   const errorCount = Array.from(applications.values()).filter(
     (app) => app.status === "ERROR"
   ).length;
+  const skippedCount = Array.from(applications.values()).filter(
+    (app) => app.status === "SKIPPED"
+  ).length;
 
   useEffect(() => {
-    if (!open || !runId) return;
+    if (!runId) return;
 
     // Connect to SSE endpoint
     const eventSource = new EventSource(`/api/upload/${runId}/progress`);
@@ -103,7 +110,7 @@ export function UploadProgressModal({
     return () => {
       eventSource.close();
     };
-  }, [open, runId]);
+  }, [runId]);
 
   // Auto-complete detection based on processed count
   useEffect(() => {
@@ -115,6 +122,13 @@ export function UploadProgressModal({
       return () => clearTimeout(timer);
     }
   }, [processedCount, totalRows, isComplete]);
+
+  // Notify parent when processing is done
+  useEffect(() => {
+    if (isComplete) {
+      onProcessingDone?.();
+    }
+  }, [isComplete]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getStatusIcon = (status: ProgressUpdate["status"]) => {
     switch (status) {
@@ -128,6 +142,8 @@ export function UploadProgressModal({
         return <AlertTriangle className="h-4 w-4 text-yellow-600" />;
       case "ERROR":
         return <XCircle className="h-4 w-4 text-red-600" />;
+      case "SKIPPED":
+        return <SkipForward className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
@@ -143,6 +159,8 @@ export function UploadProgressModal({
         return <Badge variant="treasury-accent">Attention</Badge>;
       case "ERROR":
         return <Badge variant="treasury-warning">Error</Badge>;
+      case "SKIPPED":
+        return <Badge variant="outline">Skipped</Badge>;
     }
   };
 
@@ -154,6 +172,7 @@ export function UploadProgressModal({
       READY: 2,
       NEEDS_ATTENTION: 2,
       ERROR: 2,
+      SKIPPED: 3,
     };
     const orderDiff = statusOrder[a.status] - statusOrder[b.status];
     if (orderDiff !== 0) return orderDiff;
@@ -162,7 +181,7 @@ export function UploadProgressModal({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="w-full sm:max-w-md flex flex-col">
+      <SheetContent side="right" className="w-full sm:max-w-lg flex flex-col">
         <SheetHeader>
           <SheetTitle>
             {isComplete ? "Upload Complete" : "Processing Upload"}
@@ -174,9 +193,9 @@ export function UploadProgressModal({
           </SheetDescription>
         </SheetHeader>
 
-        <div className="py-4 space-y-4 flex-1 flex flex-col min-h-0">
+        <div className="px-4 pt-2 pb-4 space-y-3 flex-1 flex flex-col min-h-0">
           {/* Progress Bar */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Progress value={progressPercent} className="h-2" />
             <div className="flex justify-between text-sm text-muted-foreground">
               <span>{processedCount} processed</span>
@@ -185,22 +204,14 @@ export function UploadProgressModal({
           </div>
 
           {/* Status Summary */}
-          {isComplete && (
-            <div className="flex gap-4 text-sm">
-              <div className="flex items-center gap-1">
-                <CheckCircle2 className="h-4 w-4 text-green-600" />
-                <span>{readyCount} Ready</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <AlertTriangle className="h-4 w-4 text-yellow-600" />
-                <span>{needsAttentionCount} Attention</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <XCircle className="h-4 w-4 text-red-600" />
-                <span>{errorCount} Error</span>
-              </div>
-            </div>
-          )}
+          <div className="flex gap-2">
+            <DataBox size="xs" label="Ready" value={readyCount} className="flex-1 min-w-0" />
+            <DataBox size="xs" label="Attention" value={needsAttentionCount} className="flex-1 min-w-0" />
+            <DataBox size="xs" label="Error" value={errorCount} className="flex-1 min-w-0" />
+            {skippedCount > 0 && (
+              <DataBox size="xs" label="Skipped" value={skippedCount} className="flex-1 min-w-0" />
+            )}
+          </div>
 
           {/* Connection Error */}
           {connectionError && (
@@ -215,7 +226,7 @@ export function UploadProgressModal({
               {sortedApplications.map((app) => (
                 <div
                   key={app.applicationId}
-                  className="flex items-center gap-3 p-2 rounded-lg border bg-card"
+                  className="flex items-center gap-3 p-3 border bg-card"
                 >
                   {getStatusIcon(app.status)}
                   <div className="flex-1 min-w-0">
@@ -240,7 +251,12 @@ export function UploadProgressModal({
 
         <SheetFooter>
           {isComplete ? (
-            <Button onClick={onComplete} className="w-full">
+            <Button onClick={() => onComplete({
+              skippedCount,
+              applicationIds: Array.from(applications.values())
+                .filter((app) => app.status !== "SKIPPED")
+                .map((app) => app.applicationId),
+            })} className="w-full">
               View Results
             </Button>
           ) : (

@@ -4,12 +4,12 @@ import { useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, FileText, X, Loader2, AlertCircle } from "lucide-react";
+import { Upload, FileText, X, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UploadProgressModal } from "@/components/upload/upload-progress-modal";
 import type { CsvValidationError } from "@/lib/csv/types";
 
-type UploadState = "idle" | "selected" | "uploading" | "processing";
+type UploadState = "idle" | "selected" | "uploading" | "processing" | "complete";
 
 export function UploadForm() {
   const [state, setState] = useState<UploadState>("idle");
@@ -116,9 +116,12 @@ export function UploadForm() {
     }
   };
 
-  const handleProcessingComplete = () => {
+  const handleProcessingComplete = ({ skippedCount, applicationIds }: { skippedCount: number; applicationIds: string[] }) => {
     setIsModalOpen(false);
-    router.push(`/upload/summary?runId=${runId}&total=${totalRows}`);
+    const params = new URLSearchParams({ runId, total: String(totalRows) });
+    if (skippedCount > 0) params.set("skipped", String(skippedCount));
+    if (applicationIds.length > 0) params.set("ids", applicationIds.join(","));
+    router.push(`/upload/summary?${params}`);
   };
 
   const formatFileSize = (bytes: number) => {
@@ -230,6 +233,28 @@ export function UploadForm() {
         </div>
       )}
 
+      {/* Banner when modal is closed but processing/complete */}
+      {(state === "processing" || state === "complete") && !isModalOpen && (
+        <div className="flex items-center justify-between border p-4 bg-treasury-base-lightest">
+          <div className="flex items-center gap-3">
+            {state === "processing" ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin text-treasury-primary" />
+                <span className="text-sm font-medium">Processing {totalRows} applications...</span>
+              </>
+            ) : (
+              <>
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span className="text-sm font-medium">Finished processing {totalRows} applications</span>
+              </>
+            )}
+          </div>
+          <Button variant="primary-outline" size="sm" onClick={() => setIsModalOpen(true)}>
+            {state === "processing" ? "View Progress" : "View Results"}
+          </Button>
+        </div>
+      )}
+
       {/* Progress Modal */}
       {runId && (
         <UploadProgressModal
@@ -238,6 +263,7 @@ export function UploadForm() {
           runId={runId}
           totalRows={totalRows}
           onComplete={handleProcessingComplete}
+          onProcessingDone={() => setState("complete")}
         />
       )}
     </div>

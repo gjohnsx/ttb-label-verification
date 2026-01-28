@@ -9,4 +9,4 @@ research/design/tdds/
 .claude/
 
 # Large research datasets
-research/dataset/*.csv
+research/dataset/*.csvresearch/dataset/images/

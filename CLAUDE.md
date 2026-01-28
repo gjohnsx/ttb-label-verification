@@ -21,7 +21,8 @@ If Dave uses it voluntarily, the team follows.
 - **Next.js 16.1** (App Router) - Server components, streaming
 - **shadcn/ui** - Styled to match USWDS (federal design standard)
 - **Prisma 7** + Azure SQL - Database (SQL Server adapter)
-- **AI Vision** - TBD
+- **Azure Blob Storage** - Label images (`ttblabelsdev.blob.core.windows.net/demo/`)
+- **AI Vision** - Mistral Pixtral
 - **Azure Static Web App** - Deployment
 
 ## Development Commands

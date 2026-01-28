@@ -119,7 +119,7 @@ export const MAX_UPLOAD_ROWS = 500;
 export interface ProgressUpdate {
   applicationId: string;
   brandName: string;
-  status: "QUEUED" | "PROCESSING" | "READY" | "NEEDS_ATTENTION" | "ERROR";
+  status: "QUEUED" | "PROCESSING" | "READY" | "NEEDS_ATTENTION" | "ERROR" | "SKIPPED";
   index: number;
   total: number;
   error?: string;

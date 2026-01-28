@@ -142,4 +142,14 @@ The main app features (F1-F3, F6) were complete. Rather than context-switch away
 
 ---
 
+### Day 6 - Real Data & Azure Blob Storage
+**Date:** 2026-01-28
+
+- Replaced synthetic sample data with 30 real applications extracted from the 2018 COLA dataset (15 wine, 10 spirits, 5 malt beverages)
+- Manually downloaded 58 label images from TTB's public COLA registry and uploaded to Azure Blob Storage (`ttblabelsdev.blob.core.windows.net/demo/`)
+- `GET /api/upload/sample` now serves a static CSV with real TTB IDs, brand names, and Azure blob image URLs
+- Demo now uses real government data end-to-end instead of fabricated test data
+
+---
+
 <!-- New entries will be added above this line -->

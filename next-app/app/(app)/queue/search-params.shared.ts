@@ -23,4 +23,7 @@ export const queueParsers = {
   search: parseAsString
     .withDefault("")
     .withOptions({ shallow: false }),
+  ids: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
 };

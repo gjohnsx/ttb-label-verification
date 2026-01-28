@@ -32,10 +32,26 @@ async function createApplicationFromRow(
   row: CsvRow,
   index: number,
   total: number
-): Promise<string> {
+): Promise<string | null> {
   "use step";
 
   const data = extractApplicationData(row);
+
+  // Check if this COLA ID already exists
+  const existing = await prisma.application.findFirst({
+    where: { colaId: data.colaId },
+  });
+
+  if (existing) {
+    await sendProgress({
+      applicationId: existing.id,
+      brandName: data.brandName,
+      status: "SKIPPED",
+      index,
+      total,
+    });
+    return null;
+  }
 
   // Create the application record
   const application = await prisma.application.create({
@@ -247,17 +263,20 @@ export async function csvImportWorkflow(rows: CsvRow[]) {
   "use workflow";
 
   const total = rows.length;
-  const applicationIds: string[] = [];
+  const applicationIds: (string | null)[] = [];
 
-  // Phase 1: Create all application records
+  // Phase 1: Create all application records (skips duplicates)
   for (let i = 0; i < rows.length; i++) {
     const applicationId = await createApplicationFromRow(rows[i], i + 1, total);
     applicationIds.push(applicationId);
   }
 
-  // Phase 2: Process each application (OCR + comparison)
+  // Phase 2: Process each application (OCR + comparison), skip nulls (duplicates)
   for (let i = 0; i < applicationIds.length; i++) {
-    await processApplication(applicationIds[i], i + 1, total);
+    const id = applicationIds[i];
+    if (id) {
+      await processApplication(id, i + 1, total);
+    }
   }
 
   // Close the stream
