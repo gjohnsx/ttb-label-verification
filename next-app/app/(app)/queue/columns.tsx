@@ -109,6 +109,26 @@ export const columns: ColumnDef<ApplicationForQueue>[] = [
     },
   },
   {
+    accessorKey: "reviewedBy",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Reviewed" />
+    ),
+    cell: ({ row }) => {
+      const reviewedBy = row.getValue("reviewedBy") as string | null;
+      const status = row.getValue("status") as string;
+
+      if (reviewedBy) {
+        return <span className="font-medium">{reviewedBy}</span>;
+      }
+
+      if (status === "REVIEWED") {
+        return <span className="text-muted-foreground">—</span>;
+      }
+
+      return <span className="text-muted-foreground">—</span>;
+    },
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Created Date" />

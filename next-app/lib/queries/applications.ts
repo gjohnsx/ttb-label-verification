@@ -28,6 +28,7 @@ export type ApplicationForQueue = {
   classType: string | null;
   status: string;
   createdAt: Date;
+  reviewedBy: string | null;
 };
 
 // Filter parameters for queue queries
@@ -104,11 +105,28 @@ export async function getApplicationsForQueue(
       classType: true,
       status: true,
       createdAt: true,
+      reviews: {
+        orderBy: { reviewedAt: "desc" },
+        take: 1,
+        select: {
+          agentName: true,
+        },
+      },
     },
   });
 
+  const queueItems: ApplicationForQueue[] = applications.map((app) => ({
+    id: app.id,
+    colaId: app.colaId,
+    brandName: app.brandName,
+    classType: app.classType,
+    status: app.status,
+    createdAt: app.createdAt,
+    reviewedBy: app.reviews[0]?.agentName ?? null,
+  }));
+
   // Sort by status priority, then by createdAt (oldest first within same status)
-  return applications.sort((a, b) => {
+  return queueItems.sort((a, b) => {
     const priorityA = STATUS_PRIORITY[a.status as ApplicationStatus] ?? 99;
     const priorityB = STATUS_PRIORITY[b.status as ApplicationStatus] ?? 99;
 
