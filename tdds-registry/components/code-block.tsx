@@ -23,7 +23,7 @@ export function CodeBlock({ children }: { children: string }) {
         aria-label={copied ? "Copied!" : "Copy code"}
       >
         {copied ? (
-          <Check className="h-4 w-4 text-treasury-secondary" />
+          <Check className="h-4 w-4 text-treasury-paper" />
         ) : (
           <Copy className="h-4 w-4" />
         )}

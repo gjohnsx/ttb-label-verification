@@ -87,9 +87,9 @@ export function DataTableToolbar<TData>({
         {isFiltered && (
           <Button
             variant="ghost"
-            size="sm"
+            size="default"
             onClick={handleClearFilters}
-            className="h-8"
+            className="h-8 px-3"
           >
             Clear filters
             <XIcon className="ml-1 size-4" />
