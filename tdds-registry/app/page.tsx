@@ -152,8 +152,13 @@ npx shadcn@latest add @tdds/gov-banner`}</CodeBlock>
                   <Button variant="primary-outline">Primary Outline</Button>
                   <Button variant="ghost">Ghost</Button>
                 </div>
+                <div className="flex flex-wrap gap-4 bg-treasury-ink p-4 rounded-[5px]">
+                  <Button variant="paper">Paper</Button>
+                  <Button variant="paper-outline">Paper Outline</Button>
+                  <Button variant="paper" disabled>Paper</Button>
+                  <Button variant="paper-outline" disabled>Paper Outline</Button>
+                </div>
                 <div className="flex flex-wrap gap-4">
-                  <Button variant="primary" size="sm">Small</Button>
                   <Button variant="primary" size="default">Default</Button>
                   <Button variant="primary" size="lg">Large</Button>
                 </div>
