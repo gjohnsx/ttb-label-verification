@@ -1,8 +1,8 @@
 /**
  * Mistral OCR wrapper for extracting text from label images
  *
- * Uses Mistral's Pixtral vision model to analyze label images
- * and extract structured fields for TTB compliance verification.
+ * Uses Mistral's dedicated OCR model (mistral-ocr-latest) for accurate
+ * text extraction, then structures the results for TTB compliance verification.
  */
 
 import fs from "node:fs/promises";
@@ -10,11 +10,12 @@ import path from "node:path";
 import { Mistral } from "@mistralai/mistralai";
 import type { ExtractedFields, FieldType } from "@/lib/comparison/types";
 import { generateSasUrl, isAzureBlobUrl } from "@/lib/storage/blob";
-import { LABEL_EXTRACTION_PROMPT } from "./prompts";
+// TODO: Re-enable when adding structured field extraction
+// import { LABEL_EXTRACTION_PROMPT } from "./prompts";
 
 // Model configuration
-const PIXTRAL_MODEL = "pixtral-large-2411";
-const MODEL_VERSION = "pixtral-large-2411";
+const OCR_MODEL = "mistral-ocr-latest";
+const MODEL_VERSION = "mistral-ocr-latest";
 const SUPPORTED_IMAGE_MIME_TYPES: Record<string, string> = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
@@ -116,20 +117,21 @@ export interface OcrExtractResult {
   modelVersion: string;
 }
 
-/**
- * Raw response structure from Mistral vision model
- */
-interface MistralExtractedResponse {
-  brandName?: string | null;
-  classType?: string | null;
-  alcoholContent?: string | null;
-  netContents?: string | null;
-  governmentWarning?: string | null;
-  bottlerName?: string | null;
-  bottlerAddress?: string | null;
-  countryOfOrigin?: string | null;
-  confidence?: Partial<Record<FieldType, number>>;
-}
+// TODO: Re-enable when adding structured field extraction
+// /**
+//  * Raw response structure from Mistral vision model
+//  */
+// interface MistralExtractedResponse {
+//   brandName?: string | null;
+//   classType?: string | null;
+//   alcoholContent?: string | null;
+//   netContents?: string | null;
+//   governmentWarning?: string | null;
+//   bottlerName?: string | null;
+//   bottlerAddress?: string | null;
+//   countryOfOrigin?: string | null;
+//   confidence?: Partial<Record<FieldType, number>>;
+// }
 
 /**
  * Check if Mistral OCR is properly configured
@@ -150,48 +152,69 @@ function getMistralClient(): Mistral | null {
   return new Mistral({ apiKey });
 }
 
+// TODO: Re-enable when adding structured field extraction
+// /**
+//  * Parse JSON response from Mistral, handling potential formatting issues
+//  */
+// function parseJsonResponse(content: string): MistralExtractedResponse {
+//   // Remove markdown code blocks if present
+//   let cleanContent = content.trim();
+//
+//   // Handle ```json ... ``` formatting
+//   if (cleanContent.startsWith("```")) {
+//     cleanContent = cleanContent.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```$/, "");
+//   }
+//
+//   try {
+//     return JSON.parse(cleanContent);
+//   } catch {
+//     console.error("Failed to parse Mistral response as JSON:", content);
+//     throw new Error("Invalid JSON response from Mistral vision model");
+//   }
+// }
+//
+// /**
+//  * Convert MistralExtractedResponse to ExtractedFields
+//  */
+// function toExtractedFields(response: MistralExtractedResponse): ExtractedFields {
+//   return {
+//     brandName: response.brandName ?? null,
+//     classType: response.classType ?? null,
+//     alcoholContent: response.alcoholContent ?? null,
+//     netContents: response.netContents ?? null,
+//     governmentWarning: response.governmentWarning ?? null,
+//     bottlerName: response.bottlerName ?? null,
+//     bottlerAddress: response.bottlerAddress ?? null,
+//     countryOfOrigin: response.countryOfOrigin ?? null,
+//     confidenceScores: response.confidence,
+//   };
+// }
+
 /**
- * Parse JSON response from Mistral, handling potential formatting issues
+ * Extract raw text from an image using Mistral OCR
  */
-function parseJsonResponse(content: string): MistralExtractedResponse {
-  // Remove markdown code blocks if present
-  let cleanContent = content.trim();
+async function performOcr(client: Mistral, imageUrl: string): Promise<string> {
+  const ocrResponse = await client.ocr.process({
+    model: OCR_MODEL,
+    document: {
+      type: "image_url",
+      imageUrl: imageUrl,
+    },
+    includeImageBase64: false,
+  });
 
-  // Handle ```json ... ``` formatting
-  if (cleanContent.startsWith("```")) {
-    cleanContent = cleanContent.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```$/, "");
-  }
+  // Combine all pages' markdown content
+  const pages = ocrResponse.pages ?? [];
+  const rawMarkdown = pages.map((page) => page.markdown).join("\n\n---\n\n");
 
-  try {
-    return JSON.parse(cleanContent);
-  } catch {
-    console.error("Failed to parse Mistral response as JSON:", content);
-    throw new Error("Invalid JSON response from Mistral vision model");
-  }
+  return rawMarkdown;
 }
 
 /**
- * Convert MistralExtractedResponse to ExtractedFields
- */
-function toExtractedFields(response: MistralExtractedResponse): ExtractedFields {
-  return {
-    brandName: response.brandName ?? null,
-    classType: response.classType ?? null,
-    alcoholContent: response.alcoholContent ?? null,
-    netContents: response.netContents ?? null,
-    governmentWarning: response.governmentWarning ?? null,
-    bottlerName: response.bottlerName ?? null,
-    bottlerAddress: response.bottlerAddress ?? null,
-    countryOfOrigin: response.countryOfOrigin ?? null,
-    confidenceScores: response.confidence,
-  };
-}
-
-/**
- * Extract label text from an image URL using Mistral Pixtral vision model
+ * Extract label text from an image URL using Mistral OCR
  *
  * @param imageUrl - URL of the label image to analyze
- * @returns Structured extraction result with fields and confidence scores
+ * @returns Extraction result with raw OCR markdown (structured fields not yet implemented)
  */
 export async function extractLabelText(imageUrl: string): Promise<OcrExtractResult> {
   const startTime = Date.now();
@@ -203,49 +226,33 @@ export async function extractLabelText(imageUrl: string): Promise<OcrExtractResu
   }
 
   try {
+    // Resolve the image URL (handle Azure blobs, local files, etc.)
     const resolvedImageUrl = await resolveImageUrl(imageUrl);
-    const response = await client.chat.complete({
-      model: PIXTRAL_MODEL,
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: LABEL_EXTRACTION_PROMPT,
-            },
-            {
-              type: "image_url",
-              imageUrl: {
-                url: resolvedImageUrl,
-              },
-            },
-          ],
-        },
-      ],
-    });
+
+    // Extract raw text using OCR model
+    const rawMarkdown = await performOcr(client, resolvedImageUrl);
+
+    if (!rawMarkdown || rawMarkdown.trim().length === 0) {
+      throw new Error("OCR returned empty result - could not extract text from image");
+    }
 
     const processingTimeMs = Date.now() - startTime;
 
-    // Extract content from response
-    const choice = response.choices?.[0];
-    if (!choice || !choice.message?.content) {
-      throw new Error("No response content from Mistral vision model");
-    }
-
-    const rawContent =
-      typeof choice.message.content === "string"
-        ? choice.message.content
-        : JSON.stringify(choice.message.content);
-
-    // Parse the JSON response
-    const parsed = parseJsonResponse(rawContent);
-    const extractedFields = toExtractedFields(parsed);
-
+    // TODO: Add structured field extraction (second pass with chat model)
+    // For now, just return raw OCR output
     return {
-      rawMarkdown: rawContent,
-      extractedFields,
-      confidenceScores: parsed.confidence ?? {},
+      rawMarkdown,
+      extractedFields: {
+        brandName: null,
+        classType: null,
+        alcoholContent: null,
+        netContents: null,
+        governmentWarning: null,
+        bottlerName: null,
+        bottlerAddress: null,
+        countryOfOrigin: null,
+      },
+      confidenceScores: {},
       processingTimeMs,
       modelVersion: MODEL_VERSION,
     };
@@ -253,7 +260,6 @@ export async function extractLabelText(imageUrl: string): Promise<OcrExtractResu
     const processingTimeMs = Date.now() - startTime;
     console.error("Mistral OCR extraction failed:", error);
 
-    // Return error result with empty fields
     return {
       rawMarkdown: `Error: ${error instanceof Error ? error.message : "Unknown error"}`,
       extractedFields: {
