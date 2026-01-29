@@ -1,15 +1,15 @@
 /**
- * OCR extraction prompts for TTB label verification
+ * Prompts for structured field extraction from OCR text
  *
- * These prompts guide the Mistral vision model to extract
- * specific fields from beverage label images.
+ * Used by Azure OpenAI to parse raw OCR markdown into
+ * structured TTB label fields.
  */
 
 /**
- * Main prompt for extracting label information from images.
+ * Main prompt for extracting label fields from OCR text.
  * Designed to match the ExtractedFields type structure.
  */
-export const LABEL_EXTRACTION_PROMPT = `You are analyzing a beverage label image for TTB (Alcohol and Tobacco Tax and Trade Bureau) compliance verification. Extract the following information if visible on the label:
+export const LABEL_EXTRACTION_PROMPT = `You are analyzing OCR-extracted text from a beverage label for TTB (Alcohol and Tobacco Tax and Trade Bureau) compliance verification. Extract the following information from the text:
 
 1. **Brand Name** - The product/brand name prominently displayed on the label
 2. **Class/Type** - The beverage classification (e.g., "Blended Scotch Whisky", "Kentucky Straight Bourbon Whiskey", "Vodka", "London Dry Gin")

@@ -29,6 +29,40 @@ export interface DeletedCounts {
  *
  * Protected by secret token for defense in depth.
  */
+/**
+ * Delete a single application and all related data (images, OCR results, comparisons, reviews, audit events).
+ */
+export async function deleteApplication(applicationId: string): Promise<{ success: true } | { success: false; error: string }> {
+  const session = await verifySession();
+  console.log(`[Admin] Delete application ${applicationId} by agent: ${session.agentName}`);
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      // Get image IDs for this application
+      const images = await tx.labelImage.findMany({
+        where: { applicationId },
+        select: { id: true },
+      });
+      const imageIds = images.map((img) => img.id);
+
+      // Delete in dependency order
+      if (imageIds.length > 0) {
+        await tx.ocrResult.deleteMany({ where: { imageId: { in: imageIds } } });
+      }
+      await tx.comparison.deleteMany({ where: { applicationId } });
+      await tx.auditEvent.deleteMany({ where: { applicationId } });
+      await tx.review.deleteMany({ where: { applicationId } });
+      await tx.labelImage.deleteMany({ where: { applicationId } });
+      await tx.application.delete({ where: { id: applicationId } });
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error('[Admin] Delete application failed:', error);
+    return { success: false, error: error instanceof Error ? error.message : 'Failed to delete application' };
+  }
+}
+
 export async function resetDemoData(secret: string): Promise<ResetDemoResult> {
   // 1. Verify the user is authenticated
   const session = await verifySession();

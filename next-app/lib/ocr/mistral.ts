@@ -1,17 +1,15 @@
 /**
- * Mistral OCR wrapper for extracting text from label images
+ * Mistral OCR wrapper for extracting raw text from label images
  *
  * Uses Mistral's dedicated OCR model (mistral-ocr-latest) for accurate
- * text extraction, then structures the results for TTB compliance verification.
+ * text extraction. Structured field extraction is handled separately
+ * by extract-fields.ts via Azure OpenAI.
  */
 
 import fs from "node:fs/promises";
 import path from "node:path";
 import { Mistral } from "@mistralai/mistralai";
-import type { ExtractedFields, FieldType } from "@/lib/comparison/types";
 import { generateSasUrl, isAzureBlobUrl } from "@/lib/storage/blob";
-// TODO: Re-enable when adding structured field extraction
-// import { LABEL_EXTRACTION_PROMPT } from "./prompts";
 
 // Model configuration
 const OCR_MODEL = "mistral-ocr-latest";
@@ -102,36 +100,16 @@ async function resolveImageUrl(imageUrl: string): Promise<string> {
 }
 
 /**
- * Result of OCR extraction from a label image
+ * Result of raw OCR text extraction from a label image
  */
-export interface OcrExtractResult {
-  /** Raw markdown/text from the OCR response */
+export interface OcrRawResult {
+  /** Raw markdown text from the OCR response */
   rawMarkdown: string;
-  /** Structured fields extracted from the label */
-  extractedFields: ExtractedFields;
-  /** Confidence scores for each extracted field (0-1) */
-  confidenceScores: Partial<Record<FieldType, number>>;
   /** Time taken to process in milliseconds */
   processingTimeMs: number;
   /** Model version used for extraction */
   modelVersion: string;
 }
-
-// TODO: Re-enable when adding structured field extraction
-// /**
-//  * Raw response structure from Mistral vision model
-//  */
-// interface MistralExtractedResponse {
-//   brandName?: string | null;
-//   classType?: string | null;
-//   alcoholContent?: string | null;
-//   netContents?: string | null;
-//   governmentWarning?: string | null;
-//   bottlerName?: string | null;
-//   bottlerAddress?: string | null;
-//   countryOfOrigin?: string | null;
-//   confidence?: Partial<Record<FieldType, number>>;
-// }
 
 /**
  * Check if Mistral OCR is properly configured
@@ -151,44 +129,6 @@ function getMistralClient(): Mistral | null {
   }
   return new Mistral({ apiKey });
 }
-
-// TODO: Re-enable when adding structured field extraction
-// /**
-//  * Parse JSON response from Mistral, handling potential formatting issues
-//  */
-// function parseJsonResponse(content: string): MistralExtractedResponse {
-//   // Remove markdown code blocks if present
-//   let cleanContent = content.trim();
-//
-//   // Handle ```json ... ``` formatting
-//   if (cleanContent.startsWith("```")) {
-//     cleanContent = cleanContent.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```$/, "");
-//   }
-//
-//   try {
-//     return JSON.parse(cleanContent);
-//   } catch {
-//     console.error("Failed to parse Mistral response as JSON:", content);
-//     throw new Error("Invalid JSON response from Mistral vision model");
-//   }
-// }
-//
-// /**
-//  * Convert MistralExtractedResponse to ExtractedFields
-//  */
-// function toExtractedFields(response: MistralExtractedResponse): ExtractedFields {
-//   return {
-//     brandName: response.brandName ?? null,
-//     classType: response.classType ?? null,
-//     alcoholContent: response.alcoholContent ?? null,
-//     netContents: response.netContents ?? null,
-//     governmentWarning: response.governmentWarning ?? null,
-//     bottlerName: response.bottlerName ?? null,
-//     bottlerAddress: response.bottlerAddress ?? null,
-//     countryOfOrigin: response.countryOfOrigin ?? null,
-//     confidenceScores: response.confidence,
-//   };
-// }
 
 /**
  * Extract raw text from an image using Mistral OCR
@@ -211,12 +151,12 @@ async function performOcr(client: Mistral, imageUrl: string): Promise<string> {
 }
 
 /**
- * Extract label text from an image URL using Mistral OCR
+ * Extract raw text from a label image URL using Mistral OCR
  *
  * @param imageUrl - URL of the label image to analyze
- * @returns Extraction result with raw OCR markdown (structured fields not yet implemented)
+ * @returns Raw OCR markdown text
  */
-export async function extractLabelText(imageUrl: string): Promise<OcrExtractResult> {
+export async function extractRawText(imageUrl: string): Promise<OcrRawResult> {
   const startTime = Date.now();
   const client = getMistralClient();
 
@@ -225,134 +165,43 @@ export async function extractLabelText(imageUrl: string): Promise<OcrExtractResu
     return getMockOcrResult(startTime);
   }
 
-  try {
-    // Resolve the image URL (handle Azure blobs, local files, etc.)
-    const resolvedImageUrl = await resolveImageUrl(imageUrl);
+  // Resolve the image URL (handle Azure blobs, local files, etc.)
+  const resolvedImageUrl = await resolveImageUrl(imageUrl);
 
-    // Extract raw text using OCR model
-    const rawMarkdown = await performOcr(client, resolvedImageUrl);
+  // Extract raw text using OCR model
+  const rawMarkdown = await performOcr(client, resolvedImageUrl);
 
-    if (!rawMarkdown || rawMarkdown.trim().length === 0) {
-      throw new Error("OCR returned empty result - could not extract text from image");
-    }
-
-    const processingTimeMs = Date.now() - startTime;
-
-    // TODO: Add structured field extraction (second pass with chat model)
-    // For now, just return raw OCR output
-    return {
-      rawMarkdown,
-      extractedFields: {
-        brandName: null,
-        classType: null,
-        alcoholContent: null,
-        netContents: null,
-        governmentWarning: null,
-        bottlerName: null,
-        bottlerAddress: null,
-        countryOfOrigin: null,
-      },
-      confidenceScores: {},
-      processingTimeMs,
-      modelVersion: MODEL_VERSION,
-    };
-  } catch (error) {
-    const processingTimeMs = Date.now() - startTime;
-    console.error("Mistral OCR extraction failed:", error);
-
-    return {
-      rawMarkdown: `Error: ${error instanceof Error ? error.message : "Unknown error"}`,
-      extractedFields: {
-        brandName: null,
-        classType: null,
-        alcoholContent: null,
-        netContents: null,
-        governmentWarning: null,
-        bottlerName: null,
-        bottlerAddress: null,
-        countryOfOrigin: null,
-      },
-      confidenceScores: {},
-      processingTimeMs,
-      modelVersion: MODEL_VERSION,
-    };
+  if (!rawMarkdown || rawMarkdown.trim().length === 0) {
+    throw new Error("OCR returned empty result - could not extract text from image");
   }
-}
 
-/**
- * Extract label text from multiple images and merge results
- *
- * @param imageUrls - Array of label image URLs to analyze
- * @returns Array of extraction results, one per image
- */
-export async function extractMultipleLabels(
-  imageUrls: string[]
-): Promise<OcrExtractResult[]> {
-  // Process images in parallel for speed
-  const results = await Promise.all(imageUrls.map((url) => extractLabelText(url)));
-  return results;
+  return {
+    rawMarkdown,
+    processingTimeMs: Date.now() - startTime,
+    modelVersion: MODEL_VERSION,
+  };
 }
 
 /**
  * Generate mock OCR result for demo/testing when API key is not configured
  */
-function getMockOcrResult(startTime: number): OcrExtractResult {
-  const processingTimeMs = Date.now() - startTime + 500; // Simulate some delay
-
+function getMockOcrResult(startTime: number): OcrRawResult {
   return {
-    rawMarkdown: JSON.stringify({
-      brandName: "Demo Brand",
-      classType: "Blended Whiskey",
-      alcoholContent: "40% Alc./Vol.",
-      netContents: "750 mL",
-      governmentWarning:
-        "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
-      bottlerName: "Demo Distillery Co.",
-      bottlerAddress: "123 Main Street, Louisville, KY 40202",
-      countryOfOrigin: "United States",
-      confidence: {
-        brandName: 0.95,
-        classType: 0.85,
-        alcoholContent: 0.98,
-        netContents: 0.95,
-        governmentWarning: 0.9,
-        bottlerName: 0.8,
-        bottlerAddress: 0.75,
-        countryOfOrigin: 0.92,
-      },
-    }),
-    extractedFields: {
-      brandName: "Demo Brand",
-      classType: "Blended Whiskey",
-      alcoholContent: "40% Alc./Vol.",
-      netContents: "750 mL",
-      governmentWarning:
-        "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
-      bottlerName: "Demo Distillery Co.",
-      bottlerAddress: "123 Main Street, Louisville, KY 40202",
-      countryOfOrigin: "United States",
-      confidenceScores: {
-        brandName: 0.95,
-        classType: 0.85,
-        alcoholContent: 0.98,
-        netContents: 0.95,
-        governmentWarning: 0.9,
-        bottlerName: 0.8,
-        bottlerAddress: 0.75,
-        countryOfOrigin: 0.92,
-      },
-    },
-    confidenceScores: {
-      brandName: 0.95,
-      classType: 0.85,
-      alcoholContent: 0.98,
-      netContents: 0.95,
-      governmentWarning: 0.9,
-      bottlerName: 0.8,
-      bottlerAddress: 0.75,
-      countryOfOrigin: 0.92,
-    },
-    processingTimeMs,
+    rawMarkdown: [
+      "# Demo Brand",
+      "",
+      "Blended Whiskey",
+      "",
+      "40% Alc./Vol. | 750 mL",
+      "",
+      "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+      "",
+      "Bottled by Demo Distillery Co.",
+      "123 Main Street, Louisville, KY 40202",
+      "",
+      "Product of United States",
+    ].join("\n"),
+    processingTimeMs: Date.now() - startTime + 500,
     modelVersion: "mock-demo",
   };
 }

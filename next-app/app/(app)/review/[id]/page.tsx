@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 
 import { AppHeader } from "@/components/layout/app-header";
+import { ApplicationMenu } from "@/components/review/application-menu";
 import { ReviewActionBar } from "@/components/review/review-action-bar";
 import {
   Breadcrumb,
@@ -49,13 +50,16 @@ export default async function ReviewPage({ params }: ReviewPageProps) {
 
       <main className="container mx-auto py-6 px-4">
         {/* Page Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-treasury-base-darkest">
-            Label Review
-          </h1>
-          <p className="text-treasury-base-dark">
-            Compare application data against extracted label values
-          </p>
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-treasury-base-darkest">
+              Label Review
+            </h1>
+            <p className="text-treasury-base-dark">
+              Compare application data against extracted label values
+            </p>
+          </div>
+          <ApplicationMenu applicationId={id} />
         </div>
 
         {/* Content + actions with Suspense boundary */}
