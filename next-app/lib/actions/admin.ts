@@ -63,6 +63,39 @@ export async function deleteApplication(applicationId: string): Promise<{ succes
   }
 }
 
+/**
+ * Delete multiple applications and all related data.
+ */
+export async function deleteApplications(applicationIds: string[]): Promise<{ success: true; deletedCount: number } | { success: false; error: string }> {
+  const session = await verifySession();
+  console.log(`[Admin] Bulk delete ${applicationIds.length} applications by agent: ${session.agentName}`);
+
+  try {
+    // Get image IDs for all applications
+    const images = await prisma.labelImage.findMany({
+      where: { applicationId: { in: applicationIds } },
+      select: { id: true },
+    });
+    const imageIds = images.map((img) => img.id);
+
+    await prisma.$transaction(async (tx) => {
+      if (imageIds.length > 0) {
+        await tx.ocrResult.deleteMany({ where: { imageId: { in: imageIds } } });
+      }
+      await tx.comparison.deleteMany({ where: { applicationId: { in: applicationIds } } });
+      await tx.auditEvent.deleteMany({ where: { applicationId: { in: applicationIds } } });
+      await tx.review.deleteMany({ where: { applicationId: { in: applicationIds } } });
+      await tx.labelImage.deleteMany({ where: { applicationId: { in: applicationIds } } });
+      await tx.application.deleteMany({ where: { id: { in: applicationIds } } });
+    });
+
+    return { success: true, deletedCount: applicationIds.length };
+  } catch (error) {
+    console.error('[Admin] Bulk delete failed:', error);
+    return { success: false, error: error instanceof Error ? error.message : 'Failed to delete applications' };
+  }
+}
+
 export async function resetDemoData(secret: string): Promise<ResetDemoResult> {
   // 1. Verify the user is authenticated
   const session = await verifySession();
