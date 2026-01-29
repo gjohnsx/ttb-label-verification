@@ -1,0 +1,88 @@
+{
+  "pages": [
+    {
+      "index": 0,
+      "markdown": "# CHECKLIST OF MANDATORY LABEL INFORMATION | WINE\n\nThis guidance lists the mandatory information that TTB reviews on every wine label and certificate of label approval application and includes a checklist to help prevent common errors. This document does not provide comprehensive labeling guidance. Wine for which a certificate of label approval is required must be labeled in compliance with all applicable requirements in 27 CFR part 4 and 27 CFR part 16.\n\n[tbl-0.md](tbl-0.md)",
+      "images": [],
+      "tables": [
+        {
+          "id": "tbl-0.md",
+          "content": "|  Mandatory Information that Must Appear on the Brand Label Any label may be designated as the brand label provided it contains these items (if applicable)  |   |   |\n| --- | --- | --- |\n|  Mandatory Item and Description | Regulatory Citation | Checklist  |\n|  Brand Name Name under which the product will be sold. | 27 CFR 4.33 | ☐ Does the brand name appear on the brand label? ☐ Does it match the entry in the “Brand Name” field on the application?  |\n|  Designation: Class/Type Designation Examples: “Red Wine,” “Sparkling Wine,” “Peach Wine,” “Honey Wine,” or “Chardonnay” OR Statement of Composition A truthful and adequate statement of composition in lieu of a class designation if the class of wine is not defined in 27 CFR 4.21. | 27 CFR 4.21 27 CFR 4.34 27 CFR 4.91 (grape varietals approved for domestic wine) | ☐ Does the designation appear on the brand label? ☐ If the designation is a class or type, is it consistent with a class or type listed in the regulations? ☐ Is the designation separate and apart from all other information? ☐ Is it spelled correctly? ☐ Are one or more grape varietals listed on the brand label? A varietal is considered the class/type designation if it is present on the brand label. ☐ If yes, does the listing match the “Grape Varietal(s)” field on the application? ☐ For domestic wine, is each varietal approved for domestic use? ☐ Is it a wine that requires a formula? (Check wine formula requirements here.) ☐ If yes, is the statement of composition the same as the suggested general statement on the approved formula (under Determination and Labeling Instructions) or more specific? ☐ Has the approved formula number been selected on the application? ☐ Are this and other labels on the container free from conflicting or inconsistent designations? (e.g., “red wine with natural flavors” vs. “red wine”)  |\n|  Appellation of Origin An area where the fruit or agricultural product used to make the wine was grown. | 27 CFR 4.25 27 CFR 4.34 | Generally, mandatory ONLY if the label contains a grape varietal type designation, a type designation of varietal significance, a vintage date, or a semi-generic type designation, or if the product is labeled as estate bottled. See Appellation of Origin for more information. ☐ Is the country, state, county, American Viticultural Area or other appellation shown on the brand label together with the designation? ☐ Does the appellation on the label match the “Appellation” field on the application?  |\n|  Percentage of Foreign Wine Example: 50% American wine/50% French wine | 27 CFR 4.32(a)(4) | Mandatory for blends of American and foreign wine ONLY if the label refers to foreign wine.  |",
+          "format": "markdown"
+        }
+      ],
+      "hyperlinks": [
+        "https://www.ecfr.gov/cgi-bin/text-idx?SID=7bdd1b68d060eb188c919e7b51add20b&mc=true&node=pt27.1.4&rgn=div5",
+        "http://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&sid=fd8b0ad16b93584273aefb7460a98eb4&tpl=/ecfrbrowse/Title27/27cfr16_main_02.tpl",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_133&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=f7f761dfe241b6acf8df10e9a466c686&mc=true&node=se27.1.4_121&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_134&rgn=div8",
+        "https://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&sid=33fc0c0194b58b6fe95208945b5c637a&rgn=div5&view=text&node=27:1.0.1.1.2&idno=27#se27.1.4_191",
+        "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/grape-variety-designations-on-american-wine-labels",
+        "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/grape-variety-designations-on-american-wine-labels",
+        "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/grape-variety-designations-on-american-wine-labels",
+        "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/grape-variety-designations-on-american-wine-labels",
+        "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/grape-variety-designations-on-american-wine-labels",
+        "https://www.ttb.gov/formulation/do-i-need-a-formula-wine",
+        "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/grape-variety-designations-on-american-wine-labels",
+        "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/grape-variety-designations-on-american-wine-labels",
+        "http://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&sid=506cf0c03546efff958847134c5527d3&rgn=div5&view=text&node=27:1.0.1.1.2&idno=27#se27.1.4_125",
+        "https://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&sid=33fc0c0194b58b6fe95208945b5c637a&rgn=div5&view=text&node=27:1.0.1.1.2&idno=27#se27.1.4_134",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_132&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_132&rgn=div8"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    },
+    {
+      "index": 1,
+      "markdown": "[tbl-1.md](tbl-1.md)\n\nTTB G 2019-12",
+      "images": [],
+      "tables": [
+        {
+          "id": "tbl-1.md",
+          "content": "|  Mandatory information that May Appear on ANY Label  |   |   |\n| --- | --- | --- |\n|  Mandatory Item and Description | Regulatory Citation | Checklist  |\n|  Alcohol Content\nExample: Alcohol _% by volume | 27 CFR 4.36 | ☐ Is the alcohol content stated on the label? See Alcohol Content for rules on table wine.\n☐ Are the format and abbreviations acceptable? You may use: “Alc.”, “Alc”, “Vol.”, “Vol” or “%”.  |\n|  Net Contents\nVolume of wine in container. | 27 CFR 4.37 | ☐ Is the net contents statement present on the label or blown into or marked on the container?\n☐ Are the format and abbreviations acceptable (e.g., 750 mL, 1 L)?\n☐ Does it meet an approved standard of fill? Only a standard of fill approved in 27 CFR 4.72 is acceptable in most cases.\nExceptions: See 27 CFR 4.70(b)  |\n|  Name and Address\nThe name and address (city and state) as listed on your permit. | 27 CFR 4.35 | ☐ Is the name and address on the label?\n☐ Does the name on the label match what is shown on the permit listed on your application?\n☐ If not, is the DBA/trade name on the label shown on both the application and the permit?\n☐ Does the address (city and State) on the label match the address on your application?\n☐ Does the name and address immediately follow a phrase such as \"Bottled By\" or \"Imported By\", respectively, with no intervening text?  |\n|  Sulfite Declaration\nExample: “Contains Sulfites” | 27 CFR 4.32(e) | Must appear if the product has 10 ppm or more (total) sulfur dioxide.\n☐ “No sulfites added” may be stated but must appear together with the phrase “contains naturally occurring sulfites” or “may contain naturally occurring sulfites.”\n☐ If the label does not have a sulfite declaration, are you required to include with your application a corresponding sulfite analysis conducted by a TTB laboratory that shows that the wine contains less than 10 ppm sulfites?  |\n|  Health Warning Statement\nStatement must appear exactly as prescribed in the regulations. | 27 CFR part 16 | ☐ Is the statement on the label?\n☐ Does it match the exact wording and punctuation?\n☐ Are the words “GOVERNMENT WARNING” in capital letters and bold type?\n☐ Are the “S” in Surgeon and “G” in General capitalized?\n☐ Does it appear as one statement?\n☐ Is it separate and apart from other information on the label?  |\n|  Country of Origin\nImported wines only\nRequired by U.S. Customs and Border Protection (CBP). | 19 CFR 134.11 | ☐ Is the country of origin statement on the label?\n☐ Does the format of the country of origin statement comply with CBP regulations? NOTE: Questions about the appropriate country of origin should be directed to CBP.  |\n|  FD&C Yellow #5\nExample: “Contains FD&C Yellow #5” | 27 CFR 4.32(c) | Mandatory ONLY if FD&C Yellow #5 is used in the wine.\n☐ Is the statement on the label?  |\n|  Cochineal Extract or Carmine\nExample: “Contains Carmine:” | 27 CFR 4.32(d) | Mandatory ONLY if used in the wine.\n☐ Is the statement on the label?  |",
+          "format": "markdown"
+        }
+      ],
+      "hyperlinks": [
+        "https://www.ttb.gov/labeling-wine/wine-labeling-alcohol-content",
+        "https://www.ttb.gov/labeling-wine/wine-labeling-alcohol-content",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_136&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_137&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=26adef26cfc027031a47aedba0c2bdb3&mc=true&node=se27.1.4_172&rgn=div8",
+        "https://www.ecfr.gov/cgi-bin/text-idx?SID=638965906fbcf9f2cabf3f0c8a2f0d63&mc=true&node=se27.1.4_170&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_135&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_132&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_132&rgn=div8",
+        "https://www.ttb.gov/scientific-services-division/sulfite-waivers",
+        "https://www.ecfr.gov/cgi-bin/retrieveECFR?gp=&SID=87efb24bba68b42e38ef1a334584e043&mc=true&r=PART&n=pt27.1.16",
+        "https://www.ecfr.gov/cgi-bin/retrieveECFR?gp=&SID=87efb24bba68b42e38ef1a334584e043&mc=true&r=PART&n=pt27.1.16",
+        "https://www.ecfr.gov/cgi-bin/text-idx?SID=21bffefd8972cc8b4f31441068fc6d3b&mc=true&node=pt19.1.134&rgn=div5#se19.1.134_111",
+        "https://www.ecfr.gov/cgi-bin/text-idx?SID=21bffefd8972cc8b4f31441068fc6d3b&mc=true&node=pt19.1.134&rgn=div5#se19.1.134_111",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_132&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_132&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_132&rgn=div8",
+        "http://www.ecfr.gov/cgi-bin/text-idx?SID=970ce13b4ce90253e343dcca96835e79&mc=true&node=se27.1.4_132&rgn=div8"
+      ],
+      "header": null,
+      "footer": null,
+      "dimensions": {
+        "dpi": 200,
+        "height": 2200,
+        "width": 1700
+      }
+    }
+  ],
+  "model": "mistral-ocr-latest",
+  "documentAnnotation": null,
+  "usageInfo": {
+    "pagesProcessed": 2,
+    "docSizeBytes": 231251
+  }
+}
