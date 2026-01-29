@@ -112,7 +112,8 @@ export function normalizeClassType(value: string | null | undefined): string | n
 export function normalizeAlcoholContent(value: string | null | undefined): string | null {
   if (!value) return null;
 
-  const cleaned = value.toLowerCase().trim();
+  // Normalize European decimal comma to dot
+  const cleaned = value.toLowerCase().trim().replace(/,/g, ".");
 
   // Check for proof format first (e.g., "90 Proof")
   const proofMatch = cleaned.match(/(\d+(?:\.\d+)?)\s*proof/i);

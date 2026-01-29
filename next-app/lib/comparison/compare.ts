@@ -81,10 +81,16 @@ function determineMatchStatus(
   // Label-only fields: validate presence/correctness on label, not against Application
   if (normalizedAppValue === null && LABEL_ONLY_FIELDS.includes(fieldType)) {
     if (fieldType === 'governmentWarning') {
-      // Check if OCR text matches the required government warning
-      const matches = normalizedOcrValue.trim().toUpperCase() ===
-        REQUIRED_GOVERNMENT_WARNING.toUpperCase();
-      return { status: matches ? 'MATCH' : 'MISMATCH' };
+      // Normalize: collapse whitespace, ensure prefix, uppercase
+      const normalize = (s: string) =>
+        s.replace(/\*\*/g, '').trim().toUpperCase().replace(/\s+/g, ' ');
+      let ocrText = normalize(normalizedOcrValue);
+      const required = normalize(REQUIRED_GOVERNMENT_WARNING);
+      // LLM sometimes strips the "GOVERNMENT WARNING:" prefix
+      if (!ocrText.startsWith('GOVERNMENT WARNING:')) {
+        ocrText = `GOVERNMENT WARNING: ${ocrText}`;
+      }
+      return { status: ocrText === required ? 'MATCH' : 'MISMATCH' };
     }
     return { status: 'MATCH' };
   }

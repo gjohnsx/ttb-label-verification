@@ -29,6 +29,7 @@ interface LlmExtractedResponse {
   bottlerAddress?: string | null;
   countryOfOrigin?: string | null;
   confidence?: Partial<Record<FieldType, number>>;
+  confidenceScores?: Partial<Record<FieldType, number>>;
 }
 
 /**
@@ -84,9 +85,9 @@ export async function extractFieldsFromMarkdown(
       bottlerName: parsed.bottlerName ?? null,
       bottlerAddress: parsed.bottlerAddress ?? null,
       countryOfOrigin: parsed.countryOfOrigin ?? null,
-      confidenceScores: parsed.confidence,
+      confidenceScores: parsed.confidenceScores ?? parsed.confidence,
     },
-    confidenceScores: parsed.confidence ?? {},
+    confidenceScores: parsed.confidenceScores ?? parsed.confidence ?? {},
   };
 }
 
