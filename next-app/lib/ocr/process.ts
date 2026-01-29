@@ -174,15 +174,10 @@ export async function processApplicationImages(
     throw new Error(`Application not found: ${applicationId}`);
   }
 
-  const results: ApplicationOcrResult["results"] = [];
-  const imageResults: ImageExtractionResult[] = [];
-  let successCount = 0;
-  let errorCount = 0;
-
-  for (const image of application.labelImages) {
-    try {
+  // Process all images in parallel
+  const settled = await Promise.allSettled(
+    application.labelImages.map(async (image) => {
       const result = await processImage(image.blobUrl);
-
       await prisma.ocrResult.create({
         data: {
           imageId: image.id,
@@ -194,7 +189,18 @@ export async function processApplicationImages(
           processingTimeMs: result.processingTimeMs,
         },
       });
+      return { image, result };
+    })
+  );
 
+  const results: ApplicationOcrResult["results"] = [];
+  const imageResults: ImageExtractionResult[] = [];
+  let successCount = 0;
+  let errorCount = 0;
+
+  for (const outcome of settled) {
+    if (outcome.status === "fulfilled") {
+      const { image, result } = outcome.value;
       imageResults.push(result);
       results.push({
         imageId: image.id,
@@ -204,12 +210,12 @@ export async function processApplicationImages(
         processingTimeMs: result.processingTimeMs,
       });
       successCount++;
-    } catch (error) {
+    } else {
       results.push({
-        imageId: image.id,
-        imageType: image.imageType,
+        imageId: application.labelImages[results.length]?.id ?? "unknown",
+        imageType: application.labelImages[results.length]?.imageType ?? "UNKNOWN",
         success: false,
-        error: error instanceof Error ? error.message : "Unknown error",
+        error: outcome.reason instanceof Error ? outcome.reason.message : "Unknown error",
         processingTimeMs: 0,
       });
       errorCount++;

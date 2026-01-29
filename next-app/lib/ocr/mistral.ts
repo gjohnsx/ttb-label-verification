@@ -1,9 +1,11 @@
 /**
- * Mistral OCR wrapper for extracting raw text from label images
+ * OCR text extraction from label images
  *
- * Uses Mistral's dedicated OCR model (mistral-ocr-latest) for accurate
- * text extraction. Structured field extraction is handled separately
- * by extract-fields.ts via Azure OpenAI.
+ * Two provider options:
+ * - "mistral": Mistral SDK (passes image URL directly, no base64 conversion)
+ * - "foundry": Azure AI Foundry Mistral OCR (requires base64, same key as OpenAI)
+ *
+ * Toggle with OCR_PROVIDER below.
  */
 
 import fs from "node:fs/promises";
@@ -11,9 +13,18 @@ import path from "node:path";
 import { Mistral } from "@mistralai/mistralai";
 import { generateSasUrl, isAzureBlobUrl } from "@/lib/storage/blob";
 
-// Model configuration
-const OCR_MODEL = "mistral-ocr-latest";
-const MODEL_VERSION = "mistral-ocr-latest";
+// ── Toggle OCR provider here ──
+const OCR_PROVIDER: "mistral" | "foundry" = "mistral";
+
+// Mistral SDK config
+const MISTRAL_OCR_MODEL = "mistral-ocr-latest";
+
+// Azure AI Foundry config
+const FOUNDRY_OCR_ENDPOINT =
+  process.env.AZURE_OCR_ENDPOINT ??
+  "https://gregj-mkyutd7p-eastus2.services.ai.azure.com/providers/mistral/azure/ocr";
+const FOUNDRY_OCR_MODEL = "mistral-document-ai-2505";
+
 const SUPPORTED_IMAGE_MIME_TYPES: Record<string, string> = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
@@ -25,7 +36,6 @@ const SUPPORTED_IMAGE_MIME_TYPES: Record<string, string> = {
   ".tif": "image/tiff",
   ".tiff": "image/tiff",
 };
-const UNSUPPORTED_IMAGE_MIME_TYPES = new Set(["image/svg+xml"]);
 
 function getMimeTypeFromPath(filePath: string): string {
   const ext = path.extname(filePath).toLowerCase();
@@ -38,138 +48,138 @@ function getMimeTypeFromPath(filePath: string): string {
   return mimeType;
 }
 
-async function filePathToDataUrl(filePath: string): Promise<string> {
+// ── Image resolution helpers ──
+
+async function toBase64DataUrl(imageUrl: string): Promise<string> {
+  if (imageUrl.startsWith("data:image/")) return imageUrl;
+
+  if (isAzureBlobUrl(imageUrl)) {
+    imageUrl = await generateSasUrl(imageUrl);
+  }
+
+  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+    const response = await fetch(imageUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch image: ${imageUrl} (${response.status})`);
+    }
+    const contentType =
+      response.headers.get("content-type")?.split(";")[0] ??
+      getMimeTypeFromPath(new URL(imageUrl).pathname);
+    const arrayBuffer = await response.arrayBuffer();
+    return `data:${contentType};base64,${Buffer.from(arrayBuffer).toString("base64")}`;
+  }
+
+  const filePath = imageUrl.startsWith("/")
+    ? path.join(process.cwd(), "public", imageUrl.replace(/^\/+/, ""))
+    : path.resolve(process.cwd(), imageUrl);
   const data = await fs.readFile(filePath);
   const mimeType = getMimeTypeFromPath(filePath);
   return `data:${mimeType};base64,${data.toString("base64")}`;
 }
 
-async function httpUrlToDataUrl(url: string): Promise<string> {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch image for OCR: ${url} (${response.status})`);
-  }
-
-  const contentTypeHeader = response.headers.get("content-type");
-  const contentType =
-    contentTypeHeader?.split(";")[0] ?? getMimeTypeFromPath(new URL(url).pathname);
-  const normalizedContentType = contentType.toLowerCase();
-
-  if (!normalizedContentType.startsWith("image/")) {
-    throw new Error(`Unsupported content type for OCR: ${contentType}`);
-  }
-
-  if (UNSUPPORTED_IMAGE_MIME_TYPES.has(normalizedContentType)) {
-    throw new Error("SVG images are not supported for OCR. Use JPG or TIFF.");
-  }
-
-  const arrayBuffer = await response.arrayBuffer();
-  return `data:${normalizedContentType};base64,${Buffer.from(arrayBuffer).toString("base64")}`;
-}
-
 async function resolveImageUrl(imageUrl: string): Promise<string> {
-  if (imageUrl.startsWith("data:image/")) {
-    return imageUrl;
-  }
+  if (imageUrl.startsWith("data:image/")) return imageUrl;
 
   if (isAzureBlobUrl(imageUrl)) {
     const sasUrl = await generateSasUrl(imageUrl);
-    if (sasUrl.startsWith("https://")) {
-      return sasUrl;
-    }
-    if (sasUrl.startsWith("http://")) {
-      return httpUrlToDataUrl(sasUrl);
-    }
+    if (sasUrl.startsWith("https://")) return sasUrl;
   }
 
-  if (imageUrl.startsWith("https://")) {
-    return imageUrl;
-  }
-
-  if (imageUrl.startsWith("http://")) {
-    return httpUrlToDataUrl(imageUrl);
-  }
+  if (imageUrl.startsWith("https://")) return imageUrl;
+  if (imageUrl.startsWith("http://")) return imageUrl;
 
   if (imageUrl.startsWith("/")) {
-    const relativePath = imageUrl.replace(/^\/+/, "");
-    const filePath = path.join(process.cwd(), "public", relativePath);
-    return filePathToDataUrl(filePath);
+    const filePath = path.join(process.cwd(), "public", imageUrl.replace(/^\/+/, ""));
+    return `data:${getMimeTypeFromPath(filePath)};base64,${(await fs.readFile(filePath)).toString("base64")}`;
   }
 
-  return filePathToDataUrl(path.resolve(process.cwd(), imageUrl));
+  const filePath = path.resolve(process.cwd(), imageUrl);
+  return `data:${getMimeTypeFromPath(filePath)};base64,${(await fs.readFile(filePath)).toString("base64")}`;
 }
 
-/**
- * Result of raw OCR text extraction from a label image
- */
+// ── Types ──
+
 export interface OcrRawResult {
-  /** Raw markdown text from the OCR response */
   rawMarkdown: string;
-  /** Time taken to process in milliseconds */
   processingTimeMs: number;
-  /** Model version used for extraction */
   modelVersion: string;
 }
 
-/**
- * Check if Mistral OCR is properly configured
- */
-export function isOcrConfigured(): boolean {
-  return !!process.env.MISTRAL_API_KEY;
-}
+// ── Provider: Mistral SDK ──
 
-/**
- * Get Mistral client instance
- * Returns null if not configured
- */
 function getMistralClient(): Mistral | null {
   const apiKey = process.env.MISTRAL_API_KEY;
-  if (!apiKey) {
-    return null;
-  }
+  if (!apiKey) return null;
   return new Mistral({ apiKey });
 }
 
-/**
- * Extract raw text from an image using Mistral OCR
- */
-async function performOcr(client: Mistral, imageUrl: string): Promise<string> {
+async function performOcrMistral(imageUrl: string): Promise<string> {
+  const client = getMistralClient();
+  if (!client) throw new Error("MISTRAL_API_KEY is not configured");
+
+  const resolved = await resolveImageUrl(imageUrl);
   const ocrResponse = await client.ocr.process({
-    model: OCR_MODEL,
-    document: {
-      type: "image_url",
-      imageUrl: imageUrl,
-    },
+    model: MISTRAL_OCR_MODEL,
+    document: { type: "image_url", imageUrl: resolved },
     includeImageBase64: false,
   });
 
-  // Combine all pages' markdown content
   const pages = ocrResponse.pages ?? [];
-  const rawMarkdown = pages.map((page) => page.markdown).join("\n\n---\n\n");
-
-  return rawMarkdown;
+  return pages.map((page) => page.markdown).join("\n\n---\n\n");
 }
 
-/**
- * Extract raw text from a label image URL using Mistral OCR
- *
- * @param imageUrl - URL of the label image to analyze
- * @returns Raw OCR markdown text
- */
+// ── Provider: Azure AI Foundry ──
+
+async function performOcrFoundry(imageUrl: string): Promise<string> {
+  const apiKey = process.env.AZURE_OPENAI_API_KEY;
+  if (!apiKey) throw new Error("AZURE_OPENAI_API_KEY is not configured");
+
+  const base64DataUrl = await toBase64DataUrl(imageUrl);
+
+  const response = await fetch(FOUNDRY_OCR_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: FOUNDRY_OCR_MODEL,
+      document: { type: "image_url", image_url: base64DataUrl },
+      include_image_base64: false,
+    }),
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`Foundry OCR failed (${response.status}): ${body}`);
+  }
+
+  const data = await response.json();
+  const pages = data.pages ?? [];
+  return pages
+    .map((page: { markdown?: string }) => page.markdown ?? "")
+    .join("\n\n---\n\n");
+}
+
+// ── Public API ──
+
+export function isOcrConfigured(): boolean {
+  if (OCR_PROVIDER === "mistral") return !!process.env.MISTRAL_API_KEY;
+  return !!process.env.AZURE_OPENAI_API_KEY;
+}
+
 export async function extractRawText(imageUrl: string): Promise<OcrRawResult> {
   const startTime = Date.now();
-  const client = getMistralClient();
 
-  if (!client) {
-    console.warn("MISTRAL_API_KEY not configured, returning mock OCR result");
+  if (!isOcrConfigured()) {
+    console.warn("OCR not configured, returning mock result");
     return getMockOcrResult(startTime);
   }
 
-  // Resolve the image URL (handle Azure blobs, local files, etc.)
-  const resolvedImageUrl = await resolveImageUrl(imageUrl);
-
-  // Extract raw text using OCR model
-  const rawMarkdown = await performOcr(client, resolvedImageUrl);
+  const rawMarkdown =
+    OCR_PROVIDER === "mistral"
+      ? await performOcrMistral(imageUrl)
+      : await performOcrFoundry(imageUrl);
 
   if (!rawMarkdown || rawMarkdown.trim().length === 0) {
     throw new Error("OCR returned empty result - could not extract text from image");
@@ -178,13 +188,10 @@ export async function extractRawText(imageUrl: string): Promise<OcrRawResult> {
   return {
     rawMarkdown,
     processingTimeMs: Date.now() - startTime,
-    modelVersion: MODEL_VERSION,
+    modelVersion: OCR_PROVIDER === "mistral" ? MISTRAL_OCR_MODEL : FOUNDRY_OCR_MODEL,
   };
 }
 
-/**
- * Generate mock OCR result for demo/testing when API key is not configured
- */
 function getMockOcrResult(startTime: number): OcrRawResult {
   return {
     rawMarkdown: [

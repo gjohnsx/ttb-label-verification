@@ -22,7 +22,7 @@ If Dave uses it voluntarily, the team follows.
 - **shadcn/ui** - Styled to match USWDS (federal design standard)
 - **Prisma 7** + Azure SQL - Database (SQL Server adapter)
 - **Azure Blob Storage** - Label images (`ttblabelsdev.blob.core.windows.net/demo/`)
-- **AI Vision** - Mistral Pixtral
+- **OCR Pipeline** - Mistral OCR (raw text) → Azure OpenAI GPT-5-nano (structured fields + confidence scores)
 - **Azure Static Web App** - Deployment
 
 ## Development Commands

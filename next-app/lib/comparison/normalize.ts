@@ -125,13 +125,13 @@ export function normalizeAlcoholContent(value: string | null | undefined): strin
   // Extract percentage value
   const percentMatch = cleaned.match(/(\d+(?:\.\d+)?)\s*%/);
   if (percentMatch) {
-    return percentMatch[1];
+    return parseFloat(percentMatch[1]).toString();
   }
 
   // Try to extract any numeric value
   const numericMatch = cleaned.match(/(\d+(?:\.\d+)?)/);
   if (numericMatch) {
-    return numericMatch[1];
+    return parseFloat(numericMatch[1]).toString();
   }
 
   return null;
