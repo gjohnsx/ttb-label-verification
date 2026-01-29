@@ -59,12 +59,16 @@ async function createApplicationFromRow(
       colaId: data.colaId,
       brandName: data.brandName,
       classType: data.classType || null,
+      productType: data.productType || null,
+      sourceType: data.sourceType || null,
       alcoholContent: data.alcoholContent || null,
       netContents: data.netContents || null,
       governmentWarning: null, // Will be populated from OCR
       bottlerName: data.applicantName || null,
       bottlerAddress: data.applicantAddress || null,
       countryOfOrigin: data.countryOfOrigin || null,
+      permitNumber: data.permitNumber || null,
+      serialNumber: data.serialNumber || null,
       status: "PENDING",
     },
   });
@@ -162,6 +166,8 @@ async function processApplication(
     // Convert to comparison format
     const applicationData: ApplicationData = {
       id: appData.id,
+      productType: appData.productType || null,
+      sourceType: appData.sourceType || null,
       brandName: appData.brandName,
       classType: appData.classType || null,
       alcoholContent: appData.alcoholContent || null,

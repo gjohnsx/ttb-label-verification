@@ -41,6 +41,13 @@ export interface CsvRow {
   IMAGE_URLS: string;
 
   // Optional columns (may be empty but must exist in header)
+  ALCOHOL_CONTENT?: string;
+  NET_CONTENTS?: string;
+  COUNTRY_OF_ORIGIN?: string;
+  PRODUCT_TYPE?: string;
+  DOMESTIC_OR_IMPORTED?: string;
+  PERMIT_NUMBER?: string;
+  SERIAL_NUMBER?: string;
   APPLICATION_TYPE?: string;
   APPLICATION_STATUS?: string;
   IS_DISTINCTIVE_CONTAINER?: string;
@@ -57,13 +64,10 @@ export interface CsvRow {
   EXPIRATION_DATE?: string;
   LATEST_UPDATE_DATE?: string;
   PRODUCT_NAME?: string;
-  PERMIT_NUMBER?: string;
   ORIGIN_ID?: string;
   ORIGIN_NAME?: string;
   CLASS_ID?: string;
   CLASS_NAME?: string;
-  PRODUCT_TYPE?: string;
-  DOMESTIC_OR_IMPORTED?: string;
   GRAPE_VARIETALS?: string;
   WINE_VINTAGE_YEAR?: string;
   WINE_APPELLATION?: string;

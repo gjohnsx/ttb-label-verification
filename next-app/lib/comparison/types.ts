@@ -18,7 +18,12 @@ export type FieldType =
 /**
  * Match status for a field comparison
  */
-export type MatchStatus = 'MATCH' | 'LIKELY_MATCH' | 'MISMATCH' | 'MISSING';
+export type MatchStatus =
+  | 'MATCH'
+  | 'LIKELY_MATCH'
+  | 'MISMATCH'
+  | 'MISSING'
+  | 'CONTEXT';
 
 /**
  * Confidence level for a field comparison result
@@ -80,6 +85,10 @@ export interface ComparisonResult {
 export interface ApplicationData {
   /** Unique identifier for the application */
   id: string;
+  /** Product type from application (e.g., "WINE", "DISTILLED SPIRITS") */
+  productType?: string | null;
+  /** Source type (Domestic/Imported) */
+  sourceType?: string | null;
   /** Brand name of the product */
   brandName?: string | null;
   /** Class/Type of beverage (e.g., "Whiskey", "Vodka") */
@@ -130,6 +139,8 @@ export interface ComparisonOptions {
   fuzzyThreshold?: number;
   /** Fields to skip during comparison */
   skipFields?: FieldType[];
+  /** Fields to treat as context-only (do not affect matching) */
+  contextOnlyFields?: FieldType[];
   /** Whether to include confidence scores from OCR in results */
   includeOcrConfidence?: boolean;
 }

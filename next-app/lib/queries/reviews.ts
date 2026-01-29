@@ -10,12 +10,16 @@ export type ApplicationForReview = {
   colaId: string | null;
   brandName: string;
   classType: string | null;
+  productType: string | null;
+  sourceType: string | null;
   alcoholContent: string | null;
   netContents: string | null;
   governmentWarning: string | null;
   bottlerName: string | null;
   bottlerAddress: string | null;
   countryOfOrigin: string | null;
+  permitNumber: string | null;
+  serialNumber: string | null;
   status: string;
   createdAt: Date;
   comparison: {
@@ -71,12 +75,16 @@ export async function getApplicationForReview(
     colaId: application.colaId,
     brandName: application.brandName,
     classType: application.classType,
+    productType: application.productType,
+    sourceType: application.sourceType,
     alcoholContent: application.alcoholContent,
     netContents: application.netContents,
     governmentWarning: application.governmentWarning,
     bottlerName: application.bottlerName,
     bottlerAddress: application.bottlerAddress,
     countryOfOrigin: application.countryOfOrigin,
+    permitNumber: application.permitNumber,
+    serialNumber: application.serialNumber,
     status: application.status,
     createdAt: application.createdAt,
     comparison: application.comparisons[0]
@@ -109,6 +117,8 @@ export function toApplicationData(
 ): ApplicationData {
   return {
     id: application.id,
+    productType: application.productType,
+    sourceType: application.sourceType,
     brandName: application.brandName,
     classType: application.classType,
     alcoholContent: application.alcoholContent,

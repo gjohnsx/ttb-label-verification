@@ -243,6 +243,13 @@ export async function parseCSVFile(file: File): Promise<CsvParseResult> {
  */
 export function extractApplicationData(row: CsvRow) {
   const imageUrls = parseImageUrls(row.IMAGE_URLS);
+  const originValue = (row.COUNTRY_OF_ORIGIN ?? row.ORIGIN_NAME ?? "").trim();
+  const countryOfOrigin =
+    originValue && !/^(domestic|imported)$/i.test(originValue)
+      ? originValue
+      : "";
+  const rawSource = (row.DOMESTIC_OR_IMPORTED ?? row.ORIGIN_NAME ?? "").trim();
+  const sourceType = /^(domestic|imported)$/i.test(rawSource) ? rawSource : "";
 
   return {
     colaId: row.TTB_ID,
@@ -250,10 +257,9 @@ export function extractApplicationData(row: CsvRow) {
     productName: row.PRODUCT_NAME || row.BRAND_NAME,
     classType: row.CLASS_NAME || "",
     productType: row.PRODUCT_TYPE || "",
-    alcoholContent: row.OCR_ABV || "",
-    netContents: row.OCR_VOLUME
-      ? `${row.OCR_VOLUME} ${row.OCR_VOLUME_UNIT || ""}`.trim()
-      : "",
+    sourceType,
+    alcoholContent: row.ALCOHOL_CONTENT || "",
+    netContents: row.NET_CONTENTS || "",
     applicantName: row.APPLICANT_NAME || "",
     applicantAddress: [
       row.ADDRESS_TEXT,
@@ -262,7 +268,9 @@ export function extractApplicationData(row: CsvRow) {
     ]
       .filter(Boolean)
       .join(", "),
-    countryOfOrigin: row.ORIGIN_NAME || "",
+    countryOfOrigin,
+    permitNumber: row.PERMIT_NUMBER || "",
+    serialNumber: row.SERIAL_NUMBER || "",
     // Image URLs for creating LabelImage records
     images: imageUrls,
   };
