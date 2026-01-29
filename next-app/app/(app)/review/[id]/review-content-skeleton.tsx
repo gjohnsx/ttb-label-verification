@@ -45,9 +45,16 @@ export function ReviewContentSkeleton() {
         {/* Tabs skeleton */}
         <div className="space-y-6">
           {/* Tab list */}
-          <div className="flex border-b border-treasury-base-light">
-            <Skeleton className="h-10 w-28" />
-            <Skeleton className="h-10 w-24 ml-1" />
+          <div className="relative flex w-full items-end gap-0 border-b border-treasury-primary">
+            <div className="flex-1 border-t-4 border-treasury-primary border-l border-treasury-base-light bg-background px-6 py-3 first:border-l-0">
+              <Skeleton className="h-4 w-24 rounded-none" />
+            </div>
+            <div className="flex-1 border-t-4 border-treasury-base-light border-l border-treasury-base-light bg-transparent px-6 py-3">
+              <Skeleton className="h-4 w-20 rounded-none" />
+            </div>
+            <div className="flex-1 border-t-4 border-treasury-base-light border-l border-treasury-base-light bg-transparent px-6 py-3">
+              <Skeleton className="h-4 w-24 rounded-none" />
+            </div>
           </div>
 
           {/* Review Card skeleton (Merged Summary + Table) */}

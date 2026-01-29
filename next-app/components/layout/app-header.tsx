@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Menu, Search, BellIcon, LogOut, User, Settings, HelpCircle, ListTodo, History, Upload } from "lucide-react"
+import { Menu, Search, BellIcon, LogOut, User, Settings, HelpCircle, ListTodo, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -35,7 +35,6 @@ import { logout } from "@/lib/auth-actions"
 const NAV_ITEMS = [
   { title: "Queue", url: "/queue" },
   { title: "Upload", url: "/upload" },
-  { title: "History", url: "/history" },
 ]
 
 const FOOTER_ITEMS = [
@@ -249,10 +248,6 @@ export function AppHeader({ agentName, agentRole }: AppHeaderProps) {
               <CommandItem onSelect={() => runCommand(() => router.push("/upload"))}>
                 <Upload />
                 <span className="flex-1">Upload</span>
-              </CommandItem>
-              <CommandItem onSelect={() => runCommand(() => router.push("/history"))}>
-                <History />
-                <span className="flex-1">History</span>
               </CommandItem>
             </CommandGroup>
 
