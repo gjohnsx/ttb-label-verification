@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -11,7 +11,12 @@ import type { CsvValidationError } from "@/lib/csv/types";
 
 type UploadState = "idle" | "selected" | "uploading" | "processing" | "complete";
 
-export function UploadForm() {
+type UploadFormProps = {
+  presetFile?: File | null;
+  onClearPreset?: () => void;
+};
+
+export function UploadForm({ presetFile, onClearPreset }: UploadFormProps) {
   const [state, setState] = useState<UploadState>("idle");
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -22,6 +27,15 @@ export function UploadForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (!presetFile) return;
+    if (state === "uploading" || state === "processing") return;
+    setFile(presetFile);
+    setState("selected");
+    setErrors([]);
+    setErrorMessage(null);
+  }, [presetFile, state]);
 
   const resetState = useCallback(() => {
     setState("idle");
@@ -76,7 +90,8 @@ export function UploadForm() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-  }, [resetState]);
+    onClearPreset?.();
+  }, [resetState, onClearPreset]);
 
   const handleUpload = async () => {
     if (!file) return;
