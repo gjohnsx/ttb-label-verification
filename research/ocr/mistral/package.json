@@ -6,6 +6,7 @@
     "ocr": "tsx scripts/ocr.ts"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.30.0",
     "@mistralai/mistralai": "^1.0.0",
     "dotenv": "^16.4.7"
   },

@@ -42,7 +42,7 @@ async function run(): Promise<void> {
       type: "document_url",
       documentUrl: `data:application/pdf;base64,${base64Pdf}`,
     },
-    tableFormat: "html",
+    tableFormat: "markdown",
     includeImageBase64: false,
   });
 
