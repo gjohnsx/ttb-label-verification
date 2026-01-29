@@ -37,7 +37,7 @@ function useDebounce<T>(value: T, delay: number): T {
 
 export function QueueFiltersToolbar({ facetCounts }: QueueFiltersToolbarProps) {
   const { startTransition } = useQueueLoading();
-  const [{ status, classType, search }, setFilters] = useQueryStates(queueParsers, {
+  const [{ status, classType, search, ids }, setFilters] = useQueryStates(queueParsers, {
     startTransition,
   });
 
@@ -63,11 +63,11 @@ export function QueueFiltersToolbar({ facetCounts }: QueueFiltersToolbarProps) {
   // Clear all filters
   const handleClearFilters = () => {
     setSearchInput("");
-    setFilters({ status: null, classType: null, search: null });
+    setFilters({ status: null, classType: null, search: null, ids: null });
   };
 
   // Check if any filters are active
-  const hasActiveFilters = status.length > 0 || classType.length > 0 || search.length > 0;
+  const hasActiveFilters = status.length > 0 || classType.length > 0 || search.length > 0 || ids.length > 0;
 
   return (
     <div className="flex items-center justify-between">
