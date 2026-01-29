@@ -13,3 +13,13 @@ Prototype for AI-assisted alcohol label review: agents pick a persona, work the 
 Azure SQL is IP-restricted. For a short-lived demo, open it to all IPs:
 - Server -> Networking -> firewall rule `allow-all-demo` with `0.0.0.0-255.255.255.255`
 - Rotate the DB password and lock the firewall after the review window.
+
+## Demo data notes
+The scraped dataset in `research/dataset/scraped/scraped-import.csv` is built from
+public COLA PDF forms plus label images. Those PDFs do **not** include Alcohol
+Content or Net Contents, so the CSV includes **mocked application values** for:
+- `ALCOHOL_CONTENT`
+- `NET_CONTENTS`
+
+These values are derived from label OCR and then lightly perturbed for a few
+rows to create intentional mismatches for the review demo.
