@@ -260,7 +260,7 @@ export function AppHeader({
       </div>
 
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetContent side="left" className="w-72 p-0 gap-0 border-r-0" closeButtonClassName="text-treasury-paper hover:bg-treasury-primary hover:text-treasury-paper">
+        <SheetContent side="left" className="w-72 p-0 gap-0 !border-r-0" closeButtonClassName="text-treasury-paper hover:bg-treasury-primary hover:text-treasury-paper">
           <MiniCard
             variant="primary"
             size="sm"
