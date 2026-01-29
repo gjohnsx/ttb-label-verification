@@ -26,9 +26,12 @@ import {
 const DEFAULT_FUZZY_THRESHOLD = 0.85;
 
 /**
- * Fields that support fuzzy matching
+ * Fields that support fuzzy matching and their thresholds
  */
-const FUZZY_MATCH_FIELDS: FieldType[] = ['brandName'];
+const FUZZY_MATCH_FIELDS: Partial<Record<FieldType, number>> = {
+  brandName: 0.85,
+  classType: 0.7,
+};
 
 /**
  * Fields that require exact matching (no fuzzy)
@@ -71,7 +74,8 @@ function determineMatchStatus(
   normalizedOcrValue: string | null,
   options: ComparisonOptions = {}
 ): { status: MatchStatus; similarityScore?: number } {
-  const fuzzyThreshold = options.fuzzyThreshold ?? DEFAULT_FUZZY_THRESHOLD;
+  const fuzzyThreshold =
+    options.fuzzyThreshold ?? FUZZY_MATCH_FIELDS[fieldType] ?? DEFAULT_FUZZY_THRESHOLD;
 
   // If OCR value is missing, return MISSING
   if (normalizedOcrValue === null) {
@@ -110,8 +114,15 @@ function determineMatchStatus(
     return { status: 'MISMATCH' };
   }
 
-  // For fuzzy match fields (like brand name), check similarity
-  if (FUZZY_MATCH_FIELDS.includes(fieldType)) {
+  // For fuzzy match fields, check similarity
+  if (FUZZY_MATCH_FIELDS[fieldType] !== undefined) {
+    if (
+      normalizedAppValue.includes(normalizedOcrValue) ||
+      normalizedOcrValue.includes(normalizedAppValue)
+    ) {
+      return { status: 'LIKELY_MATCH', similarityScore: 0.9 };
+    }
+
     const similarity = calculateSimilarity(normalizedAppValue, normalizedOcrValue);
 
     if (similarity >= fuzzyThreshold) {
@@ -133,6 +144,9 @@ function determineConfidence(
   fieldType: FieldType,
   ocrConfidence?: number
 ): ConfidenceLevel {
+  if (status === 'CONTEXT') {
+    return 'LOW';
+  }
   // If OCR confidence is provided and low, confidence is low
   if (ocrConfidence !== undefined && ocrConfidence < 0.7) {
     return 'LOW';
@@ -168,7 +182,8 @@ function compareField(
   applicationValue: string | null | undefined,
   ocrValue: string | null | undefined,
   ocrConfidence?: number,
-  options: ComparisonOptions = {}
+  options: ComparisonOptions = {},
+  contextOnly = false
 ): FieldComparison {
   const appValue = applicationValue ?? null;
   const extractedValue = ocrValue ?? null;
@@ -178,12 +193,9 @@ function compareField(
   const normalizedOcrValue = normalizeField(fieldType, extractedValue);
 
   // Determine match status
-  const { status, similarityScore } = determineMatchStatus(
-    fieldType,
-    normalizedAppValue,
-    normalizedOcrValue,
-    options
-  );
+  const { status, similarityScore } = contextOnly
+    ? { status: 'CONTEXT' as MatchStatus }
+    : determineMatchStatus(fieldType, normalizedAppValue, normalizedOcrValue, options);
 
   // Determine confidence
   const confidence = determineConfidence(status, fieldType, ocrConfidence);
@@ -281,6 +293,11 @@ export function compareApplication(
 ): ComparisonResult {
   const skipFields = options.skipFields ?? [];
   const includeOcrConfidence = options.includeOcrConfidence ?? true;
+  const contextOnlyFields = [...(options.contextOnlyFields ?? [])];
+
+  if (application.sourceType?.toLowerCase() === 'imported') {
+    contextOnlyFields.push('bottlerName', 'bottlerAddress');
+  }
 
   // Compare all fields
   const fields: FieldComparison[] = [];
@@ -304,20 +321,26 @@ export function compareApplication(
       applicationValue,
       ocrValue,
       ocrConfidence,
-      options
+      options,
+      contextOnlyFields.includes(fieldType)
     );
 
     fields.push(comparison);
   }
 
   // Calculate counts
-  const matchCount = fields.filter(f => f.status === 'MATCH').length;
-  const mismatchCount = fields.filter(f => f.status === 'MISMATCH').length;
-  const missingCount = fields.filter(f => f.status === 'MISSING').length;
-  const likelyMatchCount = fields.filter(f => f.status === 'LIKELY_MATCH').length;
+  const relevantFields = fields.filter((f) => f.status !== 'CONTEXT');
+  const matchCount = relevantFields.filter((f) => f.status === 'MATCH').length;
+  const mismatchCount = relevantFields.filter((f) => f.status === 'MISMATCH').length;
+  const missingCount = relevantFields.filter(
+    (f) => f.status === 'MISSING' && f.applicationValue
+  ).length;
+  const likelyMatchCount = relevantFields.filter(
+    (f) => f.status === 'LIKELY_MATCH'
+  ).length;
 
   // Determine overall status
-  const overallStatus = determineOverallStatus(fields);
+  const overallStatus = determineOverallStatus(relevantFields);
 
   return {
     applicationId: application.id,
@@ -367,7 +390,11 @@ export function fieldMatches(
   options: ComparisonOptions = {}
 ): boolean {
   const comparison = compareField(fieldType, applicationValue, ocrValue, undefined, options);
-  return comparison.status === 'MATCH' || comparison.status === 'LIKELY_MATCH';
+  return (
+    comparison.status === 'MATCH' ||
+    comparison.status === 'LIKELY_MATCH' ||
+    comparison.status === 'CONTEXT'
+  );
 }
 
 // Re-export types for convenience

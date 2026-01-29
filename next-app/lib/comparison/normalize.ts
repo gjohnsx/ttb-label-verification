@@ -96,7 +96,11 @@ export function normalizeBrandName(value: string | null | undefined): string | n
 export function normalizeClassType(value: string | null | undefined): string | null {
   if (!value) return null;
 
-  return value.toLowerCase().trim();
+  return value
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /**
