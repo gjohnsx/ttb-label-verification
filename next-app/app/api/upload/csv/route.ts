@@ -2,14 +2,14 @@
  * POST /api/upload/csv
  *
  * Handles CSV file uploads for batch label verification.
- * Parses the CSV, validates it, and starts the import workflow.
+ * Parses the CSV, validates it, and starts the import run.
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { start } from "workflow/api";
+import { randomUUID } from "crypto";
 import { parseCSV } from "@/lib/csv/parser";
 import type { CsvUploadResponse } from "@/lib/csv/types";
-import { csvImportWorkflow } from "@/workflows/csv-import";
+import { createApplicationsForRun } from "@/lib/csv/importer";
 
 export async function POST(request: NextRequest): Promise<NextResponse<CsvUploadResponse>> {
   try {
@@ -55,13 +55,28 @@ export async function POST(request: NextRequest): Promise<NextResponse<CsvUpload
       );
     }
 
-    // Start the workflow
-    const run = await start(csvImportWorkflow, [parseResult.rows]);
+    const runId = randomUUID();
+    const { createdCount, skippedCount } = await createApplicationsForRun(
+      parseResult.rows,
+      runId
+    );
+
+    if (createdCount === 0 && skippedCount === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "No new applications to process",
+          skippedCount,
+        },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      runId: run.runId,
-      totalRows: parseResult.totalRows,
+      runId,
+      totalRows: createdCount + skippedCount,
+      skippedCount,
     });
   } catch (error) {
     console.error("CSV upload error:", error);

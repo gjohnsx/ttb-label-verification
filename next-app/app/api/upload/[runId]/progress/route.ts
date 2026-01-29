@@ -1,15 +1,34 @@
 /**
  * GET /api/upload/[runId]/progress
  *
- * Server-Sent Events (SSE) endpoint for streaming workflow progress.
- * Clients can connect to receive real-time updates as applications are processed.
+ * Polling endpoint for upload progress.
+ * Returns the latest status for each application in the upload run.
  */
 
-import { NextRequest } from "next/server";
-import { getRun } from "workflow/api";
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 import type { ProgressUpdate } from "@/lib/csv/types";
 
 export const dynamic = "force-dynamic";
+
+function mapStatus(status: string): ProgressUpdate["status"] {
+  switch (status) {
+    case "PENDING":
+      return "QUEUED";
+    case "PROCESSING":
+      return "PROCESSING";
+    case "READY":
+      return "READY";
+    case "NEEDS_ATTENTION":
+      return "NEEDS_ATTENTION";
+    case "ERROR":
+      return "ERROR";
+    case "REVIEWED":
+      return "READY";
+    default:
+      return "ERROR";
+  }
+}
 
 export async function GET(
   request: NextRequest,
@@ -17,58 +36,38 @@ export async function GET(
 ) {
   const { runId } = await params;
 
-  // Get the startIndex from query params for resumability
-  const { searchParams } = new URL(request.url);
-  const startIndexParam = searchParams.get("startIndex");
-  const startIndex = startIndexParam ? parseInt(startIndexParam, 10) : undefined;
-
-  // Get the workflow run
-  const run = getRun(runId);
-
-  // Get the readable stream, optionally starting from a specific index
-  const readable = run.getReadable({ startIndex });
-
-  // Transform the stream to SSE format
-  const encoder = new TextEncoder();
-  const transformedStream = new ReadableStream({
-    async start(controller) {
-      const reader = readable.getReader();
-
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done) {
-            // Send a completion event
-            controller.enqueue(
-              encoder.encode(`event: complete\ndata: {}\n\n`)
-            );
-            controller.close();
-            break;
-          }
-
-          // Convert the value to SSE format
-          // The value should be a ProgressUpdate object
-          const data = JSON.stringify(value);
-          controller.enqueue(
-            encoder.encode(`data: ${data}\n\n`)
-          );
-        }
-      } catch (error) {
-        console.error("SSE stream error:", error);
-        controller.error(error);
-      } finally {
-        reader.releaseLock();
-      }
+  const applications = await prisma.application.findMany({
+    where: { uploadRunId: runId },
+    select: {
+      id: true,
+      brandName: true,
+      status: true,
+      createdAt: true,
+      uploadRunStatus: true,
     },
+    orderBy: { createdAt: "asc" },
   });
 
-  return new Response(transformedStream, {
-    headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache, no-transform",
-      Connection: "keep-alive",
-      "X-Accel-Buffering": "no", // Disable nginx buffering
-    },
+  const totalRows = applications.length;
+  const items: ProgressUpdate[] = applications.map((app, index) => ({
+    applicationId: app.id,
+    brandName: app.brandName,
+    status: app.uploadRunStatus === "SKIPPED" ? "SKIPPED" : mapStatus(app.status),
+    index: index + 1,
+    total: totalRows,
+  }));
+
+  const processedRows = items.filter(
+    (item) => item.status !== "QUEUED" && item.status !== "PROCESSING"
+  ).length;
+
+  const isComplete = totalRows > 0 && processedRows >= totalRows;
+
+  return NextResponse.json({
+    success: true,
+    totalRows,
+    processedRows,
+    isComplete,
+    items,
   });
 }

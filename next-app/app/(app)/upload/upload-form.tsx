@@ -7,9 +7,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Upload, FileText, X, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UploadProgressModal } from "@/components/upload/upload-progress-modal";
+import { parseCSVFile } from "@/lib/csv/parser";
 import type { CsvValidationError } from "@/lib/csv/types";
 
 type UploadState = "idle" | "selected" | "uploading" | "processing" | "complete";
+type PreflightStatus = "idle" | "parsing" | "uploading" | "error" | "done";
 
 type UploadFormProps = {
   presetFile?: File | null;
@@ -24,6 +26,8 @@ export function UploadForm({ presetFile, onClearPreset }: UploadFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [runId, setRunId] = useState<string | null>(null);
   const [totalRows, setTotalRows] = useState(0);
+  const [preflightStatus, setPreflightStatus] = useState<PreflightStatus>("idle");
+  const [preflightTotalRows, setPreflightTotalRows] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -44,6 +48,8 @@ export function UploadForm({ presetFile, onClearPreset }: UploadFormProps) {
     setErrorMessage(null);
     setRunId(null);
     setTotalRows(0);
+    setPreflightStatus("idle");
+    setPreflightTotalRows(null);
   }, []);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -99,8 +105,27 @@ export function UploadForm({ presetFile, onClearPreset }: UploadFormProps) {
     setState("uploading");
     setErrors([]);
     setErrorMessage(null);
+    setRunId(null);
+    setTotalRows(0);
+    setPreflightStatus("parsing");
+    setPreflightTotalRows(null);
+    setIsModalOpen(true);
 
     try {
+      const preflight = await parseCSVFile(file);
+
+      if (!preflight.success) {
+        setErrors(preflight.errors);
+        setErrorMessage("CSV validation failed");
+        setState("selected");
+        setPreflightStatus("error");
+        setIsModalOpen(false);
+        return;
+      }
+
+      setPreflightTotalRows(preflight.totalRows);
+      setPreflightStatus("uploading");
+
       const formData = new FormData();
       formData.append("file", file);
 
@@ -117,17 +142,22 @@ export function UploadForm({ presetFile, onClearPreset }: UploadFormProps) {
         }
         setErrorMessage(data.error || "Upload failed");
         setState("selected");
+        setPreflightStatus("error");
+        setIsModalOpen(false);
         return;
       }
 
       // Success - start processing
       setRunId(data.runId);
       setTotalRows(data.totalRows);
+      setPreflightStatus("done");
       setState("processing");
       setIsModalOpen(true);
     } catch (error) {
       setErrorMessage("Upload failed. Please try again.");
       setState("selected");
+      setPreflightStatus("error");
+      setIsModalOpen(false);
     }
   };
 
@@ -271,16 +301,18 @@ export function UploadForm({ presetFile, onClearPreset }: UploadFormProps) {
       )}
 
       {/* Progress Modal */}
-      {runId && (
-        <UploadProgressModal
-          open={isModalOpen}
-          onOpenChange={setIsModalOpen}
-          runId={runId}
-          totalRows={totalRows}
-          onComplete={handleProcessingComplete}
-          onProcessingDone={() => setState("complete")}
-        />
-      )}
+      <UploadProgressModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        runId={runId}
+        totalRows={totalRows}
+        preflight={{
+          status: preflightStatus,
+          totalRows: preflightTotalRows,
+        }}
+        onComplete={handleProcessingComplete}
+        onProcessingDone={() => setState("complete")}
+      />
     </div>
   );
 }

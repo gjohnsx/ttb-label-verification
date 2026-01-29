@@ -28,6 +28,8 @@ model Application {
   countryOfOrigin   String?   @map("country_of_origin") @db.NVarChar(100)
   permitNumber      String?   @map("permit_number") @db.NVarChar(50)
   serialNumber      String?   @map("serial_number") @db.NVarChar(20)
+  uploadRunId       String?   @map("upload_run_id") @db.NVarChar(36)
+  uploadRunStatus   String?   @map("upload_run_status") @db.NVarChar(20)
   createdAt         DateTime  @map("created_at") @default(dbgenerated("sysutcdatetime()")) @db.DateTime2
   status            String    @map("status") @db.NVarChar(20)
 
@@ -36,6 +38,7 @@ model Application {
   reviews     Review[]
   auditEvents AuditEvent[]
 
+  @@index([colaId])
   @@map("applications")
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -14,12 +14,21 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
+  Popover,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverDescription,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   CheckCircle2,
   AlertTriangle,
   XCircle,
   Loader2,
   Clock,
   SkipForward,
+  Info,
 } from "lucide-react";
 import type { ProgressUpdate } from "@/lib/csv/types";
 import { DataBox } from "@/components/data-box";
@@ -31,8 +40,12 @@ type ApplicationProgress = ProgressUpdate & {
 type UploadProgressModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  runId: string;
-  totalRows: number;
+  runId?: string | null;
+  totalRows?: number;
+  preflight?: {
+    status: "idle" | "parsing" | "uploading" | "error" | "done";
+    totalRows?: number | null;
+  };
   onComplete: (stats: { skippedCount: number; applicationIds: string[] }) => void;
   onProcessingDone?: () => void;
 };
@@ -41,7 +54,8 @@ export function UploadProgressModal({
   open,
   onOpenChange,
   runId,
-  totalRows,
+  totalRows = 0,
+  preflight,
   onComplete,
   onProcessingDone,
 }: UploadProgressModalProps) {
@@ -50,7 +64,27 @@ export function UploadProgressModal({
   );
   const [isComplete, setIsComplete] = useState(false);
   const [connectionError, setConnectionError] = useState<string | null>(null);
-  const eventSourceRef = useRef<EventSource | null>(null);
+  const processInFlightRef = useRef<Promise<void> | null>(null);
+  const isPreparing = !runId;
+  const preflightStatus = preflight?.status ?? "idle";
+  const preflightRows = preflight?.totalRows ?? null;
+
+  const parsingDone =
+    preflightStatus === "uploading" || preflightStatus === "done";
+  const uploadingDone = preflightStatus === "done";
+
+  const getPreflightIcon = (state: "idle" | "active" | "done" | "error") => {
+    switch (state) {
+      case "active":
+        return <Loader2 className="h-4 w-4 animate-spin text-treasury-primary" />;
+      case "done":
+        return <CheckCircle2 className="h-4 w-4 text-green-600" />;
+      case "error":
+        return <XCircle className="h-4 w-4 text-red-600" />;
+      default:
+        return <Clock className="h-4 w-4 text-muted-foreground" />;
+    }
+  };
 
   // Calculate progress stats
   const processedCount = Array.from(applications.values()).filter(
@@ -75,50 +109,81 @@ export function UploadProgressModal({
   useEffect(() => {
     if (!runId) return;
 
-    // Connect to SSE endpoint
-    const eventSource = new EventSource(`/api/upload/${runId}/progress`);
-    eventSourceRef.current = eventSource;
+    let isCancelled = false;
+    let isTicking = false;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
 
-    eventSource.onmessage = (event) => {
+    const tick = async () => {
+      if (isCancelled || isTicking) return;
+      isTicking = true;
       try {
-        const data: ProgressUpdate = JSON.parse(event.data);
+        if (!processInFlightRef.current) {
+          processInFlightRef.current = fetch(`/api/upload/${runId}/process`, {
+            method: "POST",
+            cache: "no-store",
+          })
+            .then(() => undefined)
+            .catch((error) => {
+              console.error("Process request error:", error);
+            })
+            .finally(() => {
+              processInFlightRef.current = null;
+            });
+        }
 
-        setApplications((prev) => {
-          const next = new Map(prev);
-          next.set(data.applicationId, {
-            ...data,
-            receivedAt: new Date(),
+        const response = await fetch(`/api/upload/${runId}/progress`, {
+          cache: "no-store",
+        });
+
+        const data = await response.json();
+
+        if (!data?.success || isCancelled) return;
+
+        const items: ProgressUpdate[] = data.items ?? [];
+
+        setApplications(() => {
+          const next = new Map<string, ApplicationProgress>();
+          items.forEach((item) => {
+            next.set(item.applicationId, {
+              ...item,
+              receivedAt: new Date(),
+            });
           });
           return next;
         });
+
+        const complete = Boolean(data.isComplete);
+        setIsComplete(complete);
+        setConnectionError(null);
+
+        if (complete && intervalId) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
       } catch (error) {
-        console.error("Failed to parse SSE message:", error);
+        if (isCancelled) return;
+        console.error("Progress polling error:", error);
+        setConnectionError("Connection lost. Keep this tab open to continue processing.");
+      } finally {
+        isTicking = false;
       }
     };
 
-    eventSource.addEventListener("complete", () => {
-      setIsComplete(true);
-      eventSource.close();
-    });
-
-    eventSource.onerror = (error) => {
-      console.error("SSE connection error:", error);
-      setConnectionError("Connection lost. Processing continues in background.");
-      eventSource.close();
-    };
+    tick();
+    intervalId = setInterval(tick, 1500);
 
     return () => {
-      eventSource.close();
+      isCancelled = true;
+      if (intervalId) clearInterval(intervalId);
     };
   }, [runId]);
 
-  // Auto-complete detection based on processed count
+  // Auto-complete detection based on processed count (fallback)
   useEffect(() => {
     if (processedCount >= totalRows && totalRows > 0 && !isComplete) {
-      // Small delay to ensure all updates are received
       const timer = setTimeout(() => {
         setIsComplete(true);
-      }, 1000);
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [processedCount, totalRows, isComplete]);
@@ -184,21 +249,23 @@ export function UploadProgressModal({
       <SheetContent side="right" className="w-full sm:max-w-lg flex flex-col">
         <SheetHeader>
           <SheetTitle>
-            {isComplete ? "Upload Complete" : "Processing Upload"}
+            {isComplete ? "Upload Complete" : isPreparing ? "Preparing Upload" : "Processing Upload"}
           </SheetTitle>
           <SheetDescription>
             {isComplete
               ? `Processed ${totalRows} applications`
-              : `Processing ${processedCount} of ${totalRows} applications`}
+              : isPreparing
+                ? "Validating CSV and creating application records…"
+                : `Processing ${processedCount} of ${totalRows} applications`}
           </SheetDescription>
         </SheetHeader>
 
         <div className="px-4 pt-2 pb-4 space-y-3 flex-1 flex flex-col min-h-0 overflow-hidden">
           {/* Progress Bar */}
           <div className="space-y-1.5">
-            <Progress value={progressPercent} className="h-2" />
+            <Progress value={isPreparing ? 5 : progressPercent} className="h-2" />
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>{processedCount} processed</span>
+              <span>{isPreparing ? "Preparing…" : `${processedCount} processed`}</span>
               <span>{totalRows} total</span>
             </div>
           </div>
@@ -223,6 +290,47 @@ export function UploadProgressModal({
           {/* Application List */}
           <ScrollArea className="flex-1 min-h-0 overflow-hidden">
             <div className="space-y-2 pr-4">
+              {isPreparing && (
+                <div className="rounded-md border bg-card p-4 text-sm text-muted-foreground space-y-2">
+                  <div className="flex items-center gap-2">
+                    {getPreflightIcon(
+                      preflightStatus === "parsing"
+                        ? "active"
+                        : preflightStatus === "error"
+                          ? "error"
+                          : parsingDone
+                            ? "done"
+                            : "idle"
+                    )}
+                    <div className="flex items-baseline gap-2">
+                      <span>Parse & validate CSV</span>
+                      {preflightRows ? (
+                        <span className="text-xs text-muted-foreground">
+                          ({preflightRows} rows)
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {getPreflightIcon(
+                      preflightStatus === "uploading"
+                        ? "active"
+                        : preflightStatus === "error"
+                          ? "error"
+                          : uploadingDone
+                            ? "done"
+                            : "idle"
+                    )}
+                    <span>Create application records</span>
+                  </div>
+                  {preflightStatus === "error" && (
+                    <p className="text-xs text-red-600">
+                      Upload failed during preparation. Check the error message above.
+                    </p>
+                  )}
+                </div>
+              )}
+
               {sortedApplications.map((app) => (
                 <div
                   key={app.applicationId}
@@ -239,7 +347,7 @@ export function UploadProgressModal({
                 </div>
               ))}
 
-              {applications.size === 0 && (
+              {!isPreparing && applications.size === 0 && (
                 <div className="text-center py-8 text-muted-foreground">
                   <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
                   <p>Waiting for updates...</p>
@@ -260,9 +368,45 @@ export function UploadProgressModal({
               View Results
             </Button>
           ) : (
-            <Button variant="primary-outline" onClick={() => onOpenChange(false)} className="w-full">
-              Run in Background
-            </Button>
+            <div className="w-full space-y-1">
+              <Button variant="primary-outline" onClick={() => onOpenChange(false)} className="w-full">
+                Hide
+              </Button>
+              <div className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1">
+                <span>Processing continues while this tab stays open.</span>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon-xs"
+                      className="text-muted-foreground"
+                      aria-label="Why this approach?"
+                    >
+                      <Info className="h-3 w-3" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent align="center">
+                    <PopoverHeader>
+                      <PopoverTitle>Why this MVP flow?</PopoverTitle>
+                      <PopoverDescription>
+                        Azure Static Web Apps API routes are short‑lived, so we process one label at a
+                        time and poll for status. It’s Azure‑native and requires no extra infrastructure.
+                        If Vercel were allowed, I’d use the{" "}
+                        <a
+                          href="https://useworkflow.dev/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="underline underline-offset-2"
+                        >
+                          Workflow DevKit
+                        </a>{" "}
+                        for durable, streaming background jobs.
+                      </PopoverDescription>
+                    </PopoverHeader>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
           )}
         </SheetFooter>
       </SheetContent>

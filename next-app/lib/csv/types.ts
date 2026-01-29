@@ -119,7 +119,7 @@ export const REQUIRED_COLUMNS = ["TTB_ID", "BRAND_NAME", "IMAGE_URLS"] as const;
 // Maximum rows allowed per upload
 export const MAX_UPLOAD_ROWS = 500;
 
-// Progress update sent via SSE during workflow processing
+// Progress update used for polling-based processing
 export interface ProgressUpdate {
   applicationId: string;
   brandName: string;
@@ -134,6 +134,7 @@ export interface CsvUploadResponse {
   success: boolean;
   runId?: string;
   totalRows?: number;
+  skippedCount?: number;
   error?: string;
   errors?: CsvValidationError[];
 }
