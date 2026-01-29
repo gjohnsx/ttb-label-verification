@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "sql-mcp": {
+      "type": "http",
+      "url": "http://localhost:5000/mcp",
+      "description": "SQL MCP Server (Data API builder) for TTB Label Verification Azure SQL database"
+    }
+  }
+}
