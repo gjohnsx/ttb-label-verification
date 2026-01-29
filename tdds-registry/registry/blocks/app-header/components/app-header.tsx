@@ -10,9 +10,7 @@ import {
   LogOut,
   User,
   Settings,
-  HelpCircle,
   ListTodo,
-  History,
   type LucideIcon,
 } from "lucide-react"
 import { Button } from "@/registry/ui/button"
@@ -63,12 +61,9 @@ export interface CommandGroupType {
 
 const DEFAULT_NAV_ITEMS: NavItem[] = [
   { title: "Queue", url: "/queue" },
-  { title: "History", url: "/history" },
 ]
 
-const DEFAULT_FOOTER_ITEMS: NavItem[] = [
-  { title: "Help", url: "/help" },
-]
+const DEFAULT_FOOTER_ITEMS: NavItem[] = []
 
 // Default logout stub - replace with your auth implementation
 async function defaultLogout(): Promise<void> {
@@ -137,14 +132,12 @@ export function AppHeader({
       heading: "Navigation",
       items: [
         { label: "Queue", icon: ListTodo, href: "/queue" },
-        { label: "History", icon: History, href: "/history" },
       ],
     },
     {
       heading: "Account",
       items: [
         { label: "Settings", icon: Settings, href: "/settings" },
-        { label: "Help", icon: HelpCircle, href: "/help" },
         { label: "Log out", icon: LogOut, action: submitLogout },
       ],
     },
@@ -236,12 +229,6 @@ export function AppHeader({
                   <Link href="/settings">
                     <Settings />
                     Settings
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/help">
-                    <HelpCircle />
-                    Help
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>

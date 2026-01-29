@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Menu, Search, BellIcon, LogOut, User, Settings, HelpCircle, ListTodo, Upload } from "lucide-react"
+import { Menu, Search, BellIcon, LogOut, User, Settings, ListTodo, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -37,9 +37,7 @@ const NAV_ITEMS = [
   { title: "Upload", url: "/upload" },
 ]
 
-const FOOTER_ITEMS = [
-  { title: "Help", url: "/help" },
-]
+const FOOTER_ITEMS: { title: string; url: string }[] = []
 
 type AppHeaderProps = {
   agentName?: string
@@ -156,12 +154,6 @@ export function AppHeader({ agentName, agentRole }: AppHeaderProps) {
                     Settings
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/help">
-                    <HelpCircle />
-                    Help
-                  </Link>
-                </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <form action={logout}>
@@ -257,10 +249,6 @@ export function AppHeader({ agentName, agentRole }: AppHeaderProps) {
               <CommandItem onSelect={() => runCommand(() => router.push("/settings"))}>
                 <Settings />
                 <span className="flex-1">Settings</span>
-              </CommandItem>
-              <CommandItem onSelect={() => runCommand(() => router.push("/help"))}>
-                <HelpCircle />
-                <span className="flex-1">Help</span>
               </CommandItem>
               <CommandItem onSelect={() => runCommand(submitLogout)}>
                 <LogOut />
