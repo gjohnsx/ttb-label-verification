@@ -8,6 +8,10 @@ type ReviewSummaryProps = {
   comparison: ComparisonResult;
   applicationId: string;
   colaId?: string | null;
+  productType?: string | null;
+  sourceType?: string | null;
+  permitNumber?: string | null;
+  serialNumber?: string | null;
 };
 
 const STATUS_CONFIG: Record<
@@ -46,12 +50,12 @@ const STATUS_CONFIG: Record<
 // Human-readable field names
 const FIELD_LABELS: Record<string, string> = {
   brandName: "Brand Name",
-  classType: "Class/Type",
+  classType: "Class/Type (TTB)",
   alcoholContent: "Alcohol Content",
   netContents: "Net Contents",
   governmentWarning: "Government Warning",
-  bottlerName: "Bottler Name",
-  bottlerAddress: "Bottler Address",
+  bottlerName: "Applicant Name",
+  bottlerAddress: "Applicant Address",
   countryOfOrigin: "Country of Origin",
 };
 
@@ -60,7 +64,7 @@ function getFieldLabel(field: string): string {
 }
 
 function getCriticalMismatches(fields: FieldComparison[]): FieldComparison[] {
-  return fields.filter((f) => f.status === "MISMATCH");
+  return fields.filter((f) => f.status === "MISMATCH" && f.confidence !== "LOW");
 }
 
 function getLikelyMatches(fields: FieldComparison[]): FieldComparison[] {
@@ -68,18 +72,22 @@ function getLikelyMatches(fields: FieldComparison[]): FieldComparison[] {
 }
 
 function getMissingFields(fields: FieldComparison[]): FieldComparison[] {
-  return fields.filter((f) => f.status === "MISSING");
+  return fields.filter((f) => f.status === "MISSING" && f.applicationValue);
 }
 
 export function ReviewSummary({
   comparison,
   applicationId,
   colaId,
+  productType,
+  sourceType,
+  permitNumber,
+  serialNumber,
 }: ReviewSummaryProps) {
   const config = STATUS_CONFIG[comparison.overallStatus];
   const Icon = config.icon;
 
-  const totalFields = comparison.fields.length;
+  const totalFields = comparison.fields.filter((f) => f.status !== "CONTEXT").length;
   const matchCount = comparison.matchCount + comparison.likelyMatchCount;
 
   const criticalMismatches = getCriticalMismatches(comparison.fields);
@@ -121,6 +129,23 @@ export function ReviewSummary({
           </div>
         </div>
       </div>
+
+      {(productType || sourceType || permitNumber || serialNumber) && (
+        <div className="flex flex-wrap items-center gap-2 text-sm text-treasury-base-dark">
+          {productType && (
+            <Badge variant="outline">Product: {productType}</Badge>
+          )}
+          {sourceType && (
+            <Badge variant="outline">Source: {sourceType}</Badge>
+          )}
+          {permitNumber && (
+            <Badge variant="outline">Permit: {permitNumber}</Badge>
+          )}
+          {serialNumber && (
+            <Badge variant="outline">Serial: {serialNumber}</Badge>
+          )}
+        </div>
+      )}
 
       {/* Critical Issues Only */}
       {criticalMismatches.length > 0 && (

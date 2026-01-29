@@ -78,6 +78,10 @@ export async function ReviewContentAsync({ id }: ReviewContentAsyncProps) {
           comparison={comparison}
           applicationId={id}
           colaId={application.colaId}
+          productType={application.productType}
+          sourceType={application.sourceType}
+          permitNumber={application.permitNumber}
+          serialNumber={application.serialNumber}
           ocrConfidenceScores={ocrFields?.confidenceScores}
           ocrPendingLabel={ocrPendingLabel}
           ocrResults={ocrResults}

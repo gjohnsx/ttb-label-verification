@@ -93,16 +93,6 @@ export function VerdictButtons({
   return (
     <>
       <div className="flex items-center gap-3">
-        {/* Request Better Image - outline style */}
-        <Button
-          variant="primary-outline"
-          onClick={() => setRequestImageModalOpen(true)}
-          disabled={disabled}
-        >
-          <CameraIcon className="mr-1.5" />
-          Request Better Image
-        </Button>
-
         {/* Reject - warning/red style */}
         <Button
           variant="warning"

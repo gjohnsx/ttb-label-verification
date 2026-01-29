@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { MoreVertical, Trash2, AlertTriangle } from "lucide-react";
+import { MoreVertical, Trash2, AlertTriangle, Info } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -33,6 +34,7 @@ type ApplicationMenuProps = {
 export function ApplicationMenu({ applicationId, colaId }: ApplicationMenuProps) {
   const router = useRouter();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showDemoInfo, setShowDemoInfo] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   function handleDelete() {
@@ -57,6 +59,11 @@ export function ApplicationMenu({ applicationId, colaId }: ApplicationMenuProps)
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="min-w-48">
+          <DropdownMenuItem onSelect={() => setShowDemoInfo(true)}>
+            <Info className="size-4" />
+            Demo data note
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             variant="destructive"
             onSelect={() => setShowDeleteDialog(true)}
@@ -93,6 +100,27 @@ export function ApplicationMenu({ applicationId, colaId }: ApplicationMenuProps)
               disabled={isPending}
             >
               {isPending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={showDemoInfo} onOpenChange={setShowDemoInfo}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogMedia className="bg-treasury-info-lightest">
+              <Info className="text-treasury-info" />
+            </AlertDialogMedia>
+            <AlertDialogTitle>Demo Data Note</AlertDialogTitle>
+            <AlertDialogDescription>
+              Alcohol Content and Net Contents are mocked from label OCR for
+              this dataset. A small number of values are intentionally perturbed
+              to create reviewable mismatches.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction variant="primary" onClick={() => setShowDemoInfo(false)}>
+              Got it
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

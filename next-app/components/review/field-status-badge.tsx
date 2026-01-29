@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
 import type { MatchStatus, ConfidenceLevel } from "@/lib/comparison/types";
-import { CheckIcon, AlertTriangleIcon, XIcon, HelpCircleIcon } from "lucide-react";
+import { CheckIcon, AlertTriangleIcon, XIcon, HelpCircleIcon, InfoIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 type FieldStatusBadgeProps = {
   status: MatchStatus;
@@ -52,6 +53,14 @@ const STATUS_CONFIG: Record<
     textClass: "text-treasury-base-dark",
     borderClass: "border-treasury-base",
   },
+  CONTEXT: {
+    icon: InfoIcon,
+    label: "Context",
+    symbol: "i",
+    bgClass: "bg-treasury-primary-lightest",
+    textClass: "text-treasury-primary-dark",
+    borderClass: "border-treasury-primary",
+  },
 };
 
 export function FieldStatusBadge({
@@ -62,7 +71,7 @@ export function FieldStatusBadge({
   const config = STATUS_CONFIG[status];
   const Icon = config.icon;
 
-  return (
+  const badge = (
     <Badge
       className={cn(
         config.bgClass,
@@ -74,6 +83,22 @@ export function FieldStatusBadge({
       <Icon className="h-3.5 w-3.5" aria-hidden="true" />
       {showLabel && <span>{config.label}</span>}
     </Badge>
+  );
+
+  if (status !== "CONTEXT") {
+    return badge;
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{badge}</TooltipTrigger>
+      <TooltipContent side="top" className="max-w-[260px]">
+        <p className="text-xs leading-snug">
+          Context-only field. It comes from the application but isn’t required
+          to appear on the label, so it doesn’t affect approval.
+        </p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
 

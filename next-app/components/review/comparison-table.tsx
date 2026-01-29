@@ -39,12 +39,12 @@ const LOW_CONFIDENCE_THRESHOLD = 0.7;
 // Human-readable field names
 const FIELD_LABELS: Record<FieldType, string> = {
   brandName: "Brand Name",
-  classType: "Class/Type",
+  classType: "Class/Type (TTB)",
   alcoholContent: "Alcohol Content",
   netContents: "Net Contents",
   governmentWarning: "Government Warning",
-  bottlerName: "Bottler Name",
-  bottlerAddress: "Bottler Address",
+  bottlerName: "Applicant Name",
+  bottlerAddress: "Applicant Address",
   countryOfOrigin: "Country of Origin",
 };
 
@@ -73,7 +73,7 @@ function ValueCell({
   if (!value) {
     return (
       <span className="text-treasury-base-lighter select-none" title={emptyLabel ?? "Not provided"}>
-        &mdash;
+        {emptyLabel ?? "\u2014"}
       </span>
     );
   }
@@ -168,6 +168,9 @@ function ComparisonRow({
   ocrPendingLabel?: string;
 }) {
   const label = FIELD_LABELS[field.field];
+  const showAppMissingNote =
+    (field.field === "alcoholContent" || field.field === "netContents") &&
+    !field.applicationValue;
   const isLowConfidence =
     ocrConfidence !== undefined && ocrConfidence < LOW_CONFIDENCE_THRESHOLD;
 
@@ -178,6 +181,7 @@ function ComparisonRow({
         <ValueCell
           value={field.applicationValue}
           fieldLabel={`${label} (Application)`}
+          emptyLabel={showAppMissingNote ? "Not on application" : undefined}
         />
       </TableCell>
       <TableCell>
@@ -191,7 +195,9 @@ function ComparisonRow({
       <TableCell>
         <div className="flex items-center gap-2">
           <FieldStatusBadge status={field.status} />
-          {field.status !== "MISSING" && <ConfidenceChip confidence={field.confidence} />}
+          {field.status !== "MISSING" && field.status !== "CONTEXT" && (
+            <ConfidenceChip confidence={field.confidence} />
+          )}
           {ocrConfidence !== undefined && (
             <OcrConfidenceIndicator
               confidence={ocrConfidence}

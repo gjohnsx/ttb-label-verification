@@ -5,6 +5,7 @@ import { ReviewSummary } from "./review-summary";
 import { ComparisonTable } from "./comparison-table";
 import { OcrRawViewer, type OcrResultData } from "./ocr-raw-viewer";
 import { GovernmentWarningCheck } from "./government-warning-check";
+import { LabelChecklist } from "./label-checklist";
 import type {
   ComparisonResult,
   ExtractedFields,
@@ -15,6 +16,10 @@ type ReviewTabsProps = {
   comparison: ComparisonResult;
   applicationId: string;
   colaId?: string | null;
+  productType?: string | null;
+  sourceType?: string | null;
+  permitNumber?: string | null;
+  serialNumber?: string | null;
   ocrConfidenceScores?: Partial<Record<FieldType, number>>;
   ocrPendingLabel?: string;
   ocrResults: OcrResultData[];
@@ -25,6 +30,10 @@ export function ReviewTabs({
   comparison,
   applicationId,
   colaId,
+  productType,
+  sourceType,
+  permitNumber,
+  serialNumber,
   ocrConfidenceScores,
   ocrPendingLabel,
   ocrResults,
@@ -35,9 +44,16 @@ export function ReviewTabs({
     (f) => f.field !== "governmentWarning"
   );
 
-  const mismatchCount = tableFields.filter((f) => f.status === "MISMATCH").length;
-  const likelyMatchCount = tableFields.filter((f) => f.status === "LIKELY_MATCH").length;
-  const missingCount = tableFields.filter((f) => f.status === "MISSING").length;
+  const relevantFields = tableFields.filter((f) => f.status !== "CONTEXT");
+  const mismatchCount = relevantFields.filter(
+    (f) => f.status === "MISMATCH" && f.confidence !== "LOW"
+  ).length;
+  const likelyMatchCount = relevantFields.filter(
+    (f) => f.status === "LIKELY_MATCH"
+  ).length;
+  const missingCount = relevantFields.filter(
+    (f) => f.status === "MISSING" && f.applicationValue
+  ).length;
   const overallStatus = mismatchCount > 0
     ? "MISMATCH" as const
     : (likelyMatchCount > 0 || missingCount > 0)
@@ -47,7 +63,7 @@ export function ReviewTabs({
   const tableSummary: ComparisonResult = {
     ...comparison,
     fields: tableFields,
-    matchCount: tableFields.filter((f) => f.status === "MATCH").length,
+    matchCount: relevantFields.filter((f) => f.status === "MATCH").length,
     mismatchCount,
     missingCount,
     likelyMatchCount,
@@ -59,6 +75,7 @@ export function ReviewTabs({
       <TabsList variant="uswds" className="w-full">
         <TabsTrigger value="comparison">Comparison</TabsTrigger>
         <TabsTrigger value="full-ocr">Full OCR</TabsTrigger>
+        <TabsTrigger value="checklist">Checklist</TabsTrigger>
       </TabsList>
 
       <TabsContent value="comparison" className="mt-6">
@@ -67,17 +84,19 @@ export function ReviewTabs({
             comparison={tableSummary}
             applicationId={applicationId}
             colaId={colaId}
+            productType={productType}
+            sourceType={sourceType}
+            permitNumber={permitNumber}
+            serialNumber={serialNumber}
           />
         </div>
 
-        <div className="mt-4 border bg-card shadow-sm">
-          <ComparisonTable
-            fields={tableFields}
-            ocrConfidenceScores={ocrConfidenceScores}
-            ocrPendingLabel={ocrPendingLabel}
-            className="rounded-none border-0 shadow-none"
-          />
-        </div>
+        <ComparisonTable
+          fields={tableFields}
+          ocrConfidenceScores={ocrConfidenceScores}
+          ocrPendingLabel={ocrPendingLabel}
+          className="mt-4"
+        />
 
         {/* Government Warning — separate presence/correctness check */}
         <div className="mt-4" />
@@ -89,6 +108,10 @@ export function ReviewTabs({
 
       <TabsContent value="full-ocr" className="mt-6">
         <OcrRawViewer ocrResults={ocrResults} />
+      </TabsContent>
+
+      <TabsContent value="checklist" className="mt-6">
+        <LabelChecklist productType={productType} sourceType={sourceType} />
       </TabsContent>
     </Tabs>
   );
