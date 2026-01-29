@@ -91,8 +91,14 @@ function buildWhereClause(filters: QueueFilters): ApplicationWhereInput {
  * Fetch applications for the queue with priority sorting and optional filters.
  * Default sort: NEEDS_ATTENTION first, then oldest READY items, etc.
  */
+export type QueueSort = {
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+};
+
 export async function getApplicationsForQueue(
-  filters: QueueFilters = {}
+  filters: QueueFilters = {},
+  sort: QueueSort = {}
 ): Promise<ApplicationForQueue[]> {
   const where = buildWhereClause(filters);
 
@@ -125,17 +131,24 @@ export async function getApplicationsForQueue(
     reviewedBy: app.reviews[0]?.agentName ?? null,
   }));
 
-  // Sort by status priority, then by createdAt (oldest first within same status)
-  return queueItems.sort((a, b) => {
-    const priorityA = STATUS_PRIORITY[a.status as ApplicationStatus] ?? 99;
-    const priorityB = STATUS_PRIORITY[b.status as ApplicationStatus] ?? 99;
+  // If user specified a sort column, use it directly
+  const sortBy = sort.sortBy || "createdAt";
+  const sortOrder = sort.sortOrder || "desc";
+  const direction = sortOrder === "asc" ? 1 : -1;
 
-    if (priorityA !== priorityB) {
-      return priorityA - priorityB;
+  return queueItems.sort((a, b) => {
+    const aVal = a[sortBy as keyof ApplicationForQueue];
+    const bVal = b[sortBy as keyof ApplicationForQueue];
+
+    if (aVal == null && bVal == null) return 0;
+    if (aVal == null) return 1;
+    if (bVal == null) return -1;
+
+    if (aVal instanceof Date && bVal instanceof Date) {
+      return (aVal.getTime() - bVal.getTime()) * direction;
     }
 
-    // Within same priority, oldest first
-    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    return String(aVal).localeCompare(String(bVal)) * direction;
   });
 }
 

@@ -34,6 +34,8 @@ interface DataTableProps<TData, TValue> {
   toolbar?: (table: TanStackTable<TData>) => React.ReactNode
   showPagination?: boolean
   pageSize?: number
+  sorting?: SortingState
+  onSortingChange?: (sorting: SortingState) => void
 }
 
 export function DataTable<TData, TValue>({
@@ -42,6 +44,8 @@ export function DataTable<TData, TValue>({
   toolbar,
   showPagination = true,
   pageSize = 10,
+  sorting: externalSorting,
+  onSortingChange: externalOnSortingChange,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -49,7 +53,19 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [internalSorting, setInternalSorting] = React.useState<SortingState>([])
+  const sorting = externalSorting ?? internalSorting
+  const setSorting: React.Dispatch<React.SetStateAction<SortingState>> = React.useCallback(
+    (updater) => {
+      const next = typeof updater === "function" ? updater(sorting) : updater
+      if (externalOnSortingChange) {
+        externalOnSortingChange(next)
+      } else {
+        setInternalSorting(next)
+      }
+    },
+    [sorting, externalOnSortingChange]
+  )
 
   const table = useReactTable({
     data,

@@ -15,7 +15,7 @@ type QueuePageContentProps = {
 
 export async function QueuePageContent({ searchParams }: QueuePageContentProps) {
   // Parse filters from URL search params (async in Next.js 16.1)
-  const { status, classType, search, ids } = await loadQueueParams(searchParams);
+  const { status, classType, search, ids, sortBy, sortOrder } = await loadQueueParams(searchParams);
   const filters: QueueFilters = {
     status: status.length > 0 ? status : undefined,
     classType: classType.length > 0 ? classType : undefined,
@@ -25,7 +25,7 @@ export async function QueuePageContent({ searchParams }: QueuePageContentProps) 
 
   // Fetch applications with priority sorting and filters
   const [applications, nextApplication, facetCounts] = await Promise.all([
-    getApplicationsForQueue(filters),
+    getApplicationsForQueue(filters, { sortBy, sortOrder }),
     getNextApplicationToReview(),
     getQueueFacetCounts(filters),
   ]);

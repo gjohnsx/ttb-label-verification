@@ -26,4 +26,10 @@ export const queueParsers = {
   ids: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ shallow: false }),
+  sortBy: parseAsString
+    .withDefault("createdAt")
+    .withOptions({ shallow: false }),
+  sortOrder: parseAsStringLiteral(["asc", "desc"] as const)
+    .withDefault("desc")
+    .withOptions({ shallow: false }),
 };
