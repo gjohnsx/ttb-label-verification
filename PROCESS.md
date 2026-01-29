@@ -152,4 +152,12 @@ The main app features (F1-F3, F6) were complete. Rather than context-switch away
 
 ---
 
+### Day 7 - Two-Stage OCR Pipeline & Azure AI Foundry
+**Date:** 2026-01-29
+
+- Implemented two-stage extraction pipeline: Mistral OCR → raw text, Azure OpenAI (GPT-5-nano via Azure AI Foundry) → structured fields with confidence scores
+- Pipeline produces real extracted fields and confidence scores, stored in the database and displayed in the review UI
+
+---
+
 <!-- New entries will be added above this line -->
