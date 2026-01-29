@@ -193,7 +193,7 @@ export function UploadProgressModal({
           </SheetDescription>
         </SheetHeader>
 
-        <div className="px-4 pt-2 pb-4 space-y-3 flex-1 flex flex-col min-h-0">
+        <div className="px-4 pt-2 pb-4 space-y-3 flex-1 flex flex-col min-h-0 overflow-hidden">
           {/* Progress Bar */}
           <div className="space-y-1.5">
             <Progress value={progressPercent} className="h-2" />
@@ -221,8 +221,8 @@ export function UploadProgressModal({
           )}
 
           {/* Application List */}
-          <ScrollArea className="flex-1 -mx-4 px-4">
-            <div className="space-y-2">
+          <ScrollArea className="flex-1 min-h-0 overflow-hidden">
+            <div className="space-y-2 pr-4">
               {sortedApplications.map((app) => (
                 <div
                   key={app.applicationId}
