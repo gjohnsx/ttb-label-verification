@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Info, ExternalLink } from "lucide-react";
+import { Info } from "lucide-react";
 
 export function DemoAssumptionsDialog() {
   const [open, setOpen] = useState(false);
@@ -69,18 +69,21 @@ export function DemoAssumptionsDialog() {
 
           <div>
             <h3 className="font-semibold mb-2">Data Source</h3>
-            <p className="text-muted-foreground mb-2">
-              Sample data structure is based on publicly available TTB COLA records:
+            <p className="text-muted-foreground">
+              Source:{" "}
+              <a
+                href="https://ttbonline.gov/colasonline/publicSearchColasBasic.do"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-treasury-primary hover:text-treasury-primary-dark hover:underline"
+              >
+                TTB COLA Online public search
+              </a>
+              . I downloaded application PDFs, extracted label images, ran Mistral
+              OCR on the PDF text, and uploaded the images to Azure Blob Storage.
+              Some PDFs omit fields (like alcohol content), so missing values are
+              expected.
             </p>
-            <a
-              href="https://www.kaggle.com/datasets/colacloud/ttb-colas-demo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-treasury-primary hover:text-treasury-primary-dark hover:underline"
-            >
-              TTB COLAs Demo Dataset on Kaggle
-              <ExternalLink className="h-3.5 w-3.5" />
-            </a>
           </div>
         </div>
       </DialogContent>

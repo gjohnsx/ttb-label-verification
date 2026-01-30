@@ -33,7 +33,7 @@ function QueueContentInner({ applications, hasActiveFilters, facetCounts }: Queu
           <QueueDataTable data={applications} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
+        <div className="flex flex-col items-center justify-center border border-dashed p-12 text-center">
           {hasActiveFilters ? (
             <>
               <p className="text-muted-foreground">
