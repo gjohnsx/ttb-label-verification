@@ -37,7 +37,7 @@ export function QueuePageSkeleton() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">
-                <Skeleton className="h-4 w-4" />
+                <Skeleton className="h-4 w-4 rounded-[4px]" />
               </TableHead>
               <TableHead>
                 <Skeleton className="h-4 w-24" />
@@ -63,7 +63,7 @@ export function QueuePageSkeleton() {
             {Array.from({ length: 10 }).map((_, i) => (
               <TableRow key={i}>
                 <TableCell>
-                  <Skeleton className="h-4 w-4" />
+                  <Skeleton className="h-4 w-4 rounded-[4px]" />
                 </TableCell>
                 <TableCell>
                   <Skeleton className="h-4 w-32" />
