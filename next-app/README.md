@@ -2,6 +2,10 @@
 
 Prototype for AI-assisted alcohol label review: agents pick a persona, work the queue, run OCR on label images, and compare extracted fields to application data before recording a decision.
 
+## Heads up: database auto-pauses
+
+Azure SQL is set to auto-pause after 1 hour of inactivity. The first request after a pause will take ~60 seconds while the database wakes up — just refresh and it'll work.
+
 ## Run locally
 1. `cp .env.example .env` and fill `DB_*` (SQL Server) plus `MISTRAL_API_KEY`.
 2. `bun install`
